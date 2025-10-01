@@ -42,3 +42,10 @@ class Noticia(models.Model):
 
     def __str__(self):
         return self.titulo
+class Autor(models.Model):
+    nome = models.CharField(max_length=100)
+    bio = models.TextField(blank=True, null=True)
+    foto = models.ImageField(upload_to="autores/", blank=True, null=True)
+
+    def __str__(self):
+        return self.nome
