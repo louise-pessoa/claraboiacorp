@@ -38,10 +38,15 @@ Este documento descreve a evolução planejada do projeto, destacando as funcion
     
     **Entrega de valor:** diversifica as formas de leitura, incentiva a curiosidade e cria oportunidades de interações sucessivas (“segundo clique”).
 
-🔹**Ranking de notícias por relevância/popularidade**
+🔹**Ranking e organização de notícias por relevância/popularidade**
   - Apresentação de conteúdos de acordo com engajamento e interesse coletivo.
 
     **Entrega de valor:** direciona o usuário para os temas mais relevantes, aumentando a percepção de atualidade e pertinência.
+
+🔹**Ferramenta de feedback**
+  - Canal direto para que o usuário registre opiniões, sugestões e dificuldades encontradas na plataforma.
+
+    **Entrega de valor:** garante que as próximas versões evoluam a partir de dados reais e expectativas dos leitores, fortalecendo o vínculo entre público e redação.
 
 **Previsão de lançamento: 11 de Dezembro de 2025**
 
