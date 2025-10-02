@@ -10,7 +10,7 @@ Uma consultoria que surgiu do projeto da cadeira Projetos 2 da CESAR School. Nes
 🔹**Período:** Setembro de 2025 a Dezembro de 2025.
 - Desenvolvimento dos primeiros protótipos: criação de Wireframes, Site Maps (Wireflows).
 
-- Definição das funcionalidades necessárias para a solução do problema. *Ferramentas auxiliares: formulário com feedbacks sobre jornais digitais e outros meios de comunicação de notícias; pesquisas aprofundadas sobre interfaces e funcionalidades de concorrentes do cliente.
+- Definição das funcionalidades necessárias para a solução do problema e [historias de usuario](https://docs.google.com/document/d/1dFxsWXsw0cB63S2mtLjf79MelrSWsfCBAPUQXszEGpo/edit?usp=sharing). *Ferramentas auxiliares: formulário com feedbacks sobre jornais digitais e outros meios de comunicação de notícias; pesquisas aprofundadas sobre interfaces e funcionalidades de concorrentes do cliente.
 
 - Implementação de alta fidelidade (funcional) das funcionalidades principais.
 
