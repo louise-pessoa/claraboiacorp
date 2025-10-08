@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
-
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True, blank=True)
@@ -15,13 +14,12 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nome
 
-
 class Tag(models.Model):
     nome = models.CharField(max_length=50, unique=True)
+    # tag de mais acessadas , geolocalização 
 
     def __str__(self):
         return self.nome
-
 
 class Noticia(models.Model):
     titulo = models.CharField(max_length=200)
@@ -33,7 +31,7 @@ class Noticia(models.Model):
     autor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="noticias")
     tags = models.ManyToManyField(Tag, blank=True, related_name="noticias")
     data_publicacao = models.DateTimeField(auto_now_add=True)
-    atualizado_em = models.DateTimeField(auto_now=True)
+    # atualizado_em = models.DateTimeField(auto_now=True) se houve uma atulização vc "perde" a data original de publicação
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -42,6 +40,7 @@ class Noticia(models.Model):
 
     def __str__(self):
         return self.titulo
+
 class Autor(models.Model):
     nome = models.CharField(max_length=100)
     bio = models.TextField(blank=True, null=True)
