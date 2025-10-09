@@ -56,13 +56,23 @@ class Visualizacao(models.Model):
     def __str__(self):
         return f"Visualização em {self.noticia.titulo} ({self.data})"
 
-class Contato(models.Model):
+class Feedback(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField()
-    assunto = models.CharField(max_length=150)
-    mensagem = models.TextField()
+    avaliacao = models.IntegerField(
+        choices=[
+            (1, 'Ruim'),
+            (2, 'Regular'),
+            (3, 'Bom'),
+            (4, 'Muito bom'),
+            (5, 'Excelente'),
+        ]
+    )
+    comentario = models.TextField(blank=True, null=True)
+    imagem = models.ImageField(upload_to='feedbacks/', blank=True, null=True)
     data_envio = models.DateTimeField(auto_now_add=True)
-    lido = models.BooleanField(default=False)
+    respondido = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Mensagem de {self.nome} - {self.assunto}"
+        return f"Feedback de {self.nome} - {self.get_avaliacao_display()}"
+
