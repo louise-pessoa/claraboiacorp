@@ -13,6 +13,20 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nome
+    
+class Autor(models.Model):
+    nome = models.CharField(max_length=100)
+    bio = models.TextField(blank=True, null=True)
+    foto = models.ImageField(upload_to="autores/", blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nome)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.nome
 
 class Tag(models.Model):
     nome = models.CharField(max_length=50, unique=True)
@@ -28,7 +42,7 @@ class Noticia(models.Model):
     conteudo = models.TextField()
     imagem = models.ImageField(upload_to="noticias/", blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, related_name="noticias")
-    autor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="noticias")
+    autor = models.ForeignKey(Autor, on_delete=models.SET_NULL, null=True, related_name="noticias")
     tags = models.ManyToManyField(Tag, blank=True, related_name="noticias")
     data_publicacao = models.DateTimeField(auto_now_add=True)
     # atualizado_em = models.DateTimeField(auto_now=True) se houve uma atulização vc "perde" a data original de publicação
@@ -38,16 +52,12 @@ class Noticia(models.Model):
             self.slug = slugify(self.titulo)
         super().save(*args, **kwargs)
 
+    def total_visualizacoes(self):
+        return self.visualizacoes.count()
+
     def __str__(self):
         return self.titulo
 
-class Autor(models.Model):
-    nome = models.CharField(max_length=100)
-    bio = models.TextField(blank=True, null=True)
-    foto = models.ImageField(upload_to="autores/", blank=True, null=True)
-
-    def __str__(self):
-        return self.nome
 class Visualizacao(models.Model):
     noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name="visualizacoes")
     ip_usuario = models.GenericIPAddressField()
