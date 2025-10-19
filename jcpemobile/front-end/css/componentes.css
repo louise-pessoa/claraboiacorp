@@ -1,0 +1,531 @@
+/* ===================================================
+   COMPONENTES CSS - JORNAL DO COMMERCIO
+   Cards, Botões, Badges e Componentes UI
+   =================================================== */
+
+/* ===================================================
+   CARDS DE NOTÍCIAS
+   =================================================== */
+
+.cartao-noticia {
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-lg);
+    overflow: hidden;
+    box-shadow: var(--sombra-sm);
+    transition: var(--transicao-normal);
+    border: var(--borda-largura) solid var(--cor-borda-clara);
+}
+
+.cartao-noticia:active {
+    transform: scale(0.98);
+}
+
+/* Imagem do Card */
+.cartao-imagem {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: var(--cor-fundo-secundario);
+}
+
+.cartao-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicao-lenta);
+}
+
+.cartao-noticia:hover .cartao-imagem img {
+    transform: scale(1.05);
+}
+
+/* Conteúdo do Card */
+.cartao-conteudo {
+    padding: var(--espaco-4);
+}
+
+.cartao-titulo {
+    font-size: var(--fonte-tamanho-md);
+    font-weight: var(--fonte-peso-semibold);
+    line-height: var(--linha-altura-apertada);
+    color: var(--cor-texto-primario);
+    margin-bottom: var(--espaco-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cartao-resumo {
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-secundario);
+    line-height: var(--linha-altura-relaxada);
+    margin-bottom: var(--espaco-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Rodapé do Card */
+.cartao-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cartao-tempo {
+    font-size: var(--fonte-tamanho-xs);
+    color: var(--cor-texto-quaternario);
+}
+
+.botao-compartilhar {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-texto-terciario);
+    background: var(--cor-fundo-secundario);
+    border-radius: var(--borda-raio-circular);
+    transition: var(--transicao-rapida);
+}
+
+.botao-compartilhar:active {
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+/* ===================================================
+   VARIAÇÕES DE CARDS
+   =================================================== */
+
+/* Card Destaque */
+.cartao-noticia--destaque {
+    margin-bottom: var(--espaco-4);
+}
+
+.cartao-noticia--destaque .cartao-imagem {
+    height: 240px;
+}
+
+.cartao-noticia--destaque .cartao-titulo {
+    font-size: var(--fonte-tamanho-xl);
+    -webkit-line-clamp: 3;
+}
+
+/* Card Compacto */
+.cartao-noticia--compacto {
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+}
+
+.cartao-noticia--compacto .cartao-imagem {
+    width: 120px;
+    height: 100%;
+}
+
+.cartao-noticia--compacto .cartao-conteudo {
+    flex: 1;
+    padding: var(--espaco-3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cartao-noticia--compacto .cartao-titulo {
+    font-size: var(--fonte-tamanho-sm);
+    margin-bottom: var(--espaco-1);
+}
+
+.cartao-noticia--compacto .cartao-resumo {
+    display: none;
+}
+
+/* Card Curta */
+.cartao-curta {
+    background: var(--cor-fundo-secundario);
+    padding: var(--espaco-3);
+    border-radius: var(--borda-raio-md);
+    border-left: 3px solid var(--cor-primaria);
+}
+
+.cartao-curta-texto {
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-secundario);
+    margin-bottom: var(--espaco-2);
+}
+
+.cartao-curta-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--fonte-tamanho-xs);
+    color: var(--cor-texto-quaternario);
+}
+
+/* ===================================================
+   BADGES DE CATEGORIA
+   =================================================== */
+
+/* Badge sobre a imagem (posição absoluta) */
+.badge-categoria {
+    position: absolute;
+    top: var(--espaco-3);
+    left: var(--espaco-3);
+    padding: var(--espaco-1) var(--espaco-3);
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+    font-size: var(--fonte-tamanho-xs);
+    font-weight: var(--fonte-peso-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--borda-raio-md);
+    z-index: var(--z-base);
+}
+
+/* Badge inline (acima do título) */
+.badge-categoria-inline {
+    display: inline-block;
+    width: fit-content;
+    padding: var(--espaco-1) var(--espaco-3);
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+    font-size: var(--fonte-tamanho-xxs);
+    font-weight: var(--fonte-peso-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-radius: var(--borda-raio-sm);
+    margin-bottom: var(--espaco-2);
+}
+
+/* Cores das Categorias */
+.badge-pernambuco {
+    background: var(--cor-categoria-pernambuco);
+}
+
+.badge-politica {
+    background: var(--cor-categoria-politica);
+}
+
+.badge-economia {
+    background: var(--cor-categoria-economia);
+}
+
+.badge-esportes {
+    background: var(--cor-categoria-esportes);
+}
+
+.badge-cultura {
+    background: var(--cor-categoria-cultura);
+}
+
+.badge-mundo {
+    background: var(--cor-categoria-mundo);
+}
+
+.badge-educacao {
+    background: var(--cor-categoria-educacao);
+}
+
+.badge-mobilidade {
+    background: var(--cor-categoria-mobilidade);
+}
+
+/* ===================================================
+   BOTÕES
+   =================================================== */
+
+/* Botão Primário */
+.botao-primario {
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+    padding: var(--espaco-3) var(--espaco-5);
+    border-radius: var(--borda-raio-md);
+    font-weight: var(--fonte-peso-medium);
+    transition: var(--transicao-rapida);
+}
+
+.botao-primario:hover {
+    background: var(--cor-primaria-escura);
+}
+
+.botao-primario:active {
+    transform: scale(0.98);
+}
+
+/* Botão Secundário */
+.botao-secundario {
+    background: var(--cor-fundo);
+    color: var(--cor-primaria);
+    padding: var(--espaco-3) var(--espaco-5);
+    border: var(--borda-largura) solid var(--cor-primaria);
+    border-radius: var(--borda-raio-md);
+    font-weight: var(--fonte-peso-medium);
+    transition: var(--transicao-rapida);
+}
+
+.botao-secundario:hover {
+    background: var(--cor-primaria-fundo);
+}
+
+/* Botão Ghost */
+.botao-ghost {
+    background: transparent;
+    color: var(--cor-texto-secundario);
+    padding: var(--espaco-2) var(--espaco-3);
+    transition: var(--transicao-rapida);
+}
+
+.botao-ghost:hover {
+    background: var(--cor-fundo-secundario);
+    color: var(--cor-texto-primario);
+}
+
+/* Botão com Ícone */
+.botao-icone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.botao-icone i {
+    font-size: var(--fonte-tamanho-md);
+}
+
+/* ===================================================
+   TAGS
+   =================================================== */
+
+.tag {
+    display: inline-block;
+    padding: var(--espaco-1) var(--espaco-3);
+    background: var(--cor-fundo-terciario);
+    color: var(--cor-texto-secundario);
+    font-size: var(--fonte-tamanho-sm);
+    border-radius: var(--borda-raio-2xl);
+    transition: var(--transicao-rapida);
+}
+
+.tag:hover {
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+}
+
+.tag-grupo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-4);
+}
+
+/* ===================================================
+   INDICADORES DE ESTADO
+   =================================================== */
+
+/* Badge Novo */
+.badge-novo {
+    display: inline-block;
+    padding: var(--espaco-1) var(--espaco-2);
+    background: var(--cor-erro);
+    color: var(--cor-fundo);
+    font-size: var(--fonte-tamanho-xxs);
+    font-weight: var(--fonte-peso-bold);
+    text-transform: uppercase;
+    border-radius: var(--borda-raio-sm);
+    margin-left: var(--espaco-2);
+}
+
+/* Badge Live */
+.badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-1);
+    padding: var(--espaco-1) var(--espaco-2);
+    background: var(--cor-erro);
+    color: var(--cor-fundo);
+    font-size: var(--fonte-tamanho-xs);
+    font-weight: var(--fonte-peso-semibold);
+    border-radius: var(--borda-raio-sm);
+}
+
+.badge-live::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-circular);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ===================================================
+   LISTA DE NOTÍCIAS
+   =================================================== */
+
+.lista-noticias {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.item-noticia {
+    display: flex;
+    gap: var(--espaco-3);
+    padding-bottom: var(--espaco-3);
+    border-bottom: var(--borda-largura) solid var(--cor-borda-clara);
+}
+
+.item-noticia:last-child {
+    border-bottom: none;
+}
+
+.item-noticia-numero {
+    font-size: var(--fonte-tamanho-xl);
+    font-weight: var(--fonte-peso-bold);
+    color: var(--cor-primaria);
+    min-width: 30px;
+}
+
+.item-noticia-conteudo {
+    flex: 1;
+}
+
+.item-noticia-titulo {
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-medium);
+    color: var(--cor-texto-primario);
+    margin-bottom: var(--espaco-1);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.item-noticia-meta {
+    font-size: var(--fonte-tamanho-xs);
+    color: var(--cor-texto-quaternario);
+}
+
+/* ===================================================
+   ALERTAS E NOTIFICAÇÕES
+   =================================================== */
+
+.alerta {
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--borda-raio-md);
+    margin-bottom: var(--espaco-4);
+    display: flex;
+    align-items: start;
+    gap: var(--espaco-3);
+}
+
+.alerta i {
+    font-size: var(--fonte-tamanho-lg);
+    flex-shrink: 0;
+}
+
+.alerta-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--cor-info);
+}
+
+.alerta-sucesso {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--cor-sucesso);
+}
+
+.alerta-aviso {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--cor-aviso);
+}
+
+.alerta-erro {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--cor-erro);
+}
+
+/* ===================================================
+   DIVIDERS
+   =================================================== */
+
+.divisor {
+    height: var(--borda-largura);
+    background: var(--cor-borda-clara);
+    margin: var(--espaco-4) 0;
+}
+
+.divisor-texto {
+    position: relative;
+    text-align: center;
+    margin: var(--espaco-4) 0;
+}
+
+.divisor-texto::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: var(--borda-largura);
+    background: var(--cor-borda-clara);
+}
+
+.divisor-texto span {
+    position: relative;
+    padding: 0 var(--espaco-3);
+    background: var(--cor-fundo);
+    color: var(--cor-texto-terciario);
+    font-size: var(--fonte-tamanho-sm);
+}
+
+/* ===================================================
+   SKELETON LOADING
+   =================================================== */
+
+.skeleton-card {
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-lg);
+    overflow: hidden;
+    border: var(--borda-largura) solid var(--cor-borda-clara);
+}
+
+.skeleton-imagem {
+    width: 100%;
+    height: 200px;
+    background: var(--cor-fundo-secundario);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-conteudo {
+    padding: var(--espaco-4);
+}
+
+.skeleton-titulo {
+    height: 20px;
+    background: var(--cor-fundo-secundario);
+    border-radius: var(--borda-raio-sm);
+    margin-bottom: var(--espaco-2);
+}
+
+.skeleton-texto {
+    height: 14px;
+    background: var(--cor-fundo-secundario);
+    border-radius: var(--borda-raio-sm);
+    margin-bottom: var(--espaco-2);
+}
+
+.skeleton-texto:last-child {
+    width: 70%;
+}

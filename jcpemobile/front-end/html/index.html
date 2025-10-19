@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Meta Tags Essenciais -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- SEO e Meta Informações -->
+    <meta name="description" content="Jornal do Commercio - O mais tradicional veículo de comunicação de Pernambuco. Notícias, reportagens e cobertura completa.">
+    <meta name="keywords" content="notícias, pernambuco, recife, jornal, commercio, jc, política, economia, esportes">
+    <meta name="author" content="Jornal do Commercio">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Jornal do Commercio - JC PE">
+    <meta property="og:description" content="As principais notícias de Pernambuco e do Brasil">
+    <meta property="og:image" content="../images/logo-jc.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../images/logo-jc.png">
+
+    <!-- Título -->
+    <title>Jornal do Commercio - JC PE</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS - Ordem Importante -->
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/variaveis.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/componentes.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/home-layout.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="top-bar"></div>
+    <!-- Cabeçalho -->
+    <header class="cabecalho" id="cabecalho">
+        <div class="cabecalho-container">
+            <!-- Menu Hamburguer (Mobile) -->
+            <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
+                <span class="hamburguer-linha"></span>
+                <span class="hamburguer-linha"></span>
+                <span class="hamburguer-linha"></span>
+            </button>
+
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" title="Jornal do Commercio - Página Inicial">
+                    <img src="../images/logo-jc.png" alt="Jornal do Commercio" class="logo-imagem">
+                </a>
+            </div>
+
+            <!-- Ações do Cabeçalho -->
+            <div class="cabecalho-acoes">
+                <!-- Busca -->
+                <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <!-- Perfil -->
+                <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de Busca (Expansível) -->
+        <div class="barra-busca" id="barraBusca" aria-hidden="true">
+            <div class="busca-container">
+                <input type="search"
+                       class="campo-busca"
+                       placeholder="Buscar notícias..."
+                       aria-label="Buscar notícias">
+                <button class="botao-filtros" aria-label="Filtros de busca">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+
+            <!-- Filtros de Busca -->
+            <div class="filtros-busca" id="filtrosBusca">
+                <select class="filtro-data" aria-label="Filtrar por data">
+                    <option value="">Todas as datas</option>
+                    <option value="hoje">Hoje</option>
+                    <option value="semana">Esta semana</option>
+                    <option value="mes">Este mês</option>
+                </select>
+
+                <select class="filtro-categoria" aria-label="Filtrar por categoria">
+                    <option value="">Todas as categorias</option>
+                    <option value="pernambuco">Pernambuco</option>
+                    <option value="politica">Política</option>
+                    <option value="economia">Economia</option>
+                    <option value="esportes">Esportes</option>
+                    <option value="cultura">Cultura</option>
+                </select>
+
+                <select class="filtro-ordenar" aria-label="Ordenar por">
+                    <option value="relevancia">Mais relevantes</option>
+                    <option value="recentes">Mais recentes</option>
+                    <option value="antigas">Mais antigas</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral -->
+    <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
+        <div class="menu-lateral-cabecalho">
+            <div class="menu-hamburguer-icone">
+                <i class="fas fa-bars"></i>
+            </div>
+            <button class="menu-lateral-fechar" id="menuLateralFechar" aria-label="Fechar menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="menu-lateral-conteudo">
+            <!-- Perfil do Usuário (se logado) -->
+            <div class="menu-lateral-perfil">
+                <i class="fas fa-user-circle"></i>
+                <div class="perfil-info">
+                    <span class="perfil-nome">Visitante</span>
+                    <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
+                </div>
+            </div>
+
+            <!-- Menu Principal -->
+            <ul class="menu-principal">
+                <!-- Categorias -->
+                <li class="menu-item menu-item-expansivel">
+                    <button class="menu-link" aria-expanded="false">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Categorias</span>
+                        <i class="fas fa-chevron-down menu-seta"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li><a href="#pernambuco">Pernambuco</a></li>
+                        <li><a href="#politica">Política</a></li>
+                        <li><a href="#economia">Economia</a></li>
+                        <li><a href="#mundo">Mundo</a></li>
+                        <li><a href="#esportes">Esportes</a></li>
+                        <li><a href="#cultura">Cultura</a></li>
+                        <li><a href="#educacao">Educação</a></li>
+                        <li><a href="#mobilidade">Mobilidade</a></li>
+                    </ul>
+                </li>
+
+                <!-- Seções Especiais -->
+                <li class="menu-item">
+                    <a href="#mais-lidas" class="menu-link">
+                        <i class="fas fa-fire"></i>
+                        <span>Mais Lidas</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#neels" class="menu-link">
+                        <i class="fas fa-star"></i>
+                        <span>Neels</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#curtas" class="menu-link">
+                        <i class="fas fa-bolt"></i>
+                        <span>Curtas</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#linha-tempo" class="menu-link">
+                        <i class="fas fa-clock"></i>
+                        <span>Linha do Tempo</span>
+                    </a>
+                </li>
+
+                <!-- Canais -->
+                <li class="menu-item menu-item-expansivel">
+                    <button class="menu-link" aria-expanded="false">
+                        <i class="fas fa-tv"></i>
+                        <span>Canais</span>
+                        <i class="fas fa-chevron-down menu-seta"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li><a href="#tv-jornal">TV Jornal</a></li>
+                        <li><a href="#radio-jornal">Rádio Jornal</a></li>
+                        <li><a href="#podcasts">Podcasts</a></li>
+                    </ul>
+                </li>
+
+                <!-- Outras Seções -->
+                <li class="menu-item">
+                    <a href="#jornal-digital" class="menu-link">
+                        <i class="fas fa-tablet-alt"></i>
+                        <span>Jornal Digital</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#salvos" class="menu-link">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Notícias Salvas</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Links Secundários -->
+            <div class="menu-lateral-rodape">
+                <a href="#sobre">Sobre o JC</a>
+                <a href="#fale-conosco">Fale Conosco</a>
+                <a href="#anuncie">Anuncie</a>
+                <a href="#privacidade">Privacidade</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay do Menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Conteúdo Principal -->
+    <main class="conteudo-principal" id="conteudoPrincipal">
+        <div class="container">
+            <!-- Notícia Principal em Destaque -->
+            <section class="noticia-destaque">
+                <a href="detalhes_noticia.html" class="link-noticia">
+                    <article class="destaque-principal">
+                        <div class="destaque-conteudo">
+                            <span class="badge-categoria-inline badge-pernambuco">Pernambuco</span>
+                            <h1 class="destaque-titulo">
+                                Recife anuncia novo plano de mobilidade urbana para 2025
+                            </h1>
+                            <time class="destaque-tempo">Há 2 horas</time>
+                        </div>
+                        <div class="destaque-imagem">
+                            <img src="https://picsum.photos/800/400?random=1" alt="Recife anuncia novo plano de mobilidade urbana para 2025" loading="lazy">
+                        </div>
+                    </article>
+                </a>
+            </section>
+
+            <!-- Blocos de Notícias Categorizadas -->
+            <section class="noticias-categorizadas">
+                <h2 class="secao-titulo">Últimas Notícias</h2>
+
+                <div class="grade-noticias">
+                    <!-- BLOCO 1 -->
+                    <div class="bloco-noticias">
+                        <h3 class="bloco-categoria-titulo">Política</h3>
+                        <!-- Notícia Destaque do Bloco -->
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-destaque-bloco">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-politica">Política</span>
+                                    <h3 class="cartao-titulo">
+                                        Governador anuncia pacote de investimentos em infraestrutura
+                                    </h3>
+                                    <time class="cartao-tempo">Há 3 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-politica">
+                                    <img src="https://picsum.photos/600/300?random=2" alt="Governador anuncia pacote de investimentos em infraestrutura" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Notícias Secundárias -->
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-secundaria">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-economia">Economia</span>
+                                    <h3 class="cartao-titulo">
+                                        Porto Digital abre 500 novas vagas em tecnologia
+                                    </h3>
+                                    <time class="cartao-tempo">Há 5 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-economia">
+                                    <img src="https://picsum.photos/200/200?random=3" alt="Porto Digital abre 500 novas vagas em tecnologia" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-secundaria">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-cultura">Cultura</span>
+                                    <h3 class="cartao-titulo">
+                                        Carnaval 2024: Recife divulga programação oficial
+                                    </h3>
+                                    <time class="cartao-tempo">Há 6 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-cultura">
+                                    <img src="https://picsum.photos/200/200?random=4" alt="Carnaval 2024: Recife divulga programação oficial" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+                    </div>
+
+                    <!-- BLOCO 2 -->
+                    <div class="bloco-noticias">
+                        <h3 class="bloco-categoria-titulo">Esportes</h3>
+                        <!-- Notícia Destaque do Bloco -->
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-destaque-bloco">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-esportes">Esportes</span>
+                                    <h3 class="cartao-titulo">
+                                        Sport vence clássico e se aproxima do G4 do campeonato
+                                    </h3>
+                                    <time class="cartao-tempo">Há 8 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-esportes">
+                                    <img src="https://picsum.photos/600/300?random=5" alt="Sport vence clássico e se aproxima do G4 do campeonato" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Notícias Secundárias -->
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-secundaria">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-mundo">Mundo</span>
+                                    <h3 class="cartao-titulo">
+                                        Cúpula do clima define novas metas para 2030
+                                    </h3>
+                                    <time class="cartao-tempo">Há 10 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-mundo">
+                                    <img src="https://picsum.photos/200/200?random=6" alt="Cúpula do clima define novas metas para 2030" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-secundaria">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-pernambuco">Pernambuco</span>
+                                    <h3 class="cartao-titulo">
+                                        Projeto de revitalização do Cais José Estelita avança
+                                    </h3>
+                                    <time class="cartao-tempo">Há 12 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-pernambuco">
+                                    <img src="https://picsum.photos/200/200?random=7" alt="Projeto de revitalização do Cais José Estelita avança" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+                    </div>
+
+                    <!-- BLOCO 3 -->
+                    <div class="bloco-noticias">
+                        <h3 class="bloco-categoria-titulo">Mobilidade</h3>
+                        <!-- Notícia Destaque do Bloco -->
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-destaque-bloco">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-mobilidade">Mobilidade</span>
+                                    <h3 class="cartao-titulo">
+                                        Nova linha de metrô chega ao bairro de Boa Viagem
+                                    </h3>
+                                    <time class="cartao-tempo">Há 14 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-mobilidade">
+                                    <img src="https://picsum.photos/600/300?random=8" alt="Nova linha de metrô chega ao bairro de Boa Viagem" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Notícias Secundárias -->
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-secundaria">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-educacao">Educação</span>
+                                    <h3 class="cartao-titulo">
+                                        UFPE divulga lista de aprovados no vestibular 2024
+                                    </h3>
+                                    <time class="cartao-tempo">Há 16 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-educacao">
+                                    <img src="https://picsum.photos/200/200?random=9" alt="UFPE divulga lista de aprovados no vestibular 2024" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+
+                        <a href="detalhes_noticia.html" class="link-noticia">
+                            <article class="noticia-secundaria">
+                                <div class="cartao-conteudo">
+                                    <span class="badge-categoria-inline badge-cultura">Cultura</span>
+                                    <h3 class="cartao-titulo">
+                                        Festival de cinema internacional começa em Olinda
+                                    </h3>
+                                    <time class="cartao-tempo">Há 18 horas</time>
+                                </div>
+                                <div class="cartao-imagem cartao-imagem-cultura">
+                                    <img src="https://picsum.photos/200/200?random=10" alt="Festival de cinema internacional começa em Olinda" loading="lazy">
+                                </div>
+                            </article>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Feed de Notícias Adicionais -->
+            <section class="feed-noticias" id="feedNoticias">
+                <h2 class="secao-titulo">Mais Notícias</h2>
+                <!-- Cards adicionais serão inseridos aqui via JS -->
+            </section>
+
+            <!-- Botão Carregar Mais -->
+            <div class="carregar-mais-container">
+                <button class="botao-carregar-mais" id="botaoCarregarMais">
+                    <span>Carregar mais notícias</span>
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navegação Inferior (Mobile) -->
+    <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
+        <a href="#home" class="nav-item nav-item-ativo">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="#categorias" class="nav-item">
+            <i class="fas fa-th-large"></i>
+            <span>Categorias</span>
+        </a>
+        <a href="#salvos" class="nav-item">
+            <i class="fas fa-bookmark"></i>
+            <span>Salvos</span>
+        </a>
+        <a href="#perfil" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <!-- Rodapé -->
+    <footer class="rodape" id="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="../images/logo-jc.png" alt="Jornal do Commercio">
+                <p>O jornal mais tradicional de Pernambuco</p>
+            </div>
+
+            <div class="rodape-links">
+                <div class="rodape-coluna">
+                    <h3>Editorias</h3>
+                    <ul>
+                        <li><a href="#pernambuco">Pernambuco</a></li>
+                        <li><a href="#politica">Política</a></li>
+                        <li><a href="#economia">Economia</a></li>
+                        <li><a href="#esportes">Esportes</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Serviços</h3>
+                    <ul>
+                        <li><a href="#assinatura">Assinatura</a></li>
+                        <li><a href="#newsletter">Newsletter</a></li>
+                        <li><a href="#aplicativo">Aplicativo</a></li>
+                        <li><a href="#anuncie">Anuncie</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Redes Sociais</h3>
+                    <div class="rodape-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rodape-copyright">
+            <p>&copy; 2024 Jornal do Commercio. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/app.js"></script>
+    <script src="../js/navegacao.js"></script>
+    <script src="../js/busca.js"></script>
+    <script src="../js/noticias.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+/* ===================================================
+   VARIÁVEIS CSS - JORNAL DO COMMERCIO
+   Design System - Tokens de Design
+   =================================================== */
+
+:root {
+    /* ===================================================
+       CORES PRINCIPAIS
+       =================================================== */
+
+    /* Marca */
+    --cor-primaria: #7a0000;           /* Vermelho JC - Tom oficial */
+    --cor-primaria-escura: #5a0000;    /* Vermelho mais escuro */
+    --cor-primaria-clara: #9a0000;     /* Vermelho mais claro */
+    --cor-primaria-fundo: #fef0f0;     /* Vermelho muito claro para fundos */
+
+    /* Neutras */
+    --cor-fundo: #FFFFFF;               /* Branco puro - sempre */
+    --cor-fundo-secundario: #FAFAFA;    /* Cinza muito claro */
+    --cor-fundo-terciario: #F3F4F6;     /* Cinza claro */
+
+    /* Texto */
+    --cor-texto-primario: #111827;      /* Quase preto */
+    --cor-texto-secundario: #4B5563;    /* Cinza escuro */
+    --cor-texto-terciario: #6B7280;     /* Cinza médio */
+    --cor-texto-quaternario: #9CA3AF;   /* Cinza claro */
+
+    /* Bordas */
+    --cor-borda: #E5E7EB;               /* Borda padrão */
+    --cor-borda-clara: #F3F4F6;         /* Borda clara */
+    --cor-borda-escura: #D1D5DB;        /* Borda escura */
+
+    /* ===================================================
+       CORES DE CATEGORIAS
+       =================================================== */
+
+    --cor-categoria-pernambuco: #10B981;   /* Verde */
+    --cor-categoria-politica: #3B82F6;     /* Azul */
+    --cor-categoria-economia: #F59E0B;     /* Laranja */
+    --cor-categoria-esportes: #8B5CF6;     /* Roxo */
+    --cor-categoria-cultura: #EC4899;      /* Rosa */
+    --cor-categoria-mundo: #14B8A6;        /* Ciano */
+    --cor-categoria-educacao: #F97316;     /* Laranja escuro */
+    --cor-categoria-mobilidade: #6366F1;   /* Índigo */
+
+    /* ===================================================
+       ESTADOS E FEEDBACKS
+       =================================================== */
+
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #9a0000;               /* Usando vermelho claro da marca */
+    --cor-info: #3B82F6;
+
+    /* ===================================================
+       TIPOGRAFIA
+       =================================================== */
+
+    /* Famílias de Fonte */
+    --fonte-principal: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --fonte-titulo: 'Inter', Georgia, serif;
+    --fonte-mono: 'Courier New', monospace;
+
+    /* Tamanhos de Fonte - Mobile */
+    --fonte-tamanho-xxs: 0.625rem;     /* 10px */
+    --fonte-tamanho-xs: 0.75rem;       /* 12px */
+    --fonte-tamanho-sm: 0.875rem;      /* 14px */
+    --fonte-tamanho-base: 1rem;        /* 16px */
+    --fonte-tamanho-md: 1.125rem;      /* 18px */
+    --fonte-tamanho-lg: 1.25rem;       /* 20px */
+    --fonte-tamanho-xl: 1.5rem;        /* 24px */
+    --fonte-tamanho-2xl: 1.875rem;     /* 30px */
+    --fonte-tamanho-3xl: 2.25rem;      /* 36px */
+    --fonte-tamanho-4xl: 2.5rem;       /* 40px */
+
+    /* Pesos de Fonte */
+    --fonte-peso-regular: 400;
+    --fonte-peso-medium: 500;
+    --fonte-peso-semibold: 600;
+    --fonte-peso-bold: 700;
+
+    /* Altura de Linha */
+    --linha-altura-apertada: 1.25;
+    --linha-altura-normal: 1.5;
+    --linha-altura-relaxada: 1.75;
+    --linha-altura-solta: 2;
+
+    /* ===================================================
+       ESPAÇAMENTOS - MOBILE FIRST
+       =================================================== */
+
+    --espaco-0: 0;
+    --espaco-1: 0.25rem;    /* 4px */
+    --espaco-2: 0.5rem;     /* 8px */
+    --espaco-3: 0.75rem;    /* 12px */
+    --espaco-4: 1rem;       /* 16px */
+    --espaco-5: 1.25rem;    /* 20px */
+    --espaco-6: 1.5rem;     /* 24px */
+    --espaco-7: 1.75rem;    /* 28px */
+    --espaco-8: 2rem;       /* 32px */
+    --espaco-10: 2.5rem;    /* 40px */
+    --espaco-12: 3rem;      /* 48px */
+    --espaco-16: 4rem;      /* 64px */
+    --espaco-20: 5rem;      /* 80px */
+
+    /* Espaçamentos específicos */
+    --espacamento-mobile: 1rem;         /* 16px - Padding lateral mobile */
+    --espacamento-desktop: 1.5rem;      /* 24px - Padding lateral desktop */
+    --gap-cards: 1rem;                  /* Espaço entre cards */
+
+    /* ===================================================
+       TAMANHOS E DIMENSÕES
+       =================================================== */
+
+    /* Altura de elementos */
+    --altura-cabecalho-mobile: 56px;
+    --altura-cabecalho-desktop: 72px;
+    --altura-navegacao-inferior: 70px;
+
+    /* Larguras máximas */
+    --largura-maxima-mobile: 100%;
+    --largura-maxima-tablet: 768px;
+    --largura-maxima-desktop: 1200px;
+    --largura-maxima-wide: 1440px;
+
+    /* Sidebar */
+    --largura-menu-lateral: 280px;
+    --largura-sidebar-desktop: 320px;
+
+    /* ===================================================
+       BORDAS
+       =================================================== */
+
+    --borda-raio-xs: 0.125rem;     /* 2px */
+    --borda-raio-sm: 0.25rem;      /* 4px */
+    --borda-raio-md: 0.375rem;     /* 6px */
+    --borda-raio-lg: 0.5rem;       /* 8px */
+    --borda-raio-xl: 0.75rem;      /* 12px */
+    --borda-raio-2xl: 1rem;        /* 16px */
+    --borda-raio-3xl: 1.5rem;      /* 24px */
+    --borda-raio-circular: 50%;
+
+    /* Largura de borda */
+    --borda-largura: 1px;
+    --borda-largura-media: 2px;
+    --borda-largura-grossa: 3px;
+
+    /* ===================================================
+       SOMBRAS
+       =================================================== */
+
+    --sombra-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --sombra-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --sombra-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --sombra-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --sombra-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --sombra-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    /* Sombra do menu lateral */
+    --sombra-menu: 4px 0 10px rgba(0, 0, 0, 0.1);
+
+    /* ===================================================
+       TRANSIÇÕES E ANIMAÇÕES
+       =================================================== */
+
+    --transicao-rapida: 150ms ease-in-out;
+    --transicao-normal: 250ms ease-in-out;
+    --transicao-lenta: 350ms ease-in-out;
+
+    /* Cubic bezier para animações suaves */
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+    /* ===================================================
+       Z-INDEX - CAMADAS
+       =================================================== */
+
+    --z-base: 1;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-fixed: 300;
+    --z-modal-backdrop: 400;
+    --z-modal: 500;
+    --z-popover: 600;
+    --z-tooltip: 700;
+    --z-notification: 800;
+    --z-top: 900;                /* Top-bar vermelha - acima de tudo */
+
+    /* ===================================================
+       BREAKPOINTS (para referência JS)
+       =================================================== */
+
+    --breakpoint-mobile: 0px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-desktop: 1024px;
+    --breakpoint-wide: 1440px;
+}
