@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Noticia, Visualizacao
 
+def index(request):
+    """View para a página inicial"""
+    return render(request, 'noticias/index.html')
+
 def get_client_ip(request):
     fake_ip = request.GET.get('fake_ip')#exemplo de como testar um outro ip: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222
     if fake_ip:
