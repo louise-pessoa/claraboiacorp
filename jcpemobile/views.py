@@ -1,9 +1,15 @@
 # jcpemobile/views.py
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count, Q
 from django.utils import timezone
+from django.contrib.auth import login
+from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 from .models import Noticia, Visualizacao
+from .forms import CadastroUsuarioForm
 from django.db import IntegrityError
+import json
 
 def index(request):
     """View para a página inicial"""
@@ -45,3 +51,60 @@ def noticia_detalhe(request, slug):
         )
 
     return render(request, 'noticias/detalhes_noticia.html', {'noticia': noticia})
+
+
+@require_http_methods(["GET", "POST"])
+def cadastro_usuario(request):
+    """View para cadastro de novo usuário"""
+    
+    if request.method == 'POST':
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            try:
+                data = json.loads(request.body)
+                form = CadastroUsuarioForm(data)
+                
+                if form.is_valid():
+                    user = form.save()
+                    login(request, user)
+                    
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Cadastro realizado com sucesso.',
+                        'redirect_url': '/'
+                    })
+                else:
+                    errors = {}
+                    for field, error_list in form.errors.items():
+                        errors[field] = error_list[0] if error_list else ''
+                    
+                    return JsonResponse({
+                        'success': False,
+                        'errors': errors
+                    })
+            
+            except json.JSONDecodeError:
+                return JsonResponse({
+                    'success': False,
+                    'errors': {'__all__': 'Erro ao processar dados.'}
+                })
+            except Exception as e:
+                return JsonResponse({
+                    'success': False,
+                    'errors': {'__all__': str(e)}
+                })
+        else:
+            form = CadastroUsuarioForm(request.POST)
+            
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                messages.success(request, 'Cadastro realizado com sucesso.')
+                return redirect('index')
+            else:
+                for error in form.non_field_errors():
+                    messages.error(request, error)
+    
+    else:
+        form = CadastroUsuarioForm()
+    
+    return render(request, 'usuario/cadastro.html', {'form': form})
