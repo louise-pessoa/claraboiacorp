@@ -24,7 +24,8 @@ Este documento descreve a evolução planejada do projeto, destacando funcionali
 
 O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades e impacto** em cada fase.
 
-## 🚀 Versão 1.0.0 – Lançamento inicial
+<details>
+<summary>🚀 Versão 1.0.0 – Lançamento inicial</summary>
 **Período de desenvolvimento:** Setembro de 2025 a Dezembro de 2025.
 
 **Objetivo:** oferecer impacto imediato com melhorias de usabilidade e uma experiência de leitura mais clara, dinâmica e atrativa.
@@ -53,7 +54,7 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
     **Valor entregue:** evolução contínua baseada em dados reais, fortalecendo a relação entre público e redação.
 
 **Previsão de lançamento: 11 de Dezembro de 2025**
-
+</details>
 ## 🔮 Versão 2.0.0 – Personalização
 
 **Objetivo:** tornar a experiência mais pessoal e interativa, ajustando o conteúdo ao perfil do visitante.
