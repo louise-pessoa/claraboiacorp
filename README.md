@@ -28,6 +28,7 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
 <summary>🚀 Versão 1.0.0 – Lançamento inicial</summary>
 **Período de desenvolvimento:** Setembro de 2025 a Dezembro de 2025.
 
+**Período de desenvolvimento:** Setembro de 2025 a Dezembro de 2025.
 **Objetivo:** oferecer impacto imediato com melhorias de usabilidade e uma experiência de leitura mais clara, dinâmica e atrativa.
 
 ### Funcionalidades
