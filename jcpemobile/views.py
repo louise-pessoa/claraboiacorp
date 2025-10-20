@@ -25,4 +25,4 @@ def noticia_detalhe(request, slug):
     if not Visualizacao.objects.filter(noticia=noticia, ip_usuario=ip).exists():
         Visualizacao.objects.create(noticia=noticia, ip_usuario=ip)
 
-    return render(request, 'noticias/detalhe.html', {'noticia': noticia})
+    return render(request, 'noticias/detalhes_noticia.html', {'noticia': noticia})
