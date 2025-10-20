@@ -1,0 +1,347 @@
+/* ===================================================
+   RESPONSIVO CSS - JORNAL DO COMMERCIO
+   Media Queries para Tablet e Desktop
+   =================================================== */
+
+/* ===================================================
+   TABLET (768px - 1023px)
+   =================================================== */
+
+@media (min-width: 768px) {
+    /* Container - Aumenta padding */
+    .container {
+        max-width: var(--largura-maxima-tablet);
+        padding-left: var(--espacamento-desktop);
+        padding-right: var(--espacamento-desktop);
+    }
+
+    /* Cabeçalho */
+    .cabecalho {
+        height: var(--altura-cabecalho-desktop);
+    }
+
+    .logo-imagem {
+        max-height: 44px;
+    }
+
+    /* Notícia Destaque - Aumenta altura da imagem */
+    .destaque-imagem {
+        height: 350px;
+    }
+
+    .destaque-titulo {
+        font-size: var(--fonte-tamanho-3xl);
+    }
+
+    .destaque-conteudo {
+        padding: var(--espaco-6);
+    }
+
+    /* Grid de Notícias - 2 COLUNAS (blocos lado a lado) */
+    .grade-noticias {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--espaco-5);
+    }
+
+    /* Bloco de notícias */
+    .bloco-noticias {
+        gap: var(--espaco-3);
+    }
+
+    /* Notícia destaque do bloco */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 200px;
+    }
+
+    .noticia-destaque-bloco .cartao-titulo {
+        font-size: var(--fonte-tamanho-lg);
+        -webkit-line-clamp: 2;
+    }
+
+    /* Notícias secundárias */
+    .noticia-secundaria {
+        grid-template-columns: 100px 1fr;
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 100px;
+        min-height: 100px;
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-sm);
+    }
+
+    /* Navegação Inferior - Ocultar em tablet */
+    .navegacao-inferior {
+        display: none;
+    }
+
+    /* Rodapé - Layout em grid */
+    .rodape-conteudo {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: var(--espaco-8);
+        align-items: start;
+    }
+
+    .rodape-links {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--espaco-6);
+    }
+}
+
+/* ===================================================
+   DESKTOP (1024px+)
+   =================================================== */
+
+@media (min-width: 1024px) {
+    /* Container - Largura máxima desktop */
+    .container {
+        max-width: var(--largura-maxima-desktop);
+        margin: 0 auto;
+    }
+
+    /* Cabeçalho */
+    /* Menu hambúrguer mantido em todas as resoluções */
+    /* .menu-hamburguer {
+        display: none;
+    } */
+
+    /* Notícia Destaque - Layout Horizontal */
+    .destaque-principal {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        align-items: stretch;
+        min-height: 400px;
+    }
+
+    .destaque-imagem {
+        height: 100%;
+        min-height: 400px;
+    }
+
+    .destaque-conteudo {
+        padding: var(--espaco-8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .destaque-titulo {
+        font-size: var(--fonte-tamanho-4xl);
+        margin-bottom: var(--espaco-4);
+    }
+
+    /* Grid de Notícias - 3 COLUNAS (blocos lado a lado) */
+    .grade-noticias {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--espaco-6);
+    }
+
+    /* Bloco de notícias */
+    .bloco-noticias {
+        gap: var(--espaco-4);
+    }
+
+    /* Notícia destaque do bloco */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 220px;
+    }
+
+    .noticia-destaque-bloco .cartao-titulo {
+        font-size: var(--fonte-tamanho-lg);
+    }
+
+    /* Notícias secundárias */
+    .noticia-secundaria {
+        grid-template-columns: 110px 1fr;
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 110px;
+        min-height: 110px;
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-sm);
+    }
+
+    /* Seções - Aumenta espaçamento */
+    .noticias-categorizadas {
+        margin-bottom: var(--espaco-10);
+    }
+
+    .feed-noticias {
+        margin-bottom: var(--espaco-10);
+    }
+
+    .secao-titulo {
+        font-size: var(--fonte-tamanho-2xl);
+        margin-bottom: var(--espaco-6);
+    }
+
+    /* Rodapé */
+    .rodape-conteudo {
+        padding: var(--espaco-12) var(--espaco-8);
+    }
+}
+
+/* ===================================================
+   WIDE DESKTOP (1440px+)
+   =================================================== */
+
+@media (min-width: 1440px) {
+    /* Container - Largura máxima para telas grandes */
+    .container {
+        max-width: var(--largura-maxima-wide);
+    }
+
+    /* Notícia Destaque - Maior */
+    .destaque-principal {
+        min-height: 450px;
+    }
+
+    .destaque-imagem {
+        min-height: 450px;
+    }
+
+    .destaque-titulo {
+        font-size: 2.75rem; /* 44px */
+    }
+
+    /* Grid de Notícias - Mantém 3 colunas mas com blocos maiores */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 240px;
+    }
+
+    .noticia-destaque-bloco .cartao-titulo {
+        font-size: var(--fonte-tamanho-xl);
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 120px;
+        min-height: 120px;
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-base);
+    }
+
+    /* Espaçamentos generosos */
+    .noticias-categorizadas,
+    .feed-noticias {
+        margin-bottom: var(--espaco-12);
+    }
+
+    /* Rodapé */
+    .rodape-conteudo {
+        padding: var(--espaco-16) var(--espaco-10);
+    }
+}
+
+/* ===================================================
+   PROPORÇÕES VISUAIS ESTÁVEIS
+   Garante aspect ratios consistentes em todas as resoluções
+   =================================================== */
+
+/* Imagens mantêm proporções */
+.destaque-imagem,
+.cartao-imagem-grid {
+    position: relative;
+    overflow: hidden;
+}
+
+.destaque-imagem img,
+.cartao-imagem-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Cards mantêm estrutura consistente */
+.cartao-noticia-grid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cartao-conteudo-grid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Títulos com limitação de linhas para manter altura uniforme */
+.destaque-titulo,
+.cartao-titulo-grid {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===================================================
+   AJUSTES PARA ORIENTAÇÃO LANDSCAPE EM MOBILE
+   =================================================== */
+
+@media (max-width: 767px) and (orientation: landscape) {
+    /* Reduz altura de imagens em landscape mobile */
+    .destaque-imagem {
+        height: 200px;
+    }
+
+    .cartao-imagem-grid {
+        height: 150px;
+    }
+
+    /* Oculta navegação inferior em landscape */
+    .navegacao-inferior {
+        display: none;
+    }
+}
+
+/* ===================================================
+   ACESSIBILIDADE - REDUÇÃO DE MOVIMENTO
+   =================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===================================================
+   IMPRESSÃO
+   =================================================== */
+
+@media print {
+    /* Oculta elementos de navegação */
+    .cabecalho,
+    .menu-lateral,
+    .menu-overlay,
+    .navegacao-inferior,
+    .rodape {
+        display: none !important;
+    }
+
+    /* Layout simples para impressão */
+    .grade-noticias {
+        grid-template-columns: 1fr !important;
+        gap: var(--espaco-4);
+    }
+
+    /* Remove sombras e fundos */
+    .cartao-noticia-grid,
+    .destaque-principal {
+        box-shadow: none !important;
+        border: 1px solid #000;
+    }
+}

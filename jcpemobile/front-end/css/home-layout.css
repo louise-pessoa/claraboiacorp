@@ -1,0 +1,523 @@
+/* ===================================================
+   HOME LAYOUT - JORNAL DO COMMERCIO
+   Estilos específicos para o layout da home
+   =================================================== */
+
+/* ===================================================
+   NOTÍCIA PRINCIPAL EM DESTAQUE
+   =================================================== */
+
+.noticia-destaque {
+    margin-bottom: var(--espaco-6);
+}
+
+.destaque-principal {
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-xl);
+    overflow: hidden;
+    box-shadow: var(--sombra-lg);
+    border: var(--borda-largura) solid var(--cor-borda-clara);
+    transition: var(--transicao-normal);
+}
+
+.destaque-principal:hover {
+    box-shadow: var(--sombra-xl);
+    transform: translateY(-2px);
+}
+
+.destaque-imagem {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.destaque-imagem::before {
+    content: '\f1ea';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+}
+
+.destaque-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicao-lenta);
+}
+
+.destaque-principal:hover .destaque-imagem img {
+    transform: scale(1.05);
+}
+
+.destaque-conteudo {
+    padding: var(--espaco-5);
+}
+
+.destaque-titulo {
+    font-size: var(--fonte-tamanho-2xl);
+    font-weight: var(--fonte-peso-bold);
+    line-height: var(--linha-altura-apertada);
+    color: var(--cor-texto-primario);
+    margin-bottom: var(--espaco-3);
+}
+
+.destaque-tempo {
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-terciario);
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.destaque-tempo::before {
+    content: '\f017';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+}
+
+/* ===================================================
+   BLOCOS DE NOTÍCIAS CATEGORIZADAS (3 em 3)
+   =================================================== */
+
+.noticias-categorizadas {
+    margin-bottom: var(--espaco-6);
+}
+
+.secao-titulo {
+    font-size: var(--fonte-tamanho-xl);
+    font-weight: var(--fonte-peso-bold);
+    color: var(--cor-texto-primario);
+    margin-bottom: var(--espaco-4);
+    padding-bottom: var(--espaco-3);
+    border-bottom: 2px solid var(--cor-primaria);
+}
+
+.grade-noticias {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-6);
+}
+
+/* ===================================================
+   BLOCO DE 3 NOTÍCIAS
+   =================================================== */
+
+.bloco-noticias {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.bloco-categoria-titulo {
+    font-size: var(--fonte-tamanho-lg);
+    font-weight: var(--fonte-peso-bold);
+    color: var(--cor-texto-primario);
+    margin-bottom: var(--espaco-2);
+    padding-left: var(--espaco-2);
+    border-left: 4px solid var(--cor-primaria);
+}
+
+/* ===================================================
+   NOTÍCIA DESTAQUE DO BLOCO
+   =================================================== */
+
+.noticia-destaque-bloco {
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-lg);
+    overflow: hidden;
+    box-shadow: var(--sombra-md);
+    border: var(--borda-largura) solid var(--cor-borda-clara);
+    transition: var(--transicao-normal);
+    cursor: pointer;
+}
+
+.noticia-destaque-bloco:hover {
+    box-shadow: var(--sombra-lg);
+    transform: translateY(-4px);
+}
+
+.noticia-destaque-bloco .cartao-imagem {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background: var(--cor-fundo-secundario);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.noticia-destaque-bloco .cartao-imagem::before {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+    font-size: 70px;
+    color: rgba(255, 255, 255, 0.4);
+    position: absolute;
+}
+
+.noticia-destaque-bloco .cartao-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicao-lenta);
+}
+
+.noticia-destaque-bloco:hover .cartao-imagem img {
+    transform: scale(1.05);
+}
+
+.noticia-destaque-bloco .cartao-conteudo {
+    padding: var(--espaco-5);
+}
+
+.noticia-destaque-bloco .cartao-titulo {
+    font-size: var(--fonte-tamanho-xl);
+    font-weight: var(--fonte-peso-bold);
+    line-height: var(--linha-altura-apertada);
+    color: var(--cor-texto-primario);
+    margin-top: var(--espaco-2);
+    margin-bottom: var(--espaco-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.noticia-destaque-bloco .cartao-tempo {
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-terciario);
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.noticia-destaque-bloco .cartao-tempo::before {
+    content: '\f017';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+}
+
+/* ===================================================
+   NOTÍCIAS SECUNDÁRIAS (Imagem à esquerda)
+   =================================================== */
+
+.noticia-secundaria {
+    background: var(--cor-fundo);
+    border-radius: var(--borda-raio-lg);
+    overflow: hidden;
+    box-shadow: var(--sombra-sm);
+    border: var(--borda-largura) solid var(--cor-borda-clara);
+    transition: var(--transicao-normal);
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: var(--espaco-3);
+    align-items: center;
+}
+
+.noticia-secundaria:hover {
+    box-shadow: var(--sombra-md);
+    transform: translateY(-2px);
+}
+
+.noticia-secundaria .cartao-imagem {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--cor-fundo-secundario);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--borda-raio-md);
+}
+
+.noticia-secundaria .cartao-imagem::before {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+    font-size: 35px;
+    color: rgba(255, 255, 255, 0.4);
+    position: absolute;
+}
+
+.noticia-secundaria .cartao-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicao-lenta);
+}
+
+.noticia-secundaria:hover .cartao-imagem img {
+    transform: scale(1.1);
+}
+
+.noticia-secundaria .cartao-conteudo {
+    padding: var(--espaco-3);
+    flex: 1;
+}
+
+.noticia-secundaria .cartao-titulo {
+    font-size: var(--fonte-tamanho-sm);
+    font-weight: var(--fonte-peso-semibold);
+    line-height: var(--linha-altura-apertada);
+    color: var(--cor-texto-primario);
+    margin-top: var(--espaco-2);
+    margin-bottom: var(--espaco-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.noticia-secundaria .cartao-tempo {
+    font-size: var(--fonte-tamanho-xs);
+    color: var(--cor-texto-quaternario);
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.noticia-secundaria .cartao-tempo::before {
+    content: '\f017';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+}
+
+/* ===================================================
+   FUNDOS COLORIDOS POR CATEGORIA
+   =================================================== */
+
+.cartao-imagem-pernambuco {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.cartao-imagem-pernambuco::before {
+    content: '\f1ea';
+}
+
+.cartao-imagem-politica {
+    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+}
+
+.cartao-imagem-politica::before {
+    content: '\f0c0';
+}
+
+.cartao-imagem-economia {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+.cartao-imagem-economia::before {
+    content: '\f201';
+}
+
+.cartao-imagem-cultura {
+    background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+}
+
+.cartao-imagem-cultura::before {
+    content: '\f001';
+}
+
+.cartao-imagem-esportes {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+}
+
+.cartao-imagem-esportes::before {
+    content: '\f1e3';
+}
+
+.cartao-imagem-mundo {
+    background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+}
+
+.cartao-imagem-mundo::before {
+    content: '\f0ac';
+}
+
+.cartao-imagem-mobilidade {
+    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+}
+
+.cartao-imagem-mobilidade::before {
+    content: '\f1b9';
+}
+
+.cartao-imagem-educacao {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+}
+
+.cartao-imagem-educacao::before {
+    content: '\f19d';
+}
+
+/* ===================================================
+   FEED DE NOTÍCIAS ADICIONAIS
+   =================================================== */
+
+.feed-noticias {
+    margin-bottom: var(--espaco-6);
+}
+
+.feed-noticias .secao-titulo {
+    margin-bottom: var(--espaco-4);
+}
+
+/* ===================================================
+   RESPONSIVIDADE - TABLET
+   =================================================== */
+
+@media (min-width: 768px) {
+    /* Notícia Destaque */
+    .destaque-imagem {
+        height: 350px;
+    }
+
+    .destaque-titulo {
+        font-size: var(--fonte-tamanho-3xl);
+    }
+
+    /* Grid de Notícias - 2 colunas */
+    .grade-noticias {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--espaco-5);
+    }
+
+    .cartao-imagem-grid {
+        height: 200px;
+    }
+
+    /* Imagens dos blocos - Tablet */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 250px;
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 120px;
+        height: 120px;
+        min-width: 120px;
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-base);
+    }
+}
+
+/* ===================================================
+   RESPONSIVIDADE - DESKTOP
+   =================================================== */
+
+@media (min-width: 1024px) {
+    /* Notícia Destaque */
+    .destaque-imagem {
+        height: 400px;
+    }
+
+    .destaque-conteudo {
+        padding: var(--espaco-6);
+    }
+
+    .destaque-titulo {
+        font-size: var(--fonte-tamanho-3xl);
+        margin-bottom: var(--espaco-4);
+    }
+
+    /* Grid de Notícias - 3 colunas */
+    .grade-noticias {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--espaco-6);
+    }
+
+    .cartao-imagem-grid {
+        height: 220px;
+    }
+
+    .cartao-titulo-grid {
+        font-size: var(--fonte-tamanho-xl);
+    }
+
+    /* Imagens dos blocos - Desktop */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 280px;
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 140px;
+        height: 140px;
+        min-width: 140px;
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-base);
+    }
+}
+
+/* ===================================================
+   RESPONSIVIDADE - WIDE DESKTOP
+   =================================================== */
+
+@media (min-width: 1440px) {
+    /* Notícia Destaque - Wide */
+    .destaque-imagem {
+        height: 450px;
+    }
+
+    .destaque-titulo {
+        font-size: var(--fonte-tamanho-4xl);
+    }
+
+    /* Imagens dos blocos - Wide Desktop */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 300px;
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+    }
+}
+
+/* ===================================================
+   ANIMAÇÕES
+   =================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.noticia-destaque {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.cartao-noticia-grid {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.cartao-noticia-grid:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.cartao-noticia-grid:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.cartao-noticia-grid:nth-child(3) {
+    animation-delay: 0.3s;
+}

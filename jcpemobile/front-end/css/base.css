@@ -1,0 +1,363 @@
+/* ===================================================
+   BASE CSS - JORNAL DO COMMERCIO
+   Estilos base e tipografia
+   =================================================== */
+
+/* ===================================================
+   CONFIGURAÇÕES GLOBAIS
+   =================================================== */
+
+/* Forçar modo light - SEMPRE FUNDO BRANCO */
+:root {
+    color-scheme: light !important;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: var(--cor-fundo);
+}
+
+body {
+    font-family: var(--fonte-principal);
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-regular);
+    line-height: var(--linha-altura-normal);
+    color: var(--cor-texto-primario);
+    background-color: var(--cor-fundo);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Container padrão */
+.container {
+    width: 100%;
+    max-width: var(--largura-maxima-mobile);
+    padding-left: var(--espacamento-mobile);
+    padding-right: var(--espacamento-mobile);
+    margin: 0 auto;
+}
+
+/* ===================================================
+   TIPOGRAFIA - HEADINGS
+   =================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--fonte-titulo);
+    font-weight: var(--fonte-peso-bold);
+    line-height: var(--linha-altura-apertada);
+    color: var(--cor-texto-primario);
+    margin: 0;
+}
+
+h1 {
+    font-size: var(--fonte-tamanho-2xl);
+    font-weight: var(--fonte-peso-bold);
+}
+
+h2 {
+    font-size: var(--fonte-tamanho-xl);
+    font-weight: var(--fonte-peso-semibold);
+}
+
+h3 {
+    font-size: var(--fonte-tamanho-lg);
+    font-weight: var(--fonte-peso-semibold);
+}
+
+h4 {
+    font-size: var(--fonte-tamanho-md);
+    font-weight: var(--fonte-peso-medium);
+}
+
+h5 {
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-medium);
+}
+
+h6 {
+    font-size: var(--fonte-tamanho-sm);
+    font-weight: var(--fonte-peso-medium);
+}
+
+/* ===================================================
+   TIPOGRAFIA - TEXTO
+   =================================================== */
+
+p {
+    margin: 0;
+    line-height: var(--linha-altura-relaxada);
+    color: var(--cor-texto-secundario);
+}
+
+strong, b {
+    font-weight: var(--fonte-peso-semibold);
+}
+
+em, i {
+    font-style: italic;
+}
+
+small {
+    font-size: var(--fonte-tamanho-sm);
+}
+
+/* Links */
+a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    transition: color var(--transicao-rapida);
+}
+
+a:hover {
+    color: var(--cor-primaria-escura);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--cor-primaria);
+    outline-offset: 2px;
+    border-radius: var(--borda-raio-sm);
+}
+
+/* Link de notícia - comportamento transparente */
+.link-noticia {
+    display: block;
+    color: inherit;
+}
+
+.link-noticia:hover {
+    color: inherit;
+}
+
+/* Listas */
+ul, ol {
+    padding-left: var(--espaco-5);
+    margin: var(--espaco-4) 0;
+}
+
+ul li, ol li {
+    margin-bottom: var(--espaco-2);
+}
+
+/* ===================================================
+   ELEMENTOS DE FORMULÁRIO
+   =================================================== */
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: var(--espaco-3) var(--espaco-4);
+    font-family: var(--fonte-principal);
+    font-size: var(--fonte-tamanho-base);
+    color: var(--cor-texto-primario);
+    background-color: var(--cor-fundo);
+    border: var(--borda-largura) solid var(--cor-borda);
+    border-radius: var(--borda-raio-md);
+    transition: all var(--transicao-rapida);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--cor-texto-quaternario);
+}
+
+/* Botões base */
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--espaco-3) var(--espaco-4);
+    font-family: var(--fonte-principal);
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-medium);
+    border-radius: var(--borda-raio-md);
+    transition: all var(--transicao-rapida);
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--cor-primaria);
+    outline-offset: 2px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===================================================
+   ELEMENTOS DE MÍDIA
+   =================================================== */
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+figure {
+    margin: 0;
+}
+
+figcaption {
+    margin-top: var(--espaco-2);
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-terciario);
+}
+
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===================================================
+   HELPERS E UTILITÁRIOS
+   =================================================== */
+
+/* Esconder visualmente mas manter acessível */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Texto não selecionável */
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Truncar texto */
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Linha de texto limitada */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===================================================
+   SCROLLBAR CUSTOMIZADA
+   =================================================== */
+
+/* Para Webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cor-fundo-secundario);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--cor-borda);
+    border-radius: var(--borda-raio-lg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--cor-texto-quaternario);
+}
+
+/* Para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-borda) var(--cor-fundo-secundario);
+}
+
+/* ===================================================
+   LOADING E ESTADOS
+   =================================================== */
+
+.loading {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.skeleton {
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+    background: linear-gradient(
+        90deg,
+        var(--cor-fundo-secundario) 25%,
+        var(--cor-fundo-terciario) 50%,
+        var(--cor-fundo-secundario) 75%
+    );
+    background-size: 200% 100%;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ===================================================
+   FOCUS VISIBLE - ACESSIBILIDADE
+   =================================================== */
+
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--cor-primaria);
+    outline-offset: 2px;
+    border-radius: var(--borda-raio-sm);
+}
+
+/* ===================================================
+   PRINT STYLES
+   =================================================== */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    .no-print,
+    .cabecalho,
+    .menu-lateral,
+    .navegacao-inferior,
+    .botao-busca,
+    .menu-hamburguer {
+        display: none !important;
+    }
+}
