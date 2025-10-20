@@ -1,6 +1,7 @@
+# jcpemobile/models.py
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, unique=True)
@@ -30,7 +31,6 @@ class Autor(models.Model):
 
 class Tag(models.Model):
     nome = models.CharField(max_length=50, unique=True)
-    # tag de mais acessadas , geolocalização 
 
     def __str__(self):
         return self.nome
@@ -45,12 +45,16 @@ class Noticia(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.SET_NULL, null=True, related_name="noticias")
     tags = models.ManyToManyField(Tag, blank=True, related_name="noticias")
     data_publicacao = models.DateTimeField(auto_now_add=True)
-    # atualizado_em = models.DateTimeField(auto_now=True) se houve uma atulização vc "perde" a data original de publicação
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.titulo)
         super().save(*args, **kwargs)
+
+    def visualizacoes_do_dia(self):
+        # Conta visualizações únicas (por IP) do dia atual
+        hoje = timezone.now().date()
+        return self.visualizacoes.filter(data=hoje).values('ip_address').distinct().count()
 
     def total_visualizacoes(self):
         return self.visualizacoes.count()
@@ -60,8 +64,15 @@ class Noticia(models.Model):
 
 class Visualizacao(models.Model):
     noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name="visualizacoes")
-    ip_usuario = models.GenericIPAddressField()
-    data = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField()  # Renamed from ip_usuario
+    data_visualizacao = models.DateTimeField(auto_now_add=True)  # For precise timestamp
+    data = models.DateField(null=True, blank=True)  # For daily view counting
+
+    class Meta:
+        unique_together = ('noticia', 'ip_address', 'data')
+        indexes = [
+            models.Index(fields=['data']),
+        ]
 
     def __str__(self):
         return f"Visualização em {self.noticia.titulo} ({self.data})"
@@ -85,4 +96,3 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback de {self.nome} - {self.get_avaliacao_display()}"
-

@@ -233,6 +233,12 @@
         <div class="container">
             <!-- Notícia Principal em Destaque -->
             <section class="noticia-destaque">
+                {% for noticia in noticias_mais_vistas %}
+                    <li>
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}">{{ noticia.titulo }}</a> 
+                        ({{ noticia.visualizacoes_do_dia }} visualizações hoje)
+                     </li>
+                {% endfor %}
                 <a href="detalhes_noticia.html" class="link-noticia">
                     <article class="destaque-principal">
                         <div class="destaque-conteudo">
