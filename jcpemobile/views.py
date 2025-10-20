@@ -10,7 +10,15 @@ def index(request):
     noticias_mais_vistas = Noticia.objects.all().annotate(
         visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=timezone.now().date()))
     ).order_by('-visualizacoes_dia')[:5]  # Top 5 notícias do dia
-    return render(request, 'noticias/index.html', {'noticias_mais_vistas': noticias_mais_vistas})
+
+    # Pegar todas as notícias para exibir na página
+    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+
+    context = {
+        'noticias_mais_vistas': noticias_mais_vistas,
+        'todas_noticias': todas_noticias,
+    }
+    return render(request, 'noticias/index.html', context)
 
 def get_client_ip(request):
     fake_ip = request.GET.get('fake_ip')  # Exemplo: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222

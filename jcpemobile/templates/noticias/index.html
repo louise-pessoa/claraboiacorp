@@ -233,26 +233,40 @@
         <div class="container">
             <!-- Notícia Principal em Destaque -->
             <section class="noticia-destaque">
+                <h2 class="secao-titulo">Mais Vistas Hoje</h2>
+                <ul style="list-style: none; padding: 0;">
                 {% for noticia in noticias_mais_vistas %}
-                    <li>
-                        <a href="{% url 'noticia_detalhe' noticia.slug %}">{{ noticia.titulo }}</a> 
-                        ({{ noticia.visualizacoes_do_dia }} visualizações hoje)
+                    <li style="margin-bottom: 10px;">
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}" style="text-decoration: none; color: inherit;">
+                            {{ noticia.titulo }}
+                        </a>
+                        <span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
                      </li>
                 {% endfor %}
-                <a href="detalhes_noticia.html" class="link-noticia">
+                </ul>
+
+                {% if todas_noticias %}
+                <a href="{% url 'noticia_detalhe' todas_noticias.0.slug %}" class="link-noticia">
                     <article class="destaque-principal">
                         <div class="destaque-conteudo">
-                            <span class="badge-categoria-inline badge-pernambuco">Pernambuco</span>
+                            <span class="badge-categoria-inline badge-{{ todas_noticias.0.categoria.slug|default:'pernambuco' }}">
+                                {{ todas_noticias.0.categoria.nome|default:'Notícias' }}
+                            </span>
                             <h1 class="destaque-titulo">
-                                Recife anuncia novo plano de mobilidade urbana para 2025
+                                {{ todas_noticias.0.titulo }}
                             </h1>
-                            <time class="destaque-tempo">Há 2 horas</time>
+                            <time class="destaque-tempo">{{ todas_noticias.0.data_publicacao|timesince }}</time>
                         </div>
                         <div class="destaque-imagem">
-                            <img src="https://picsum.photos/800/400?random=1" alt="Recife anuncia novo plano de mobilidade urbana para 2025" loading="lazy">
+                            {% if todas_noticias.0.imagem %}
+                                <img src="{{ todas_noticias.0.imagem.url }}" alt="{{ todas_noticias.0.titulo }}" loading="lazy">
+                            {% else %}
+                                <img src="https://picsum.photos/800/400?random=1" alt="{{ todas_noticias.0.titulo }}" loading="lazy">
+                            {% endif %}
                         </div>
                     </article>
                 </a>
+                {% endif %}
             </section>
 
             <!-- Blocos de Notícias Categorizadas -->
@@ -260,158 +274,59 @@
                 <h2 class="secao-titulo">Últimas Notícias</h2>
 
                 <div class="grade-noticias">
-                    <!-- BLOCO 1 -->
-                    <div class="bloco-noticias">
-                        <h3 class="bloco-categoria-titulo">Política</h3>
-                        <!-- Notícia Destaque do Bloco -->
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-destaque-bloco">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-politica">Política</span>
-                                    <h3 class="cartao-titulo">
-                                        Governador anuncia pacote de investimentos em infraestrutura
-                                    </h3>
-                                    <time class="cartao-tempo">Há 3 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-politica">
-                                    <img src="https://picsum.photos/600/300?random=2" alt="Governador anuncia pacote de investimentos em infraestrutura" loading="lazy">
-                                </div>
-                            </article>
+                    {% for noticia in todas_noticias|slice:"1:10" %}
+                        {% if forloop.counter0|divisibleby:3 %}
+                            {% if not forloop.first %}</div>{% endif %}
+                            <div class="bloco-noticias">
+                                <h3 class="bloco-categoria-titulo">{{ noticia.categoria.nome|default:'Notícias' }}</h3>
+                        {% endif %}
+
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
+                            {% if forloop.counter0|divisibleby:3 %}
+                                <!-- Notícia Destaque do Bloco -->
+                                <article class="noticia-destaque-bloco">
+                                    <div class="cartao-conteudo">
+                                        <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                                            {{ noticia.categoria.nome|default:'Notícias' }}
+                                        </span>
+                                        <h3 class="cartao-titulo">
+                                            {{ noticia.titulo }}
+                                        </h3>
+                                        <time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
+                                    </div>
+                                    <div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                                        {% if noticia.imagem %}
+                                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                                        {% else %}
+                                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            {% else %}
+                                <!-- Notícias Secundárias -->
+                                <article class="noticia-secundaria">
+                                    <div class="cartao-conteudo">
+                                        <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                                            {{ noticia.categoria.nome|default:'Notícias' }}
+                                        </span>
+                                        <h3 class="cartao-titulo">
+                                            {{ noticia.titulo }}
+                                        </h3>
+                                        <time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
+                                    </div>
+                                    <div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                                        {% if noticia.imagem %}
+                                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                                        {% else %}
+                                            <img src="https://picsum.photos/200/200?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            {% endif %}
                         </a>
 
-                        <!-- Notícias Secundárias -->
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-secundaria">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-economia">Economia</span>
-                                    <h3 class="cartao-titulo">
-                                        Porto Digital abre 500 novas vagas em tecnologia
-                                    </h3>
-                                    <time class="cartao-tempo">Há 5 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-economia">
-                                    <img src="https://picsum.photos/200/200?random=3" alt="Porto Digital abre 500 novas vagas em tecnologia" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-secundaria">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-cultura">Cultura</span>
-                                    <h3 class="cartao-titulo">
-                                        Carnaval 2024: Recife divulga programação oficial
-                                    </h3>
-                                    <time class="cartao-tempo">Há 6 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-cultura">
-                                    <img src="https://picsum.photos/200/200?random=4" alt="Carnaval 2024: Recife divulga programação oficial" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-                    </div>
-
-                    <!-- BLOCO 2 -->
-                    <div class="bloco-noticias">
-                        <h3 class="bloco-categoria-titulo">Esportes</h3>
-                        <!-- Notícia Destaque do Bloco -->
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-destaque-bloco">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-esportes">Esportes</span>
-                                    <h3 class="cartao-titulo">
-                                        Sport vence clássico e se aproxima do G4 do campeonato
-                                    </h3>
-                                    <time class="cartao-tempo">Há 8 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-esportes">
-                                    <img src="https://picsum.photos/600/300?random=5" alt="Sport vence clássico e se aproxima do G4 do campeonato" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-
-                        <!-- Notícias Secundárias -->
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-secundaria">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-mundo">Mundo</span>
-                                    <h3 class="cartao-titulo">
-                                        Cúpula do clima define novas metas para 2030
-                                    </h3>
-                                    <time class="cartao-tempo">Há 10 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-mundo">
-                                    <img src="https://picsum.photos/200/200?random=6" alt="Cúpula do clima define novas metas para 2030" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-secundaria">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-pernambuco">Pernambuco</span>
-                                    <h3 class="cartao-titulo">
-                                        Projeto de revitalização do Cais José Estelita avança
-                                    </h3>
-                                    <time class="cartao-tempo">Há 12 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-pernambuco">
-                                    <img src="https://picsum.photos/200/200?random=7" alt="Projeto de revitalização do Cais José Estelita avança" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-                    </div>
-
-                    <!-- BLOCO 3 -->
-                    <div class="bloco-noticias">
-                        <h3 class="bloco-categoria-titulo">Mobilidade</h3>
-                        <!-- Notícia Destaque do Bloco -->
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-destaque-bloco">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-mobilidade">Mobilidade</span>
-                                    <h3 class="cartao-titulo">
-                                        Nova linha de metrô chega ao bairro de Boa Viagem
-                                    </h3>
-                                    <time class="cartao-tempo">Há 14 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-mobilidade">
-                                    <img src="https://picsum.photos/600/300?random=8" alt="Nova linha de metrô chega ao bairro de Boa Viagem" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-
-                        <!-- Notícias Secundárias -->
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-secundaria">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-educacao">Educação</span>
-                                    <h3 class="cartao-titulo">
-                                        UFPE divulga lista de aprovados no vestibular 2024
-                                    </h3>
-                                    <time class="cartao-tempo">Há 16 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-educacao">
-                                    <img src="https://picsum.photos/200/200?random=9" alt="UFPE divulga lista de aprovados no vestibular 2024" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-
-                        <a href="detalhes_noticia.html" class="link-noticia">
-                            <article class="noticia-secundaria">
-                                <div class="cartao-conteudo">
-                                    <span class="badge-categoria-inline badge-cultura">Cultura</span>
-                                    <h3 class="cartao-titulo">
-                                        Festival de cinema internacional começa em Olinda
-                                    </h3>
-                                    <time class="cartao-tempo">Há 18 horas</time>
-                                </div>
-                                <div class="cartao-imagem cartao-imagem-cultura">
-                                    <img src="https://picsum.photos/200/200?random=10" alt="Festival de cinema internacional começa em Olinda" loading="lazy">
-                                </div>
-                            </article>
-                        </a>
-                    </div>
+                        {% if forloop.last %}</div>{% endif %}
+                    {% endfor %}
                 </div>
             </section>
 
