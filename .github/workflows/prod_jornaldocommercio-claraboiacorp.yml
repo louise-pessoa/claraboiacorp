@@ -33,10 +33,11 @@ jobs:
           pip install -r requirements.txt
     
       - name: Cleaning testing files
-        run: | # cd claraboiacorp/
-          rm db.sqlite3
-          rm .env
+        run: |
+          rm -f db.sqlite3
+          rm -f .env
           cd ..
+  
       - name: Zip artifact for deployment
         run: | # cd claraboiacorp/
           zip release.zip ./* -r
@@ -86,5 +87,6 @@ jobs:
           slot-name: 'Production'
 
           
+
 
 
