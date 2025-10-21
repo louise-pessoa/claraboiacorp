@@ -33,17 +33,16 @@ jobs:
           pip install -r requirements.txt
     
       - name: Cleaning testing files
-        run: |
-          cd claraboiacorp/
+        run: | # cd claraboiacorp/
           rm db.sqlite3
           rm .env
           cd ..
       - name: Zip artifact for deployment
-        run: |
-          cd claraboiacorp/
+        run: | # cd claraboiacorp/
           zip release.zip ./* -r
           cd ..
-          mv claraboiacorp/release.zip .
+          mv release.zip .
+      # mv claraboiacorp/release.zip .
       # By default, when you enable GitHub CI/CD integration through the Azure portal, the platform automatically sets the SCM_DO_BUILD_DURING_DEPLOYMENT application setting to true. This triggers the use of Oryx, a build engine that handles application compilation and dependency installation (e.g., pip install) directly on the platform during deployment. Hence, we exclude the antenv virtual environment directory from the deployment artifact to reduce the payload size. 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -87,4 +86,5 @@ jobs:
           slot-name: 'Production'
 
           
+
 
