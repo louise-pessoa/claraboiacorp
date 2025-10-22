@@ -25,7 +25,7 @@ def index(request):
         'noticias_mais_vistas': noticias_mais_vistas,
         'todas_noticias': todas_noticias,
     }
-    return render(request, 'noticias/index.html', context)
+    return render(request, 'index.html', context)
 
 def get_client_ip(request):
     fake_ip = request.GET.get('fake_ip')  # Exemplo: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222
@@ -51,7 +51,7 @@ def noticia_detalhe(request, slug):
             data=timezone.now().date()  # Set the date field
         )
 
-    return render(request, 'noticias/detalhes_noticia.html', {'noticia': noticia})
+    return render(request, 'detalhes_noticia.html', {'noticia': noticia})
 
 
 @require_http_methods(["GET", "POST"])
@@ -157,7 +157,7 @@ def login_usuario(request):
             else:
                 messages.error(request, 'E-mail ou senha incorretos.')
     
-    return render(request, 'usuario/login.html')
+    return redirect('index')
 
 
 def logout_usuario(request):

@@ -87,6 +87,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'templates',
+            BASE_DIR / 'jcpemobile' / 'templates',
             BASE_DIR / 'jcpemobile' / 'front-end' / 'html',
         ],
         'APP_DIRS': True,

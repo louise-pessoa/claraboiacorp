@@ -57,7 +57,7 @@
 
             <!-- Logo -->
             <div class="logo">
-                <a href="/" title="Jornal do Commercio - Página Inicial">
+                <a href="{% url 'index' %}" title="Jornal do Commercio - Página Inicial">
                     <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
                 </a>
             </div>
@@ -419,10 +419,10 @@
     </footer>
 
     <!-- Modal de Cadastro -->
-    {% include 'usuario/cadastro_modal.html' %}
+    {% include 'cadastro_modal.html' %}
     
     <!-- Modal de Login -->
-    {% include 'usuario/login_modal.html' %}
+    {% include 'login_modal.html' %}
 
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
