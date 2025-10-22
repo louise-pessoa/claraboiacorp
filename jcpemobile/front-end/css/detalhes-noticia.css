@@ -337,6 +337,17 @@
     transform: scale(0.95);
 }
 
+.botao-acao.salvo {
+    background: var(--cor-primaria);
+    color: var(--cor-fundo);
+    border-color: var(--cor-primaria);
+}
+
+.botao-acao.salvo:hover {
+    background: #d32f2f;
+    border-color: #d32f2f;
+}
+
 /* ===================================================
    IMAGEM PRINCIPAL
    =================================================== */
