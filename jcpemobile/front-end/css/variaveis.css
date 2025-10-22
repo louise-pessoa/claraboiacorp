@@ -9,10 +9,10 @@
        =================================================== */
 
     /* Marca */
-    --cor-primaria: #7a0000;           /* Vermelho JC - Tom oficial */
-    --cor-primaria-escura: #5a0000;    /* Vermelho mais escuro */
-    --cor-primaria-clara: #9a0000;     /* Vermelho mais claro */
-    --cor-primaria-fundo: #fef0f0;     /* Vermelho muito claro para fundos */
+    --cor-primaria: #E31B23;           /* Vermelho JC - Tom oficial */
+    --cor-primaria-escura: #C41119;    /* Vermelho mais escuro */
+    --cor-primaria-clara: #FF2D35;     /* Vermelho mais claro */
+    --cor-primaria-fundo: #FFF5F5;     /* Vermelho muito claro para fundos */
 
     /* Neutras */
     --cor-fundo: #FFFFFF;               /* Branco puro - sempre */

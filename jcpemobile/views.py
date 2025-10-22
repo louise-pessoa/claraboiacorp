@@ -2,10 +2,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.forms import AuthenticationForm
 from .models import Noticia, Visualizacao
 from .forms import CadastroUsuarioForm
 from django.db import IntegrityError
@@ -104,7 +105,63 @@ def cadastro_usuario(request):
                 for error in form.non_field_errors():
                     messages.error(request, error)
     
-    else:
-        form = CadastroUsuarioForm()
+    # Se não for POST, redireciona para a home (cadastro agora é apenas modal)
+    return redirect('index')
+
+
+
+def login_usuario(request):
+    """View para login de usuário"""
+    if request.user.is_authenticated:
+        return redirect('index')
     
-    return render(request, 'usuario/cadastro.html', {'form': form})
+    if request.method == 'POST':
+        # Verificar se é uma requisição AJAX
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        
+        email = request.POST.get('email')
+        senha = request.POST.get('senha')
+        
+        # Tenta encontrar o usuário pelo email
+        try:
+            from django.contrib.auth.models import User
+            user = User.objects.get(email=email)
+            # Autentica usando o username
+            user = authenticate(request, username=user.username, password=senha)
+            
+            if user is not None:
+                login(request, user)
+                if is_ajax:
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Login realizado com sucesso!',
+                        'redirect_url': '/'
+                    })
+                else:
+                    messages.success(request, 'Login realizado com sucesso!')
+                    return redirect('index')
+            else:
+                if is_ajax:
+                    return JsonResponse({
+                        'success': False,
+                        'message': 'E-mail ou senha incorretos.'
+                    })
+                else:
+                    messages.error(request, 'E-mail ou senha incorretos.')
+        except User.DoesNotExist:
+            if is_ajax:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'E-mail ou senha incorretos.'
+                })
+            else:
+                messages.error(request, 'E-mail ou senha incorretos.')
+    
+    return render(request, 'usuario/login.html')
+
+
+def logout_usuario(request):
+    """View para logout de usuário"""
+    logout(request)
+    messages.success(request, 'Você saiu da sua conta.')
+    return redirect('index')

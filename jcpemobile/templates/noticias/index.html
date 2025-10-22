@@ -131,8 +131,13 @@
             <div class="menu-lateral-perfil">
                 <i class="fas fa-user-circle"></i>
                 <div class="perfil-info">
-                    <span class="perfil-nome">Visitante</span>
-                    <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
+                    {% if user.is_authenticated %}
+                        <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
+                        <a href="{% url 'logout_usuario' %}" class="perfil-link">Sair</a>
+                    {% else %}
+                        <span class="perfil-nome">Visitante</span>
+                        <a href="#" class="perfil-link" id="linkEntrarMenu">Entrar / Cadastrar</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -415,6 +420,9 @@
 
     <!-- Modal de Cadastro -->
     {% include 'usuario/cadastro_modal.html' %}
+    
+    <!-- Modal de Login -->
+    {% include 'usuario/login_modal.html' %}
 
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
@@ -422,5 +430,6 @@
     <script src="{% static 'js/busca.js' %}"></script>
     <script src="{% static 'js/noticias.js' %}"></script>
     <script src="{% static 'js/cadastro.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>

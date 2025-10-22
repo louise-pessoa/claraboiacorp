@@ -1,0 +1,391 @@
+{% load static %}
+<!-- Modal de Login -->
+<div class="modal-overlay" id="modalLogin">
+    <div class="modal-container">
+        <button class="modal-close" id="fecharModalLogin" aria-label="Fechar modal">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="modal-header">
+            <div class="modal-logo">
+                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+            </div>
+            <h2 class="modal-title">Bem-vindo de volta!</h2>
+        </div>
+        
+        <div class="modal-subtitle-wrapper">
+            <p class="modal-subtitle">Entre com sua conta para continuar</p>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Mensagens de erro/sucesso -->
+            <div class="alert alert-error" id="mensagemErroLogin" style="display: none;"></div>
+            <div class="alert alert-success" id="mensagemSucessoLogin" style="display: none;"></div>
+            
+            <form id="formLogin" method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="login_email" class="form-label">
+                        <i class="fas fa-envelope"></i> E-mail
+                    </label>
+                    <input 
+                        type="email" 
+                        id="login_email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="seu@email.com"
+                        required
+                        autocomplete="email"
+                    >
+                    <span class="form-error" id="erro_login_email"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login_senha" class="form-label">
+                        <i class="fas fa-lock"></i> Senha
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="login_senha" 
+                            name="senha" 
+                            class="form-control" 
+                            placeholder="••••••••"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="toggle-password" data-target="login_senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="form-error" id="erro_login_senha"></span>
+                </div>
+                
+                <button type="submit" class="btn-primary btn-block" id="btnEntrar">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Entrar</span>
+                </button>
+            </form>
+            
+            <div class="modal-divider">
+                <span>ou</span>
+            </div>
+            
+            <div class="modal-footer-text">
+                <p>Ainda não tem uma conta? <a href="#" id="linkCadastro" class="link-destaque">Cadastre-se aqui</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+        opacity: 1;
+    }
+    
+    .modal-container {
+        background: white;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 450px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.active .modal-container {
+        transform: translateY(0);
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: #f7fafc;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        z-index: 1;
+    }
+    
+    .modal-close:hover {
+        background: #e2e8f0;
+        transform: rotate(90deg);
+    }
+    
+    .modal-close i {
+        font-size: 18px;
+        color: #4a5568;
+    }
+    
+    .modal-header {
+        padding: 40px 40px 16px;
+        text-align: center;
+    }
+    
+    .modal-logo {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-logo .logo-imagem {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+    
+    .modal-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 0;
+        text-align: center;
+    }
+    
+    .modal-subtitle-wrapper {
+        text-align: center;
+        padding: 0 40px 24px;
+    }
+    
+    .modal-subtitle {
+        font-size: 14px;
+        color: #718096;
+        text-align: center;
+        margin: 0;
+        padding: 0 40px 24px;
+    }
+    
+    .modal-body {
+        padding: 0 40px 40px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 8px;
+    }
+    
+    .form-label i {
+        margin-right: 6px;
+        color: #E31B23;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #E31B23;
+        box-shadow: 0 0 0 3px rgba(227, 27, 35, 0.1);
+    }
+    
+    .form-control.error {
+        border-color: #fc8181;
+        animation: shake 0.3s ease;
+    }
+    
+    .password-input-wrapper {
+        position: relative;
+    }
+    
+    .password-input-wrapper .form-control {
+        padding-right: 45px;
+    }
+    
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        color: #a0aec0;
+        transition: color 0.2s ease;
+    }
+    
+    .toggle-password:hover {
+        color: #E31B23;
+    }
+    
+    .form-error {
+        display: block;
+        color: #e53e3e;
+        font-size: 12px;
+        margin-top: 4px;
+        min-height: 18px;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #E31B23 0%, #C41119 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 24px;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(227, 27, 35, 0.4);
+    }
+    
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+    
+    .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    
+    .btn-primary.loading::after {
+        content: '';
+        width: 16px;
+        height: 16px;
+        border: 2px solid white;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-left: 8px;
+    }
+    
+    .modal-divider {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+        color: #a0aec0;
+        font-size: 14px;
+    }
+    
+    .modal-divider::before,
+    .modal-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+    }
+    
+    .modal-divider span {
+        padding: 0 12px;
+    }
+    
+    .modal-footer-text {
+        text-align: center;
+    }
+    
+    .modal-footer-text p {
+        font-size: 14px;
+        color: #718096;
+    }
+    
+    .link-destaque {
+        color: #E31B23;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    
+    .link-destaque:hover {
+        color: #C41119;
+        text-decoration: underline;
+    }
+    
+    .alert {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .alert-error {
+        background: #fff5f5;
+        color: #c53030;
+        border: 1px solid #fc8181;
+    }
+    
+    .alert-success {
+        background: #e6fffa;
+        color: #2c7a7b;
+        border: 1px solid #81e6d9;
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 600px) {
+        .modal-container {
+            width: 95%;
+            max-height: 95vh;
+        }
+        
+        .modal-header,
+        .modal-body {
+            padding: 30px 24px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+        }
+    }
+</style>
