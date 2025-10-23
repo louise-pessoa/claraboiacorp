@@ -15,9 +15,11 @@ import json
 
 def index(request):
     """View para a página inicial"""
+    hoje = timezone.now().date()
+    # Busca as notícias mais vistas do dia, com ordenamento secundário por data de publicação
     noticias_mais_vistas = Noticia.objects.all().annotate(
-        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=timezone.now().date()))
-    ).order_by('-visualizacoes_dia')[:5]  # Top 5 notícias do dia
+        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
+    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 9 notícias do dia
 
     # Pegar todas as notícias para exibir na página
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
