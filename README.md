@@ -18,7 +18,7 @@ Somos a **Claraboia Corp.**, uma consultoria que surgiu do projeto da cadeira Pr
 - Definição das funcionalidades prioritárias e elaboração de **[histórias de usuário](https://docs.google.com/document/d/1dFxsWXsw0cB63S2mtLjf79MelrSWsfCBAPUQXszEGpo/edit?usp=sharing).**
 
 - *Ferramentas auxiliares: formulários de feedback sobre jornais digitais e mídias concorrentes; análise de interfaces e funcionalidades de plataformas semelhantes.*
-- Implementação de protótipo funcional em **alta fidelidade** com as principais funcionalidades.
+- Implementação de protótipo funcional em **alta fidelidade** com as principais funcionalidades..
 
 - Apresentação do **Pitch** ao Jornal do Commercio com as soluções desenvolvidas: **Status Report 2 (11 de Dezembro de 2025)**.
 
