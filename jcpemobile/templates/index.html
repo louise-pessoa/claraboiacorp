@@ -246,6 +246,62 @@
     <!-- Conteúdo Principal -->
     <main class="conteudo-principal" id="conteudoPrincipal">
         <div class="container">
+<<<<<<< HEAD
+=======
+            <!-- Notícia Principal em Destaque -->
+            <section class="noticia-destaque">
+                
+
+                <h2 class="secao-titulo">Mais Vistas Hoje</h2>
+                
+                {% if noticias_mais_vistas %}
+                <ul style="list-style: none; padding: 0;">
+                    
+                {% for noticia in noticias_mais_vistas|slice:"0:9" %}
+                <a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
+                <article class="noticia-destaque-bloco" style="position: relative;">
+
+                    <!-- Ranking Badge -->
+                    <div style="position: absolute; top: 10px; left: 10px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10;">
+                        {{ forloop.counter }}
+                    </div>
+
+                    <div class="cartao-conteudo">
+                    <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
+
+                        {{ noticia.categoria.nome|default:'Notícias' }}
+
+                    </span>
+
+                    <h3 class="cartao-titulo">
+                        {{ noticia.titulo }}
+                    </h3>
+
+                    <time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
+
+                    <p style="margin-top: 8px; font-size: 0.875rem;">
+                        <span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
+                    </p>
+
+                    </div>
+                    <div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                        {% if noticia.imagem %}
+                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        {% else %}
+                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        {% endif %}
+                    </div>
+
+                </article>
+            </a>
+                {% endfor %}
+                </ul>
+                {% else %}
+                <p style="padding: 20px; text-align: center; color: #666;">Nenhuma notícia encontrada.</p>
+                {% endif %}
+            </section>
+
+>>>>>>> d1ef5ec6a1ac6e7b59da001b1e2ca7424d6f1b1a
             <!-- Blocos de Notícias Categorizadas -->
             <section class="noticias-categorizadas">
                 <h2 class="secao-titulo">Últimas Notícias</h2>
