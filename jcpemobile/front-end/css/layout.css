@@ -55,20 +55,12 @@
    =================================================== */
 
 /* Barra vermelha fixa no topo */
-.top-bar {
-  width: 100%;
-  height: 25px;
-  background-color: #E31B23;
-  position: fixed;
-  top: 36px;
-  left: 0;
-  z-index: var(--z-top);
-}
+
 
 /* Cabeçalho principal */
 .cabecalho {
     position: fixed;
-    top: 69px;
+    top: 37px;
     left: 0;
     right: 0;
     height: var(--altura-cabecalho-mobile);
@@ -289,10 +281,10 @@
 
 .menu-lateral {
     position: fixed;
-    top: 69px;
+    top: 44px;
     left: 0;
     width: var(--largura-menu-lateral);
-    height: calc(100vh - 69px);
+    height: calc(100vh - 44px);
     background: var(--cor-fundo);
     transform: translateX(-100%);
     transition: transform var(--transicao-normal);
@@ -527,7 +519,7 @@
    =================================================== */
 
 .conteudo-principal {
-    padding-top: calc(69px + var(--altura-cabecalho-mobile) + var(--espaco-4));
+    padding-top: calc(44px + var(--altura-cabecalho-mobile) + var(--espaco-4));
     padding-bottom: calc(var(--altura-navegacao-inferior) + 24px + var(--espaco-4));
     min-height: 100vh;
     background: var(--cor-fundo);
