@@ -147,6 +147,13 @@
     border-radius: var(--borda-raio-circular);
 }
 
+/* Ícone de perfil no botão do cabeçalho */
+.botao-perfil .icone-perfil {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
 /* ===================================================
    BARRA DE BUSCA
    =================================================== */
@@ -348,16 +355,16 @@
 
 /* Ícone de perfil no menu lateral */
 .icone-perfil {
-    width: 48px;
-    height: 48px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     display: inline-block;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 400px) {
     .icone-perfil {
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 80px;
     }
 }
 

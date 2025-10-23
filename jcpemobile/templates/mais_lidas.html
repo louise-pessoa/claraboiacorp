@@ -250,8 +250,8 @@
     <!-- Cabeçalho -->
     <header class="cabecalho" id="cabecalho">
         <div class="cabecalho-container">
-            <!-- Menu Hamburguer -->
-            <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu" aria-expanded="false">
+            <!-- Menu Hamburguer (Mobile) -->
+            <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
                 <span class="hamburguer-linha"></span>
                 <span class="hamburguer-linha"></span>
                 <span class="hamburguer-linha"></span>
@@ -266,17 +266,19 @@
 
             <!-- Ações do Cabeçalho -->
             <div class="cabecalho-acoes">
+                <!-- Busca -->
                 <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
+                    <img src="{% static 'images/Union.png' %}" alt="Meu perfil" class="icone-radio">
                 </button>
 
+                <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
+                    <img src="{% static 'images/User.png' %}" alt="Meu perfil" class="icone-perfil">
                 </button>
             </div>
         </div>
 
-        <!-- Barra de Busca -->
+        <!-- Barra de Busca (Expansível) -->
         <div class="barra-busca" id="barraBusca" aria-hidden="true">
             <div class="busca-container">
                 <input type="search" class="campo-busca" placeholder="Buscar notícias..." aria-label="Buscar notícias">
@@ -299,9 +301,9 @@
         </div>
 
         <div class="menu-lateral-conteudo">
-            <!-- Perfil do Usuário -->
+            <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
+                <img src="{% static 'images/User.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
                     {% if user.is_authenticated %}
                         <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
@@ -315,9 +317,9 @@
 
             <!-- Menu Principal -->
             <ul class="menu-principal">
+                <!-- Categorias -->
                 <li class="menu-item menu-item-expansivel">
                     <button class="menu-link" aria-expanded="false">
-                        <i class="fas fa-newspaper"></i>
                         <span>Categorias</span>
                         <i class="fas fa-chevron-down menu-seta"></i>
                     </button>
@@ -333,27 +335,65 @@
                     </ul>
                 </li>
 
+                <!-- Seções Especiais -->
                 <li class="menu-item">
                     <a href="{% url 'mais_lidas' %}" class="menu-link">
-                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#neels" class="menu-link">
-                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
                         <span>Neels</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
+                    <a href="#curtas" class="menu-link">
+                        <span>Curtas</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#linha-tempo" class="menu-link">
+                        <span>Linha do Tempo</span>
+                    </a>
+                </li>
+
+                <!-- Canais -->
+                <li class="menu-item menu-item-expansivel">
+                    <button class="menu-link" aria-expanded="false">
+                        <span>Canais</span>
+                        <i class="fas fa-chevron-down menu-seta"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li><a href="#tv-jornal">TV Jornal</a></li>
+                        <li><a href="#radio-jornal">Rádio Jornal</a></li>
+                        <li><a href="#podcasts">Podcasts</a></li>
+                    </ul>
+                </li>
+
+                <!-- Outras Seções -->
+                <li class="menu-item">
+                    <a href="#jornal-digital" class="menu-link">
+                        <span>Jornal Digital</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
                     <a href="{% url 'salvos' %}" class="menu-link">
-                        <i class="fas fa-bookmark"></i>
                         <span>Notícias Salvas</span>
                     </a>
                 </li>
             </ul>
+
+            <!-- Links Secundários -->
+            <div class="menu-lateral-rodape">
+                <a href="#sobre">Sobre o JC</a>
+                <a href="#fale-conosco">Fale Conosco</a>
+                <a href="#anuncie">Anuncie</a>
+                <a href="#privacidade">Privacidade</a>
+            </div>
         </div>
     </nav>
 
