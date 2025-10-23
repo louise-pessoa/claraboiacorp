@@ -138,6 +138,66 @@
     gap: var(--espaco-2);
 }
 
+/* Ícone de fogo (Mais Lidas) - mantém containers existentes */
+.icone-fire {
+    width: 47px;
+    height: 47px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@media (max-width: 360px) {
+    .icone-fire {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Ícone Home - mantém containers existentes */
+.icone-home {
+    width: 47px;
+    height: 47px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@media (max-width: 360px) {
+    .icone-home {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Ícone NFC (Neels) - mantém containers existentes */
+.icone-nfc {
+    width: 47px;
+    height: 47px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@media (max-width: 360px) {
+    .icone-nfc {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Ícone Rádio (Ao vivo) - mantém containers existentes */
+.icone-radio {
+    width: 47px;
+    height: 47px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@media (max-width: 360px) {
+    .icone-radio {
+        width: 18px;
+        height: 18px;
+    }
+}
+
 .campo-busca {
     flex: 1;
     padding: var(--espaco-3);

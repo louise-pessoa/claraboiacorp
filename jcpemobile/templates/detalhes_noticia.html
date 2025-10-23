@@ -75,7 +75,7 @@
 
                 <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <i class="fas fa-user-circle"></i>
+                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
                 </button>
             </div>
         </div>
@@ -164,14 +164,14 @@
                 <!-- Seções Especiais -->
                 <li class="menu-item">
                     <a href="#mais-lidas" class="menu-link">
-                        <i class="fas fa-fire"></i>
+                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#neels" class="menu-link">
-                        <i class="fas fa-star"></i>
+                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
                         <span>Neels</span>
                     </a>
                 </li>
@@ -328,19 +328,19 @@
     <!-- Navegação Inferior (Mobile) -->
     <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
         <a href="{% url 'index' %}" class="nav-item">
-            <i class="fas fa-home"></i>
+            <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
             <span>Início</span>
         </a>
         <a href="#categorias" class="nav-item">
-            <i class="fas fa-th-large"></i>
-            <span>Categorias</span>
+            <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+            <span>Mais Lidas</span>
         </a>
         <a href="{% url 'salvos' %}" class="nav-item">
             <i class="fas fa-bookmark"></i>
             <span>Salvos</span>
         </a>
         <a href="#perfil" class="nav-item">
-            <i class="fas fa-user"></i>
+            <img src="{% static 'images/Radio_Fill.png' %}" alt="Perfil" class="icone-radio">
             <span>Perfil</span>
         </a>
     </nav>
