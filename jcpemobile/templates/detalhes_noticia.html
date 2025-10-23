@@ -47,6 +47,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body {% if user.is_authenticated %}data-usuario-autenticado{% endif %}>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+            </a>
+        </div>
+    </div>
+    
     <div class="top-bar"></div>
 
     <!-- Cabeçalho -->
@@ -133,7 +142,7 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <i class="fas fa-user-circle"></i>
+                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
                     <span class="perfil-nome">Visitante</span>
                     <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
@@ -163,7 +172,7 @@
 
                 <!-- Seções Especiais -->
                 <li class="menu-item">
-                    <a href="#mais-lidas" class="menu-link">
+                    <a href="{% url 'mais_lidas' %}" class="menu-link">
                         <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
@@ -331,17 +340,17 @@
             <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
             <span>Início</span>
         </a>
-        <a href="#categorias" class="nav-item">
+        <a href="{% url 'mais_lidas' %}" class="nav-item">
             <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
             <span>Mais Lidas</span>
         </a>
-        <a href="{% url 'salvos' %}" class="nav-item">
-            <i class="fas fa-bookmark"></i>
-            <span>Salvos</span>
+        <a href="#neels" class="nav-item">
+            <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+            <span>Neels</span>
         </a>
         <a href="#perfil" class="nav-item">
-            <img src="{% static 'images/Radio_Fill.png' %}" alt="Perfil" class="icone-radio">
-            <span>Perfil</span>
+            <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+            <span>Ao vivo</span>
         </a>
     </nav>
 

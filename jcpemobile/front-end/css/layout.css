@@ -4,6 +4,53 @@
    =================================================== */
 
 /* ===================================================
+   BARRA SUPERIOR UOL
+   =================================================== */
+
+/* Barra UOL no topo da página */
+.barra-uol {
+    width: 100%;
+    background-color: #000000;
+    border-bottom: 1px solid #222222;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--z-top) + 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.barra-uol-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barra-uol a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-uol {
+    height: 24px;
+    width: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .logo-uol {
+        height: 20px;
+    }
+    
+    .barra-uol-container {
+        padding: 8px 15px;
+    }
+}
+
+/* ===================================================
    CABEÇALHO (HEADER)
    =================================================== */
 
@@ -13,7 +60,7 @@
   height: 25px;
   background-color: #E31B23;
   position: fixed;
-  top: 0;
+  top: 36px;
   left: 0;
   z-index: var(--z-top);
 }
@@ -21,7 +68,7 @@
 /* Cabeçalho principal */
 .cabecalho {
     position: fixed;
-    top: 25px;
+    top: 69px;
     left: 0;
     right: 0;
     height: var(--altura-cabecalho-mobile);
@@ -93,8 +140,8 @@
 
 .botao-busca,
 .botao-perfil {
-    width: 40px;
-    height: 40px;
+    width: 53px;
+    height: 53px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,8 +187,8 @@
 
 /* Ícone de fogo (Mais Lidas) - mantém containers existentes */
 .icone-fire {
-    width: 47px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     display: inline-block;
 }
@@ -155,8 +202,8 @@
 
 /* Ícone Home - mantém containers existentes */
 .icone-home {
-    width: 47px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     display: inline-block;
 }
@@ -170,8 +217,8 @@
 
 /* Ícone NFC (Neels) - mantém containers existentes */
 .icone-nfc {
-    width: 47px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     display: inline-block;
 }
@@ -185,8 +232,8 @@
 
 /* Ícone Rádio (Ao vivo) - mantém containers existentes */
 .icone-radio {
-    width: 47px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     display: inline-block;
 }
@@ -242,10 +289,10 @@
 
 .menu-lateral {
     position: fixed;
-    top: 25px;
+    top: 69px;
     left: 0;
     width: var(--largura-menu-lateral);
-    height: calc(100vh - 25px);
+    height: calc(100vh - 69px);
     background: var(--cor-fundo);
     transform: translateX(-100%);
     transition: transform var(--transicao-normal);
@@ -305,6 +352,21 @@
 .menu-lateral-perfil i {
     font-size: var(--fonte-tamanho-2xl);
     color: var(--cor-texto-quaternario);
+}
+
+/* Ícone de perfil no menu lateral */
+.icone-perfil {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+@media (max-width: 360px) {
+    .icone-perfil {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 .perfil-info {
@@ -465,7 +527,7 @@
    =================================================== */
 
 .conteudo-principal {
-    padding-top: calc(25px + var(--altura-cabecalho-mobile) + var(--espaco-4));
+    padding-top: calc(69px + var(--altura-cabecalho-mobile) + var(--espaco-4));
     padding-bottom: calc(var(--altura-navegacao-inferior) + 24px + var(--espaco-4));
     min-height: 100vh;
     background: var(--cor-fundo);

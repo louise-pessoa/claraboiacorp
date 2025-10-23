@@ -185,6 +185,34 @@ def salvos(request):
     return render(request, 'salvos.html', {'salvos_list': salvos_list})
 
 
+def mais_lidas(request):
+    """View para página de notícias mais lidas"""
+    # Pegar notícias mais vistas hoje
+    noticias_hoje = Noticia.objects.all().annotate(
+        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=timezone.now().date()))
+    ).filter(visualizacoes_dia__gt=0).order_by('-visualizacoes_dia')
+    
+    # Pegar notícias mais vistas da semana
+    data_semana_atras = timezone.now().date() - timezone.timedelta(days=7)
+    noticias_semana = Noticia.objects.all().annotate(
+        visualizacoes_semana=Count('visualizacoes', filter=Q(visualizacoes__data__gte=data_semana_atras))
+    ).filter(visualizacoes_semana__gt=0).order_by('-visualizacoes_semana')
+    
+    # Pegar notícias mais vistas do mês
+    data_mes_atras = timezone.now().date() - timezone.timedelta(days=30)
+    noticias_mes = Noticia.objects.all().annotate(
+        visualizacoes_mes=Count('visualizacoes', filter=Q(visualizacoes__data__gte=data_mes_atras))
+    ).filter(visualizacoes_mes__gt=0).order_by('-visualizacoes_mes')
+    
+    context = {
+        'noticias_hoje': noticias_hoje[:15],
+        'noticias_semana': noticias_semana[:15],
+        'noticias_mes': noticias_mes[:15],
+    }
+    
+    return render(request, 'mais_lidas.html', context)
+
+
 @login_required
 @require_http_methods(["POST"])
 def salvar_noticia(request, noticia_id):

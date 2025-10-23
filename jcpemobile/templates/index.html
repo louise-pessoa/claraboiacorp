@@ -44,6 +44,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+            </a>
+        </div>
+    </div>
+    
     <div class="top-bar"></div>
     <!-- Cabeçalho -->
     <header class="cabecalho" id="cabecalho">
@@ -66,12 +75,12 @@
             <div class="cabecalho-acoes">
                 <!-- Busca -->
                 <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
+                    <img src="{% static 'images/Union.png' %}" alt="Meu perfil" class="icone-radio">
                 </button>
 
                 <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
+                    <img src="{% static '' %}" alt="Meu perfil" class="icone-radio">
                 </button>
             </div>
         </div>
@@ -129,7 +138,7 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <i class="fas fa-user-circle"></i>
+                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
                     {% if user.is_authenticated %}
                         <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
@@ -164,7 +173,7 @@
 
                 <!-- Seções Especiais -->
                 <li class="menu-item">
-                    <a href="#mais-lidas" class="menu-link">
+                    <a href="{% url 'mais_lidas' %}" class="menu-link">
                         <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
@@ -237,55 +246,12 @@
     <!-- Conteúdo Principal -->
     <main class="conteudo-principal" id="conteudoPrincipal">
         <div class="container">
-            <!-- Notícia Principal em Destaque -->
-            <section class="noticia-destaque">
-                
-
-                <h2 class="secao-titulo">Mais Vistas Hoje</h2>
-                <ul style="list-style: none; padding: 0;">
-                    
-                {% for noticia in noticias_mais_vistas|slice:"0:9" %}
-                <a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
-                <article class="noticia-destaque-bloco">
-
-                    <div class="cartao-conteudo">
-                    <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
-
-                        {{ noticia.categoria.nome|default:'Notícias' }}
-
-                    </span>
-
-                    <h3 class="cartao-titulo">
-                        {{ noticia.titulo }}
-                    </h3>
-
-                    <time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
-
-                    <li style="margin-bottom: 10px;">
-                    <span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
-                     </li>
-
-                    </div>
-                    <div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
-                        {% if noticia.imagem %}
-                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
-                        {% else %}
-                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
-                        {% endif %}
-                    </div>
-
-                </article>
-            </a>
-                {% endfor %}
-                </ul>
-            </section>
-
             <!-- Blocos de Notícias Categorizadas -->
             <section class="noticias-categorizadas">
                 <h2 class="secao-titulo">Últimas Notícias</h2>
 
                 <div class="grade-noticias">
-                    {% for noticia in todas_noticias|slice:"0:9" %}
+                    {% for noticia in todas_noticias|slice:"0:15" %}
                         {% if forloop.counter0|divisibleby:3 %}
                             {% if not forloop.first %}</div>{% endif %}
                             <div class="bloco-noticias">
@@ -359,15 +325,15 @@
 
     <!-- Navegação Inferior (Mobile) -->
     <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
-        <a href="#home" class="nav-item nav-item-ativo">
+        <a href="{% url 'index' %}" class="nav-item nav-item-ativo">
             <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
             <span>Início</span>
         </a>
-        <a href="#categorias" class="nav-item">
+        <a href="{% url 'mais_lidas' %}" class="nav-item">
             <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
             <span>Mais Lidas</span>
         </a>
-        <a href="{% url 'salvos' %}" class="nav-item">
+        <a href="#neels" class="nav-item">
             <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
             <span>Neels</span>
         </a>
