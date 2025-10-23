@@ -1,23 +1,17 @@
 /**
- * Modal de Cadastro de Usuário
+ * Modal de Cadastro
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    const botaoPerfil = document.getElementById('botaoPerfil');
     const modalCadastro = document.getElementById('modalCadastro');
     const fecharModal = document.getElementById('fecharModalCadastro');
     const formCadastro = document.getElementById('formCadastro');
     const btnCadastrar = document.getElementById('btnCadastrar');
-    const mensagemErro = document.getElementById('mensagemErro');
-    const mensagemSucesso = document.getElementById('mensagemSucesso');
+    const mensagemErro = document.getElementById('mensagemErroCadastro');
+    const mensagemSucesso = document.getElementById('mensagemSucessoCadastro');
+    const linkLogin = document.getElementById('linkLogin');
     
-    if (botaoPerfil) {
-        botaoPerfil.addEventListener('click', function(e) {
-            e.preventDefault();
-            abrirModal();
-        });
-    }
-    
+    // Fechar modal ao clicar no X
     if (fecharModal) {
         fecharModal.addEventListener('click', function(e) {
             e.preventDefault();
@@ -25,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Fechar modal ao clicar fora
     if (modalCadastro) {
         modalCadastro.addEventListener('click', function(e) {
             if (e.target === modalCadastro) {
@@ -33,24 +28,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Fechar modal com ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modalCadastro.classList.contains('active')) {
             fecharModalCadastro();
         }
     });
     
-    const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+    // Toggle de mostrar/ocultar senha
+    const togglePasswordButtons = document.querySelectorAll('#modalCadastro .toggle-password');
     togglePasswordButtons.forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
             const input = document.getElementById(targetId);
             const icon = this.querySelector('i');
             
-            if (input.type === 'password') {
+            if (input && input.type === 'password') {
                 input.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
-            } else {
+            } else if (input) {
                 input.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
@@ -58,32 +55,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Limpar erros ao digitar
     const inputs = formCadastro.querySelectorAll('.form-control');
     inputs.forEach(input => {
         input.addEventListener('input', function() {
-            limparErro(this.name);
             this.classList.remove('error', 'shake');
+            const errorSpan = document.getElementById('erro_' + this.id);
+            if (errorSpan) {
+                errorSpan.textContent = '';
+            }
         });
     });
     
+    // Link para abrir modal de login
+    if (linkLogin) {
+        linkLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            fecharModalCadastro();
+            // Abrir modal de login
+            const modalLogin = document.getElementById('modalLogin');
+            if (modalLogin) {
+                modalLogin.style.display = 'flex';
+                setTimeout(() => {
+                    modalLogin.classList.add('active');
+                }, 10);
+            }
+        });
+    }
+    
+    // Submit do formulário
     if (formCadastro) {
         formCadastro.addEventListener('submit', function(e) {
             e.preventDefault();
             submeterFormulario();
         });
-    }
-    
-    function abrirModal() {
-        modalCadastro.style.display = 'flex';
-        setTimeout(() => {
-            modalCadastro.classList.add('active');
-        }, 10);
-        document.body.style.overflow = 'hidden';
-        
-        const primeiroInput = formCadastro.querySelector('input');
-        if (primeiroInput) {
-            primeiroInput.focus();
-        }
     }
     
     function fecharModalCadastro() {
@@ -115,10 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         
         const formData = {
-            nome: document.getElementById('id_nome').value.trim(),
-            email: document.getElementById('id_email').value.trim(),
-            senha: document.getElementById('id_senha').value,
-            confirmar_senha: document.getElementById('id_confirmar_senha').value
+            nome: document.getElementById('cadastro_nome').value.trim(),
+            email: document.getElementById('cadastro_email').value.trim(),
+            senha: document.getElementById('cadastro_senha').value,
+            confirmar_senha: document.getElementById('cadastro_confirmar_senha').value
         };
         
         fetch('/cadastro/', {
@@ -154,46 +159,46 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarFormulario() {
         let valido = true;
         
-        const nome = document.getElementById('id_nome').value.trim();
+        const nome = document.getElementById('cadastro_nome').value.trim();
         if (!nome) {
-            mostrarErroCampo('nome', 'O nome é obrigatório.');
+            mostrarErroCampo('cadastro_nome', 'O nome é obrigatório.');
             valido = false;
         }
         
-        const email = document.getElementById('id_email').value.trim();
+        const email = document.getElementById('cadastro_email').value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
-            mostrarErroCampo('email', 'O e-mail é obrigatório.');
+            mostrarErroCampo('cadastro_email', 'O e-mail é obrigatório.');
             valido = false;
         } else if (!emailRegex.test(email)) {
-            mostrarErroCampo('email', 'Digite um e-mail válido.');
+            mostrarErroCampo('cadastro_email', 'Digite um e-mail válido.');
             valido = false;
         }
         
-        const senha = document.getElementById('id_senha').value;
+        const senha = document.getElementById('cadastro_senha').value;
         if (!senha) {
-            mostrarErroCampo('senha', 'A senha é obrigatória.');
+            mostrarErroCampo('cadastro_senha', 'A senha é obrigatória.');
             valido = false;
         } else if (senha.length < 8) {
-            mostrarErroCampo('senha', 'A senha deve ter no mínimo 8 caracteres.');
+            mostrarErroCampo('cadastro_senha', 'A senha deve ter no mínimo 8 caracteres.');
             valido = false;
         }
         
-        const confirmarSenha = document.getElementById('id_confirmar_senha').value;
+        const confirmarSenha = document.getElementById('cadastro_confirmar_senha').value;
         if (!confirmarSenha) {
-            mostrarErroCampo('confirmar_senha', 'A confirmação de senha é obrigatória.');
+            mostrarErroCampo('cadastro_confirmar_senha', 'A confirmação de senha é obrigatória.');
             valido = false;
         } else if (senha !== confirmarSenha) {
-            mostrarErroCampo('confirmar_senha', 'As senhas não coincidem.');
+            mostrarErroCampo('cadastro_confirmar_senha', 'As senhas não coincidem.');
             valido = false;
         }
         
         return valido;
     }
     
-    function mostrarErroCampo(campo, mensagem) {
-        const input = document.getElementById('id_' + campo);
-        const erroSpan = document.getElementById('erro_' + campo);
+    function mostrarErroCampo(campoId, mensagem) {
+        const input = document.getElementById(campoId);
+        const erroSpan = document.getElementById('erro_' + campoId);
         
         if (input) {
             input.classList.add('error', 'shake');
@@ -204,20 +209,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function limparErro(campo) {
-        const erroSpan = document.getElementById('erro_' + campo);
-        if (erroSpan) {
-            erroSpan.textContent = '';
-        }
-    }
-    
     function limparTodosErros() {
-        const erroSpans = document.querySelectorAll('.form-error');
+        const erroSpans = document.querySelectorAll('#modalCadastro .form-error');
         erroSpans.forEach(span => {
             span.textContent = '';
         });
         
-        const inputs = document.querySelectorAll('.form-control');
+        const inputs = document.querySelectorAll('#modalCadastro .form-control');
         inputs.forEach(input => {
             input.classList.remove('error', 'shake');
         });
@@ -228,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (campo === '__all__') {
                 mostrarErroGeral(mensagem);
             } else {
-                mostrarErroCampo(campo, mensagem);
+                mostrarErroCampo('cadastro_' + campo, mensagem);
             }
         }
     }
@@ -237,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mensagemErro.textContent = mensagem;
         mensagemErro.style.display = 'block';
         
-        const modalBody = document.querySelector('.modal-body');
+        const modalBody = document.querySelector('#modalCadastro .modal-body');
         if (modalBody) {
             modalBody.scrollTop = 0;
         }
@@ -247,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mensagemSucesso.textContent = mensagem;
         mensagemSucesso.style.display = 'block';
         
-        const modalBody = document.querySelector('.modal-body');
+        const modalBody = document.querySelector('#modalCadastro .modal-body');
         if (modalBody) {
             modalBody.scrollTop = 0;
         }
@@ -257,4 +255,19 @@ document.addEventListener('DOMContentLoaded', function() {
         mensagemErro.style.display = 'none';
         mensagemSucesso.style.display = 'none';
     }
+    
+    // Função global para abrir o modal de cadastro (pode ser chamada de outros lugares)
+    window.abrirModalCadastro = function() {
+        modalCadastro.style.display = 'flex';
+        setTimeout(() => {
+            modalCadastro.classList.add('active');
+        }, 10);
+        document.body.style.overflow = 'hidden';
+        
+        const primeiroInput = formCadastro.querySelector('input');
+        if (primeiroInput) {
+            primeiroInput.focus();
+        }
+    };
 });
+

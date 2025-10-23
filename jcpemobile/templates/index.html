@@ -20,7 +20,7 @@
     <meta property="og:image" content="{% static 'images/logo-jc.png' %}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/logo-jc.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
 
     <!-- Título -->
     <title>Jornal do Commercio - JC PE</title>
@@ -44,6 +44,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+            </a>
+        </div>
+    </div>
+    
     <div class="top-bar"></div>
     <!-- Cabeçalho -->
     <header class="cabecalho" id="cabecalho">
@@ -57,7 +66,7 @@
 
             <!-- Logo -->
             <div class="logo">
-                <a href="/" title="Jornal do Commercio - Página Inicial">
+                <a href="{% url 'index' %}" title="Jornal do Commercio - Página Inicial">
                     <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
                 </a>
             </div>
@@ -66,12 +75,12 @@
             <div class="cabecalho-acoes">
                 <!-- Busca -->
                 <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
+                    <img src="{% static 'images/Union.png' %}" alt="Meu perfil" class="icone-radio">
                 </button>
 
                 <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <i class="fas fa-user-circle"></i>
+                    <img src="{% static '' %}" alt="Meu perfil" class="icone-radio">
                 </button>
             </div>
         </div>
@@ -129,10 +138,15 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <i class="fas fa-user-circle"></i>
+                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
-                    <span class="perfil-nome">Visitante</span>
-                    <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
+                    {% if user.is_authenticated %}
+                        <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
+                        <a href="{% url 'logout_usuario' %}" class="perfil-link">Sair</a>
+                    {% else %}
+                        <span class="perfil-nome">Visitante</span>
+                        <a href="#" class="perfil-link" id="linkEntrarMenu">Entrar / Cadastrar</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -159,15 +173,15 @@
 
                 <!-- Seções Especiais -->
                 <li class="menu-item">
-                    <a href="#mais-lidas" class="menu-link">
-                        <i class="fas fa-fire"></i>
+                    <a href="{% url 'mais_lidas' %}" class="menu-link">
+                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#neels" class="menu-link">
-                        <i class="fas fa-star"></i>
+                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
                         <span>Neels</span>
                     </a>
                 </li>
@@ -209,7 +223,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="#salvos" class="menu-link">
+                    <a href="{% url 'salvos' %}" class="menu-link">
                         <i class="fas fa-bookmark"></i>
                         <span>Notícias Salvas</span>
                     </a>
@@ -232,41 +246,57 @@
     <!-- Conteúdo Principal -->
     <main class="conteudo-principal" id="conteudoPrincipal">
         <div class="container">
+            
             <!-- Notícia Principal em Destaque -->
             <section class="noticia-destaque">
+                
+
                 <h2 class="secao-titulo">Mais Vistas Hoje</h2>
+                
+                {% if noticias_mais_vistas %}
                 <ul style="list-style: none; padding: 0;">
-                {% for noticia in noticias_mais_vistas %}
-                    <li style="margin-bottom: 10px;">
-                        <a href="{% url 'noticia_detalhe' noticia.slug %}" style="text-decoration: none; color: inherit;">
-                            {{ noticia.titulo }}
-                        </a>
+                    
+                {% for noticia in noticias_mais_vistas|slice:"0:9" %}
+                <a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
+                <article class="noticia-destaque-bloco" style="position: relative;">
+
+                    <!-- Ranking Badge -->
+                    <div style="position: absolute; top: 10px; left: 10px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10;">
+                        {{ forloop.counter }}
+                    </div>
+
+                    <div class="cartao-conteudo">
+                    <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
+
+                        {{ noticia.categoria.nome|default:'Notícias' }}
+
+                    </span>
+
+                    <h3 class="cartao-titulo">
+                        {{ noticia.titulo }}
+                    </h3>
+
+                    <time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
+
+                    <p style="margin-top: 8px; font-size: 0.875rem;">
                         <span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
-                     </li>
+                    </p>
+
+                    </div>
+                    <div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                        {% if noticia.imagem %}
+                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        {% else %}
+                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        {% endif %}
+                    </div>
+
+                </article>
+            </a>
                 {% endfor %}
                 </ul>
-
-                {% if todas_noticias %}
-                <a href="{% url 'noticia_detalhe' todas_noticias.0.slug %}" class="link-noticia">
-                    <article class="destaque-principal">
-                        <div class="destaque-conteudo">
-                            <span class="badge-categoria-inline badge-{{ todas_noticias.0.categoria.slug|default:'pernambuco' }}">
-                                {{ todas_noticias.0.categoria.nome|default:'Notícias' }}
-                            </span>
-                            <h1 class="destaque-titulo">
-                                {{ todas_noticias.0.titulo }}
-                            </h1>
-                            <time class="destaque-tempo">{{ todas_noticias.0.data_publicacao|timesince }}</time>
-                        </div>
-                        <div class="destaque-imagem">
-                            {% if todas_noticias.0.imagem %}
-                                <img src="{{ todas_noticias.0.imagem.url }}" alt="{{ todas_noticias.0.titulo }}" loading="lazy">
-                            {% else %}
-                                <img src="https://picsum.photos/800/400?random=1" alt="{{ todas_noticias.0.titulo }}" loading="lazy">
-                            {% endif %}
-                        </div>
-                    </article>
-                </a>
+                {% else %}
+                <p style="padding: 20px; text-align: center; color: #666;">Nenhuma notícia encontrada.</p>
                 {% endif %}
             </section>
 
@@ -275,7 +305,7 @@
                 <h2 class="secao-titulo">Últimas Notícias</h2>
 
                 <div class="grade-noticias">
-                    {% for noticia in todas_noticias|slice:"1:10" %}
+                    {% for noticia in todas_noticias|slice:"0:15" %}
                         {% if forloop.counter0|divisibleby:3 %}
                             {% if not forloop.first %}</div>{% endif %}
                             <div class="bloco-noticias">
@@ -349,21 +379,21 @@
 
     <!-- Navegação Inferior (Mobile) -->
     <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
-        <a href="#home" class="nav-item nav-item-ativo">
-            <i class="fas fa-home"></i>
+        <a href="{% url 'index' %}" class="nav-item nav-item-ativo">
+            <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
             <span>Início</span>
         </a>
-        <a href="#categorias" class="nav-item">
-            <i class="fas fa-th-large"></i>
-            <span>Categorias</span>
+        <a href="{% url 'mais_lidas' %}" class="nav-item">
+            <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+            <span>Mais Lidas</span>
         </a>
-        <a href="#salvos" class="nav-item">
-            <i class="fas fa-bookmark"></i>
-            <span>Salvos</span>
+        <a href="#neels" class="nav-item">
+            <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+            <span>Neels</span>
         </a>
         <a href="#perfil" class="nav-item">
-            <i class="fas fa-user"></i>
-            <span>Perfil</span>
+            <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+            <span>Ao vivo</span>
         </a>
     </nav>
 
@@ -414,7 +444,10 @@
     </footer>
 
     <!-- Modal de Cadastro -->
-    {% include 'usuario/cadastro_modal.html' %}
+    {% include 'cadastro_modal.html' %}
+    
+    <!-- Modal de Login -->
+    {% include 'login_modal.html' %}
 
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
@@ -422,5 +455,6 @@
     <script src="{% static 'js/busca.js' %}"></script>
     <script src="{% static 'js/noticias.js' %}"></script>
     <script src="{% static 'js/cadastro.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>

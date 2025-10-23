@@ -1,0 +1,175 @@
+{% load static %}
+<!-- Modal de Cadastro -->
+<div class="modal-overlay" id="modalCadastro">
+    <div class="modal-container">
+        <button class="modal-close" id="fecharModalCadastro" aria-label="Fechar modal">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="modal-header">
+            <div class="modal-logo">
+                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+            </div>
+            <h2 class="modal-title">Criar sua conta</h2>
+        </div>
+        
+        <div class="modal-subtitle-wrapper">
+            <p class="modal-subtitle">Preencha os dados abaixo para começar</p>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Mensagens de erro/sucesso -->
+            <div class="alert alert-error" id="mensagemErroCadastro" style="display: none;"></div>
+            <div class="alert alert-success" id="mensagemSucessoCadastro" style="display: none;"></div>
+            
+            <form id="formCadastro" method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="cadastro_nome" class="form-label">
+                        <i class="fas fa-user"></i> Nome completo
+                    </label>
+                    <input 
+                        type="text" 
+                        id="cadastro_nome" 
+                        name="nome" 
+                        class="form-control" 
+                        placeholder="Seu nome completo"
+                        required
+                        autocomplete="name"
+                    >
+                    <span class="form-error" id="erro_cadastro_nome"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cadastro_email" class="form-label">
+                        <i class="fas fa-envelope"></i> E-mail
+                    </label>
+                    <input 
+                        type="email" 
+                        id="cadastro_email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="seu@email.com"
+                        required
+                        autocomplete="email"
+                    >
+                    <span class="form-error" id="erro_cadastro_email"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cadastro_senha" class="form-label">
+                        <i class="fas fa-lock"></i> Senha
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="cadastro_senha" 
+                            name="senha" 
+                            class="form-control" 
+                            placeholder="••••••••"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <button type="button" class="toggle-password" data-target="cadastro_senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <p class="password-requirements">Mínimo de 8 caracteres</p>
+                    <span class="form-error" id="erro_cadastro_senha"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cadastro_confirmar_senha" class="form-label">
+                        <i class="fas fa-lock"></i> Confirmar senha
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="cadastro_confirmar_senha" 
+                            name="confirmar_senha" 
+                            class="form-control" 
+                            placeholder="••••••••"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <button type="button" class="toggle-password" data-target="cadastro_confirmar_senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="form-error" id="erro_cadastro_confirmar_senha"></span>
+                </div>
+                
+                <button type="submit" class="btn-primary btn-block" id="btnCadastrar">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Cadastrar</span>
+                </button>
+            </form>
+            
+            <div class="modal-divider">
+                <span>ou</span>
+            </div>
+            
+            <div class="modal-footer-text">
+                <p>Já tem uma conta? <a href="#" id="linkLogin" class="link-destaque">Entrar</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .password-requirements {
+        font-size: 12px;
+        color: #718096;
+        margin-top: 4px;
+        margin-bottom: 0;
+    }
+    
+    /* Aplicar estilos específicos do modal de cadastro */
+    #modalCadastro .modal-header {
+        padding: 40px 40px 16px;
+    }
+    
+    #modalCadastro .modal-logo {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+    }
+    
+    #modalCadastro .modal-title {
+        margin-bottom: 0;
+    }
+    
+    #modalCadastro .modal-subtitle {
+        margin: 0;
+    }
+    
+    #modalCadastro .form-label i {
+        color: #E31B23;
+    }
+    
+    #modalCadastro .form-control:focus {
+        border-color: #E31B23;
+        box-shadow: 0 0 0 3px rgba(227, 27, 35, 0.1);
+    }
+    
+    #modalCadastro .toggle-password:hover {
+        color: #E31B23;
+    }
+    
+    #modalCadastro .btn-primary {
+        background: linear-gradient(135deg, #E31B23 0%, #C41119 100%);
+    }
+    
+    #modalCadastro .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(227, 27, 35, 0.4);
+    }
+    
+    #modalCadastro .link-destaque {
+        color: #E31B23;
+    }
+    
+    #modalCadastro .link-destaque:hover {
+        color: #C41119;
+    }
+</style>

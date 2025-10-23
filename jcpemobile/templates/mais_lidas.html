@@ -1,0 +1,559 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mais Lidas - Jornal do Commercio</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .mais-lidas-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 60vh;
+        }
+
+        .mais-lidas-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .mais-lidas-header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .mais-lidas-header p {
+            color: var(--cor-texto-secundario);
+            font-size: 1.1rem;
+        }
+
+        .icone-fire-header {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 30px;
+            background: white;
+            border: 2px solid var(--cor-borda);
+            border-radius: 25px;
+            font-weight: 600;
+            color: var(--cor-texto-secundario);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            border-color: var(--cor-primaria);
+            color: var(--cor-primaria);
+        }
+
+        .tab-button.ativo {
+            background: var(--cor-primaria);
+            border-color: var(--cor-primaria);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.ativo {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lista-noticias {
+            display: grid;
+            gap: 20px;
+        }
+
+        .item-noticia {
+            display: flex;
+            gap: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-noticia:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .ranking-numero {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--cor-primaria);
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-noticia-imagem {
+            width: 250px;
+            min-width: 250px;
+            height: 160px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .item-noticia-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-noticia-conteudo {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item-noticia-categoria {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--cor-primaria);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-noticia-titulo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--cor-texto-principal);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .item-noticia-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--cor-texto-terciario);
+        }
+
+        .visualizacoes {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mensagem-vazio {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .mensagem-vazio i {
+            font-size: 5rem;
+            color: var(--cor-borda);
+            margin-bottom: 20px;
+        }
+
+        .mensagem-vazio h2 {
+            font-size: 1.8rem;
+            color: var(--cor-texto-principal);
+            margin-bottom: 15px;
+        }
+
+        .mensagem-vazio p {
+            color: var(--cor-texto-secundario);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .item-noticia {
+                flex-direction: column;
+            }
+
+            .ranking-numero {
+                font-size: 2rem;
+                min-width: auto;
+            }
+
+            .item-noticia-imagem {
+                width: 100%;
+                height: 200px;
+            }
+
+            .mais-lidas-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+            </a>
+        </div>
+    </div>
+    
+    <!-- Barra Vermelha do Topo -->
+    <div class="top-bar"></div>
+
+    <!-- Cabeçalho -->
+    <header class="cabecalho" id="cabecalho">
+        <div class="cabecalho-container">
+            <!-- Menu Hamburguer -->
+            <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu" aria-expanded="false">
+                <span class="hamburguer-linha"></span>
+                <span class="hamburguer-linha"></span>
+                <span class="hamburguer-linha"></span>
+            </button>
+
+            <!-- Logo -->
+            <div class="logo">
+                <a href="{% url 'index' %}" title="Jornal do Commercio - Página Inicial">
+                    <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+                </a>
+            </div>
+
+            <!-- Ações do Cabeçalho -->
+            <div class="cabecalho-acoes">
+                <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
+                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de Busca -->
+        <div class="barra-busca" id="barraBusca" aria-hidden="true">
+            <div class="busca-container">
+                <input type="search" class="campo-busca" placeholder="Buscar notícias..." aria-label="Buscar notícias">
+                <button class="botao-filtros" aria-label="Filtros de busca">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral -->
+    <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
+        <div class="menu-lateral-cabecalho">
+            <div class="menu-hamburguer-icone">
+                <i class="fas fa-bars"></i>
+            </div>
+            <button class="menu-lateral-fechar" id="menuLateralFechar" aria-label="Fechar menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="menu-lateral-conteudo">
+            <!-- Perfil do Usuário -->
+            <div class="menu-lateral-perfil">
+                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
+                <div class="perfil-info">
+                    {% if user.is_authenticated %}
+                        <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
+                        <a href="{% url 'logout_usuario' %}" class="perfil-link">Sair</a>
+                    {% else %}
+                        <span class="perfil-nome">Visitante</span>
+                        <a href="#" class="perfil-link" id="linkEntrarMenu">Entrar / Cadastrar</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Menu Principal -->
+            <ul class="menu-principal">
+                <li class="menu-item menu-item-expansivel">
+                    <button class="menu-link" aria-expanded="false">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Categorias</span>
+                        <i class="fas fa-chevron-down menu-seta"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li><a href="#pernambuco">Pernambuco</a></li>
+                        <li><a href="#politica">Política</a></li>
+                        <li><a href="#economia">Economia</a></li>
+                        <li><a href="#mundo">Mundo</a></li>
+                        <li><a href="#esportes">Esportes</a></li>
+                        <li><a href="#cultura">Cultura</a></li>
+                        <li><a href="#educacao">Educação</a></li>
+                        <li><a href="#mobilidade">Mobilidade</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item">
+                    <a href="{% url 'mais_lidas' %}" class="menu-link">
+                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+                        <span>Mais Lidas</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#neels" class="menu-link">
+                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+                        <span>Neels</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="{% url 'salvos' %}" class="menu-link">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Notícias Salvas</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Overlay do Menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Conteúdo Principal -->
+    <main class="conteudo-principal">
+        <div class="mais-lidas-container">
+            <div class="mais-lidas-header">
+                <h1>
+                    <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire-header">
+                    Mais Lidas
+                </h1>
+                <p>As notícias mais populares do Jornal do Commercio</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <button class="tab-button ativo" data-tab="hoje">Hoje</button>
+                <button class="tab-button" data-tab="semana">Esta Semana</button>
+                <button class="tab-button" data-tab="mes">Este Mês</button>
+            </div>
+
+            <!-- Conteúdo Hoje -->
+            <div class="tab-content ativo" id="tab-hoje">
+                {% if noticias_hoje %}
+                    <div class="lista-noticias">
+                        {% for noticia in noticias_hoje %}
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="item-noticia">
+                            <div class="ranking-numero">{{ forloop.counter }}</div>
+                            <div class="item-noticia-imagem">
+                                {% if noticia.imagem %}
+                                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+                                {% else %}
+                                    <img src="https://picsum.photos/250/160?random={{ forloop.counter }}" alt="{{ noticia.titulo }}">
+                                {% endif %}
+                            </div>
+                            <div class="item-noticia-conteudo">
+                                <span class="item-noticia-categoria">{{ noticia.categoria.nome|default:'Notícias' }}</span>
+                                <h2 class="item-noticia-titulo">{{ noticia.titulo }}</h2>
+                                <div class="item-noticia-meta">
+                                    <time>{{ noticia.data_publicacao|timesince }} atrás</time>
+                                    <span class="visualizacoes">
+                                        <i class="fas fa-eye"></i>
+                                        {{ noticia.visualizacoes_dia }} visualizações
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="mensagem-vazio">
+                        <i class="fas fa-newspaper"></i>
+                        <h2>Nenhuma notícia ainda hoje</h2>
+                        <p>Volte mais tarde para ver as notícias mais lidas!</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Conteúdo Semana -->
+            <div class="tab-content" id="tab-semana">
+                {% if noticias_semana %}
+                    <div class="lista-noticias">
+                        {% for noticia in noticias_semana %}
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="item-noticia">
+                            <div class="ranking-numero">{{ forloop.counter }}</div>
+                            <div class="item-noticia-imagem">
+                                {% if noticia.imagem %}
+                                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+                                {% else %}
+                                    <img src="https://picsum.photos/250/160?random={{ forloop.counter }}" alt="{{ noticia.titulo }}">
+                                {% endif %}
+                            </div>
+                            <div class="item-noticia-conteudo">
+                                <span class="item-noticia-categoria">{{ noticia.categoria.nome|default:'Notícias' }}</span>
+                                <h2 class="item-noticia-titulo">{{ noticia.titulo }}</h2>
+                                <div class="item-noticia-meta">
+                                    <time>{{ noticia.data_publicacao|timesince }} atrás</time>
+                                    <span class="visualizacoes">
+                                        <i class="fas fa-eye"></i>
+                                        {{ noticia.visualizacoes_semana }} visualizações
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="mensagem-vazio">
+                        <i class="fas fa-newspaper"></i>
+                        <h2>Nenhuma notícia esta semana</h2>
+                        <p>Volte mais tarde para ver as notícias mais lidas!</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Conteúdo Mês -->
+            <div class="tab-content" id="tab-mes">
+                {% if noticias_mes %}
+                    <div class="lista-noticias">
+                        {% for noticia in noticias_mes %}
+                        <a href="{% url 'noticia_detalhe' noticia.slug %}" class="item-noticia">
+                            <div class="ranking-numero">{{ forloop.counter }}</div>
+                            <div class="item-noticia-imagem">
+                                {% if noticia.imagem %}
+                                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+                                {% else %}
+                                    <img src="https://picsum.photos/250/160?random={{ forloop.counter }}" alt="{{ noticia.titulo }}">
+                                {% endif %}
+                            </div>
+                            <div class="item-noticia-conteudo">
+                                <span class="item-noticia-categoria">{{ noticia.categoria.nome|default:'Notícias' }}</span>
+                                <h2 class="item-noticia-titulo">{{ noticia.titulo }}</h2>
+                                <div class="item-noticia-meta">
+                                    <time>{{ noticia.data_publicacao|timesince }} atrás</time>
+                                    <span class="visualizacoes">
+                                        <i class="fas fa-eye"></i>
+                                        {{ noticia.visualizacoes_mes }} visualizações
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="mensagem-vazio">
+                        <i class="fas fa-newspaper"></i>
+                        <h2>Nenhuma notícia este mês</h2>
+                        <p>Volte mais tarde para ver as notícias mais lidas!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Navegação Inferior -->
+    <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
+        <a href="{% url 'index' %}" class="nav-item">
+            <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
+            <span>Início</span>
+        </a>
+        <a href="{% url 'mais_lidas' %}" class="nav-item nav-item-ativo">
+            <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+            <span>Mais Lidas</span>
+        </a>
+        <a href="#neels" class="nav-item">
+            <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+            <span>Neels</span>
+        </a>
+        <a href="#perfil" class="nav-item">
+            <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+            <span>Ao vivo</span>
+        </a>
+    </nav>
+
+    <!-- Rodapé -->
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio">
+                <p>O jornal mais tradicional de Pernambuco</p>
+            </div>
+        </div>
+        <div class="rodape-copyright">
+            <p>&copy; 2025 Jornal do Commercio. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    {% include 'cadastro_modal.html' %}
+    {% include 'login_modal.html' %}
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/navegacao.js' %}"></script>
+    <script src="{% static 'js/cadastro.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
+
+    <script>
+        // Sistema de tabs
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+
+                    // Remove classe ativa de todos
+                    tabButtons.forEach(btn => btn.classList.remove('ativo'));
+                    tabContents.forEach(content => content.classList.remove('ativo'));
+
+                    // Adiciona classe ativa ao selecionado
+                    this.classList.add('ativo');
+                    document.getElementById('tab-' + tabName).classList.add('ativo');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

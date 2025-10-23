@@ -1,0 +1,506 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias Salvas - Jornal do Commercio</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .salvos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 60vh;
+        }
+
+        .salvos-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .salvos-header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .salvos-header p {
+            color: var(--cor-texto-secundario);
+            font-size: 1.1rem;
+        }
+
+        .mensagem-vazio {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .mensagem-vazio i {
+            font-size: 5rem;
+            color: var(--cor-borda);
+            margin-bottom: 20px;
+        }
+
+        .mensagem-vazio h2 {
+            font-size: 1.8rem;
+            color: var(--cor-texto-principal);
+            margin-bottom: 15px;
+        }
+
+        .mensagem-vazio p {
+            color: var(--cor-texto-secundario);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .botao-voltar {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background-color: var(--cor-primaria);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .botao-voltar:hover {
+            background-color: var(--cor-primaria-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .lista-salvos {
+            display: grid;
+            gap: 25px;
+        }
+
+        .item-salvo {
+            display: flex;
+            gap: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .item-salvo:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .item-salvo-imagem {
+            width: 200px;
+            min-width: 200px;
+            height: 140px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .item-salvo-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-salvo-conteudo {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item-salvo-categoria {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--cor-primaria);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-salvo-titulo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--cor-texto-principal);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .item-salvo-titulo a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .item-salvo-titulo a:hover {
+            color: var(--cor-primaria);
+        }
+
+        .item-salvo-data {
+            font-size: 0.9rem;
+            color: var(--cor-texto-secundario);
+        }
+
+        .item-salvo-data i {
+            margin-right: 5px;
+        }
+
+        .item-salvo-acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .botao-remover {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .botao-remover:hover {
+            background-color: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .botao-ler {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: var(--cor-primaria);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .botao-ler:hover {
+            background-color: var(--cor-primaria-hover);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .item-salvo {
+                flex-direction: column;
+            }
+
+            .item-salvo-imagem {
+                width: 100%;
+                height: 200px;
+            }
+
+            .salvos-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+            </a>
+        </div>
+    </div>
+    
+    <div class="top-bar"></div>
+
+    <!-- Cabeçalho -->
+    <header class="cabecalho" id="cabecalho">
+        <div class="cabecalho-container">
+            <!-- Menu Hamburguer (Mobile) -->
+            <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
+                <span class="hamburguer-linha"></span>
+                <span class="hamburguer-linha"></span>
+                <span class="hamburguer-linha"></span>
+            </button>
+
+            <!-- Logo -->
+            <div class="logo">
+                <a href="{% url 'index' %}" title="Jornal do Commercio - Página Inicial">
+                    <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+                </a>
+            </div>
+
+            <!-- Ações do Cabeçalho -->
+            <div class="cabecalho-acoes">
+                <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
+                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="conteudo-principal">
+        <div class="salvos-container">
+            <div class="salvos-header">
+                <h1><i class="fas fa-bookmark"></i> Notícias Salvas</h1>
+                <p>Suas notícias favoritas em um só lugar</p>
+            </div>
+
+            {% if salvos_list %}
+                <div class="lista-salvos">
+                    {% for salvo in salvos_list %}
+                        <article class="item-salvo" data-salvo-id="{{ salvo.id }}">
+                            <div class="item-salvo-imagem">
+                                {% if salvo.noticia.imagem %}
+                                    <img src="{{ salvo.noticia.imagem.url }}" alt="{{ salvo.noticia.titulo }}">
+                                {% else %}
+                                    <img src="{% static 'images/placeholder.jpg' %}" alt="Imagem padrão">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="item-salvo-conteudo">
+                                <span class="item-salvo-categoria">{{ salvo.noticia.categoria }}</span>
+                                <h2 class="item-salvo-titulo">
+                                    <a href="{% url 'noticia_detalhe' salvo.noticia.slug %}">
+                                        {{ salvo.noticia.titulo }}
+                                    </a>
+                                </h2>
+                                <p class="item-salvo-data">
+                                    <i class="far fa-clock"></i>
+                                    Salvo em {{ salvo.data_salvamento|date:"d/m/Y \à\s H:i" }}
+                                </p>
+                                
+                                <div class="item-salvo-acoes">
+                                    <a href="{% url 'noticia_detalhe' salvo.noticia.slug %}" class="botao-ler">
+                                        <i class="fas fa-book-open"></i>
+                                        Ler notícia
+                                    </a>
+                                    <button class="botao-remover" data-noticia-id="{{ salvo.noticia.id }}" title="Remover dos salvos">
+                                        <i class="fas fa-trash-alt"></i>
+                                        Remover
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="mensagem-vazio">
+                    <i class="far fa-bookmark"></i>
+                    <h2>Nenhuma notícia salva ainda</h2>
+                    <p>Comece a salvar notícias interessantes para ler mais tarde!</p>
+                    <a href="{% url 'index' %}" class="botao-voltar">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar para página inicial
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Navegação Inferior (Mobile) -->
+    <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
+        <a href="{% url 'index' %}" class="nav-item">
+            <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
+            <span>Início</span>
+        </a>
+        <a href="{% url 'mais_lidas' %}" class="nav-item">
+            <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+            <span>Mais Lidas</span>
+        </a>
+        <a href="#neels" class="nav-item">
+            <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+            <span>Neels</span>
+        </a>
+        <a href="#perfil" class="nav-item">
+            <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+            <span>Ao vivo</span>
+        </a>
+    </nav>
+
+    <!-- Rodapé -->
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio">
+                <p>O jornal mais tradicional de Pernambuco</p>
+            </div>
+        </div>
+
+        <div class="rodape-copyright">
+            <p>&copy; 2025 Jornal do Commercio. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/navegacao.js' %}"></script>
+    
+    <script>
+        // JavaScript para remover notícias salvas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Garantir que links de notícias funcionem
+            const linksNoticias = document.querySelectorAll('.item-salvo-titulo a, .botao-ler');
+            linksNoticias.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Permitir navegação normal - não prevenir default
+                    e.stopPropagation(); // Apenas evitar propagação para outros listeners
+                });
+            });
+            
+            const botoesRemover = document.querySelectorAll('.botao-remover');
+            
+            botoesRemover.forEach(botao => {
+                botao.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevenir comportamento padrão do botão
+                    e.stopPropagation();
+                    
+                    const noticiaId = this.getAttribute('data-noticia-id');
+                    const itemSalvo = this.closest('.item-salvo');
+                    
+                    if (confirm('Tem certeza que deseja remover esta notícia dos salvos?')) {
+                        this.disabled = true;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Removendo...';
+                        
+                        fetch(`/noticia/${noticiaId}/remover/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': getCookie('csrftoken'),
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Animação de remoção
+                                itemSalvo.style.transition = 'all 0.3s ease';
+                                itemSalvo.style.opacity = '0';
+                                itemSalvo.style.transform = 'translateX(-20px)';
+                                
+                                setTimeout(() => {
+                                    itemSalvo.remove();
+                                    
+                                    // Verificar se ainda há notícias salvas
+                                    const listaSalvos = document.querySelector('.lista-salvos');
+                                    if (listaSalvos && listaSalvos.children.length === 0) {
+                                        // Recarregar página para mostrar mensagem de vazio
+                                        location.reload();
+                                    }
+                                    
+                                    mostrarNotificacao(data.message, 'success');
+                                }, 300);
+                            } else {
+                                mostrarNotificacao(data.message || 'Erro ao remover notícia.', 'error');
+                                this.disabled = false;
+                                this.innerHTML = '<i class="fas fa-trash-alt"></i> Remover';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro:', error);
+                            mostrarNotificacao('Erro ao remover notícia. Tente novamente.', 'error');
+                            this.disabled = false;
+                            this.innerHTML = '<i class="fas fa-trash-alt"></i> Remover';
+                        });
+                    }
+                });
+            });
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function mostrarNotificacao(mensagem, tipo) {
+            const notificacaoExistente = document.querySelector('.notificacao-feedback');
+            if (notificacaoExistente) {
+                notificacaoExistente.remove();
+            }
+            
+            const notificacao = document.createElement('div');
+            notificacao.className = `notificacao-feedback notificacao-${tipo}`;
+            notificacao.innerHTML = `
+                <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${mensagem}</span>
+            `;
+            
+            const styles = document.createElement('style');
+            styles.textContent = `
+                .notificacao-feedback {
+                    position: fixed;
+                    top: 80px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease-out;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                }
+                .notificacao-success { background-color: #10b981; color: white; }
+                .notificacao-error { background-color: #ef4444; color: white; }
+                .notificacao-feedback i { font-size: 1.2rem; }
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            if (!document.getElementById('notificacao-feedback-styles')) {
+                styles.id = 'notificacao-feedback-styles';
+                document.head.appendChild(styles);
+            }
+            
+            document.body.appendChild(notificacao);
+            
+            setTimeout(() => {
+                notificacao.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => notificacao.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

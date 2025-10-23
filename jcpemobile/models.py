@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, unique=True)
@@ -96,3 +97,15 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback de {self.nome} - {self.get_avaliacao_display()}"
+
+class NoticaSalva(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="noticias_salvas")
+    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name="salvamentos")
+    data_salvamento = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('usuario', 'noticia')
+        ordering = ['-data_salvamento']
+
+    def __str__(self):
+        return f"{self.usuario.username} salvou {self.noticia.titulo}"

@@ -24,7 +24,7 @@
     {% endif %}
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/logo-jc.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
 
     <!-- Título -->
     <title>{{ noticia.titulo }} - Jornal do Commercio</title>
@@ -46,7 +46,16 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body {% if user.is_authenticated %}data-usuario-autenticado{% endif %}>
+    <!-- Barra Superior UOL -->
+    <div class="barra-uol">
+        <div class="barra-uol-container">
+            <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+            </a>
+        </div>
+    </div>
+    
     <div class="top-bar"></div>
 
     <!-- Cabeçalho -->
@@ -75,7 +84,7 @@
 
                 <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <i class="fas fa-user-circle"></i>
+                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
                 </button>
             </div>
         </div>
@@ -133,7 +142,7 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <i class="fas fa-user-circle"></i>
+                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
                     <span class="perfil-nome">Visitante</span>
                     <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
@@ -163,15 +172,15 @@
 
                 <!-- Seções Especiais -->
                 <li class="menu-item">
-                    <a href="#mais-lidas" class="menu-link">
-                        <i class="fas fa-fire"></i>
+                    <a href="{% url 'mais_lidas' %}" class="menu-link">
+                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#neels" class="menu-link">
-                        <i class="fas fa-star"></i>
+                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
                         <span>Neels</span>
                     </a>
                 </li>
@@ -213,7 +222,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="#salvos" class="menu-link">
+                    <a href="{% url 'salvos' %}" class="menu-link">
                         <i class="fas fa-bookmark"></i>
                         <span>Notícias Salvas</span>
                     </a>
@@ -286,9 +295,13 @@
                         <i class="fas fa-share-alt"></i>
                         <span>Compartilhar</span>
                     </button>
-                    <button class="botao-acao" id="botaoSalvar" title="Salvar para ler depois">
-                        <i class="far fa-bookmark"></i>
-                        <span>Salvar</span>
+                    <button class="botao-acao {% if noticia_salva %}salvo{% endif %}" 
+                            id="botaoSalvar" 
+                            title="{% if noticia_salva %}Remover dos salvos{% else %}Salvar para ler depois{% endif %}"
+                            data-noticia-id="{{ noticia.id }}"
+                            data-salva="{% if noticia_salva %}true{% else %}false{% endif %}">
+                        <i class="{% if noticia_salva %}fas{% else %}far{% endif %} fa-bookmark"></i>
+                        <span>{% if noticia_salva %}Salvo{% else %}Salvar{% endif %}</span>
                     </button>
                     <button class="botao-acao" id="botaoTamanhoFonte" title="Aumentar tamanho da fonte">
                         <i class="fas fa-text-height"></i>
@@ -321,6 +334,26 @@
         </div>
     </main>
 
+    <!-- Navegação Inferior (Mobile) -->
+    <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
+        <a href="{% url 'index' %}" class="nav-item">
+            <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
+            <span>Início</span>
+        </a>
+        <a href="{% url 'mais_lidas' %}" class="nav-item">
+            <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+            <span>Mais Lidas</span>
+        </a>
+        <a href="#neels" class="nav-item">
+            <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+            <span>Neels</span>
+        </a>
+        <a href="#perfil" class="nav-item">
+            <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+            <span>Ao vivo</span>
+        </a>
+    </nav>
+
     <!-- Rodapé -->
     <footer class="rodape" id="rodape">
         <div class="rodape-conteudo">
@@ -338,5 +371,150 @@
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/navegacao.js' %}"></script>
+    
+    <script>
+        // JavaScript para botão de salvar notícia
+        document.addEventListener('DOMContentLoaded', function() {
+            const botaoSalvar = document.getElementById('botaoSalvar');
+            
+            if (botaoSalvar) {
+                botaoSalvar.addEventListener('click', function() {
+                    const noticiaId = this.getAttribute('data-noticia-id');
+                    const estaSalva = this.getAttribute('data-salva') === 'true';
+                    
+                    // Verificar se o usuário está autenticado
+                    if (!document.body.hasAttribute('data-usuario-autenticado')) {
+                        alert('Você precisa estar logado para salvar notícias.');
+                        const botaoPerfil = document.getElementById('botaoPerfil');
+                        if (botaoPerfil) {
+                            botaoPerfil.click();
+                        }
+                        return;
+                    }
+                    
+                    const url = estaSalva 
+                        ? `/noticia/${noticiaId}/remover/` 
+                        : `/noticia/${noticiaId}/salvar/`;
+                    
+                    const icone = this.querySelector('i');
+                    const texto = this.querySelector('span');
+                    
+                    // Desabilita o botão durante a requisição
+                    this.disabled = true;
+                    
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Atualiza o estado do botão
+                            if (data.salva) {
+                                this.setAttribute('data-salva', 'true');
+                                icone.classList.remove('far');
+                                icone.classList.add('fas');
+                                texto.textContent = 'Salvo';
+                                this.classList.add('salvo');
+                                this.title = 'Remover dos salvos';
+                            } else {
+                                this.setAttribute('data-salva', 'false');
+                                icone.classList.remove('fas');
+                                icone.classList.add('far');
+                                texto.textContent = 'Salvar';
+                                this.classList.remove('salvo');
+                                this.title = 'Salvar para ler depois';
+                            }
+                            
+                            // Mostra mensagem de feedback
+                            mostrarNotificacao(data.message, 'success');
+                        } else {
+                            mostrarNotificacao(data.message || 'Erro ao processar requisição.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        mostrarNotificacao('Erro ao processar requisição. Tente novamente.', 'error');
+                    })
+                    .finally(() => {
+                        this.disabled = false;
+                    });
+                });
+            }
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function mostrarNotificacao(mensagem, tipo) {
+            const notificacaoExistente = document.querySelector('.notificacao-salvar');
+            if (notificacaoExistente) {
+                notificacaoExistente.remove();
+            }
+            
+            const notificacao = document.createElement('div');
+            notificacao.className = `notificacao-salvar notificacao-${tipo}`;
+            notificacao.innerHTML = `
+                <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${mensagem}</span>
+            `;
+            
+            const styles = document.createElement('style');
+            styles.textContent = `
+                .notificacao-salvar {
+                    position: fixed;
+                    top: 80px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease-out;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                }
+                .notificacao-success { background-color: #10b981; color: white; }
+                .notificacao-error { background-color: #ef4444; color: white; }
+                .notificacao-salvar i { font-size: 1.2rem; }
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                .botao-acao.salvo {
+                    background-color: var(--cor-primaria, #0066cc);
+                    color: white;
+                }
+            `;
+            if (!document.getElementById('notificacao-styles')) {
+                styles.id = 'notificacao-styles';
+                document.head.appendChild(styles);
+            }
+            
+            document.body.appendChild(notificacao);
+            
+            setTimeout(() => {
+                notificacao.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => notificacao.remove(), 300);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

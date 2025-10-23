@@ -50,9 +50,18 @@ function configurarMenuHamburguer() {
     const menuLateral = document.getElementById('menuLateral');
     const menuOverlay = document.getElementById('menuOverlay');
 
-    if (!menuHamburguer || !menuLateral) return;
+    console.log('Configurando menu hamburguer...');
+    console.log('menuHamburguer:', menuHamburguer);
+    console.log('menuLateral:', menuLateral);
+    console.log('menuOverlay:', menuOverlay);
+
+    if (!menuHamburguer || !menuLateral) {
+        console.error('Elementos do menu não encontrados!');
+        return;
+    }
 
     menuHamburguer.addEventListener('click', (e) => {
+        console.log('Menu hamburguer clicado!');
         e.stopPropagation();
         toggleMenu();
     });
@@ -89,6 +98,8 @@ function toggleMenu() {
     const menuOverlay = document.getElementById('menuOverlay');
     const menuHamburguer = document.getElementById('menuHamburguer');
     const isAberto = menuLateral.classList.contains('ativo');
+
+    console.log('toggleMenu chamado. Menu está aberto?', isAberto);
 
     if (isAberto) {
         fecharMenu();
@@ -175,6 +186,15 @@ function configurarMenuLateral() {
         // Se não for expansível (não tem submenu) - estes são links normais
         if (!link.closest('.menu-item-expansivel')) {
             link.addEventListener('click', (e) => {
+                const linkHref = link.getAttribute('href');
+                
+                // Se o link tem uma URL real (não é âncora #), permitir navegação
+                if (linkHref && !linkHref.startsWith('#')) {
+                    // Permitir que o navegador siga o link normalmente
+                    return;
+                }
+                
+                // Para âncoras (#), prevenir comportamento padrão
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -201,6 +221,15 @@ function configurarMenuLateral() {
     const submenuLinks = document.querySelectorAll('.submenu a');
     submenuLinks.forEach(link => {
         link.addEventListener('click', (e) => {
+            const linkHref = link.getAttribute('href');
+            
+            // Se o link tem uma URL real (não é âncora #), permitir navegação
+            if (linkHref && !linkHref.startsWith('#')) {
+                // Permitir que o navegador siga o link normalmente
+                return;
+            }
+            
+            // Para âncoras (#), prevenir comportamento padrão
             e.preventDefault();
             e.stopPropagation();
 
@@ -215,7 +244,7 @@ function configurarMenuLateral() {
             }, 200);
 
             // Aqui você pode adicionar navegação futura
-            console.log('Navegando para submenu:', link.getAttribute('href'));
+            console.log('Navegando para submenu:', linkHref);
 
             // NÃO fechar o menu automaticamente
         });
@@ -370,6 +399,15 @@ function configurarNavegacaoInferior() {
 
     navItens.forEach(item => {
         item.addEventListener('click', (e) => {
+            const itemHref = item.getAttribute('href');
+            
+            // Se o link tem uma URL real (não é âncora #), permitir navegação
+            if (itemHref && !itemHref.startsWith('#')) {
+                // Permitir que o navegador siga o link normalmente
+                return;
+            }
+            
+            // Para âncoras (#), prevenir comportamento padrão
             e.preventDefault();
 
             // Remover ativo de todos
@@ -379,8 +417,7 @@ function configurarNavegacaoInferior() {
             item.classList.add('nav-item-ativo');
 
             // Ação baseada no item
-            const href = item.getAttribute('href');
-            executarAcaoNavegacao(href);
+            executarAcaoNavegacao(itemHref);
 
             // Feedback tátil
             if (navigator.vibrate) {
@@ -484,19 +521,22 @@ function configurarSwipeMenu() {
 // ===================================================
 
 function configurarScrollSuave() {
-    // Links com hash
+    // Links com hash - apenas para âncoras internas da página
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
 
-            // Ignorar se for apenas #
-            if (href === '#') return;
+            // Ignorar se for apenas # ou se for um link de navegação/ação
+            if (href === '#' || href === '#home' || href === '#categorias' || href === '#salvos' || href === '#perfil') {
+                return;
+            }
 
-            e.preventDefault();
-
+            // Tentar encontrar o elemento alvo na página
             const target = document.querySelector(href);
             if (target) {
-                const headerHeight = document.getElementById('cabecalho').offsetHeight;
+                e.preventDefault();
+                
+                const headerHeight = document.getElementById('cabecalho')?.offsetHeight || 0;
                 const targetPosition = target.offsetTop - headerHeight;
 
                 window.scrollTo({
