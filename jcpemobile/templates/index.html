@@ -20,7 +20,7 @@
     <meta property="og:image" content="{% static 'images/logo-jc.png' %}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/logo-jc.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
 
     <!-- Título -->
     <title>Jornal do Commercio - JC PE</title>
@@ -239,40 +239,45 @@
         <div class="container">
             <!-- Notícia Principal em Destaque -->
             <section class="noticia-destaque">
+                
+
                 <h2 class="secao-titulo">Mais Vistas Hoje</h2>
                 <ul style="list-style: none; padding: 0;">
-                {% for noticia in noticias_mais_vistas %}
+                    
+                {% for noticia in noticias_mais_vistas|slice:"0:9" %}
+                <a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
+                <article class="noticia-destaque-bloco">
+
+                    <div class="cartao-conteudo">
+                    <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
+
+                        {{ noticia.categoria.nome|default:'Notícias' }}
+
+                    </span>
+
+                    <h3 class="cartao-titulo">
+                        {{ noticia.titulo }}
+                    </h3>
+
+                    <time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
+
                     <li style="margin-bottom: 10px;">
-                        <a href="{% url 'noticia_detalhe' noticia.slug %}" style="text-decoration: none; color: inherit;">
-                            {{ noticia.titulo }}
-                        </a>
-                        <span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
+                    <span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
                      </li>
+
+                    </div>
+                    <div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
+                        {% if noticia.imagem %}
+                            <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        {% else %}
+                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        {% endif %}
+                    </div>
+
+                </article>
+            </a>
                 {% endfor %}
                 </ul>
-
-                {% if todas_noticias %}
-                <a href="{% url 'noticia_detalhe' todas_noticias.0.slug %}" class="link-noticia">
-                    <article class="destaque-principal">
-                        <div class="destaque-conteudo">
-                            <span class="badge-categoria-inline badge-{{ todas_noticias.0.categoria.slug|default:'pernambuco' }}">
-                                {{ todas_noticias.0.categoria.nome|default:'Notícias' }}
-                            </span>
-                            <h1 class="destaque-titulo">
-                                {{ todas_noticias.0.titulo }}
-                            </h1>
-                            <time class="destaque-tempo">{{ todas_noticias.0.data_publicacao|timesince }}</time>
-                        </div>
-                        <div class="destaque-imagem">
-                            {% if todas_noticias.0.imagem %}
-                                <img src="{{ todas_noticias.0.imagem.url }}" alt="{{ todas_noticias.0.titulo }}" loading="lazy">
-                            {% else %}
-                                <img src="https://picsum.photos/800/400?random=1" alt="{{ todas_noticias.0.titulo }}" loading="lazy">
-                            {% endif %}
-                        </div>
-                    </article>
-                </a>
-                {% endif %}
             </section>
 
             <!-- Blocos de Notícias Categorizadas -->
@@ -280,7 +285,7 @@
                 <h2 class="secao-titulo">Últimas Notícias</h2>
 
                 <div class="grade-noticias">
-                    {% for noticia in todas_noticias|slice:"1:10" %}
+                    {% for noticia in todas_noticias|slice:"0:9" %}
                         {% if forloop.counter0|divisibleby:3 %}
                             {% if not forloop.first %}</div>{% endif %}
                             <div class="bloco-noticias">
