@@ -1,6 +1,9 @@
 # Claraboia Corp.
 Somos a **Claraboia Corp.**, uma consultoria que surgiu do projeto da cadeira Projetos 2 da CESAR School. Neste repositório, armazenamos todo o processo de desenvolver soluções para aumentar a fidelização dos usuários do Jornal do Commercio (JCPE).
 
+## Nossos Links Importantes
+[Site da Claraboia Corp.](link) | [Site oficial do Jornal do Commercio (JCPE)](https://jc.uol.com.br/)
+
 ## 📆 Cronograma
 🔹**Período:** Agosto de 2025 a Setembro de 2025.
 - Planejamento e preparação inicial da equipe: pesquisas de similares, estudo de frameworks recomendados (escolhido: Django)
@@ -24,8 +27,7 @@ Este documento descreve a evolução planejada do projeto, destacando funcionali
 
 O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades e impacto** em cada fase.
 
-<details>
-<summary>🚀 Versão 1.0.0 – Lançamento inicial</summary>
+## 🚀 Versão 1.0.0 – Lançamento inicial
 
 **Período de desenvolvimento:** Setembro de 2025 a Dezembro de 2025.
 
@@ -56,7 +58,7 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
     **Valor entregue:** evolução contínua baseada em dados reais, fortalecendo a relação entre público e redação.
 
 **Previsão de lançamento: 11 de Dezembro de 2025**
-</details>
+
 ## 🔮 Versão 2.0.0 – Personalização
 
 **Objetivo:** tornar a experiência mais pessoal e interativa, ajustando o conteúdo ao perfil do visitante.
@@ -83,3 +85,7 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
 O roadmap estrutura o desenvolvimento em três grandes fases, garantindo **entregas incrementais de valor**.
 
 Dessa forma, a plataforma se mantém **focada na fidelização** dos usuários e se consolida como referência de experiência jornalística no meio digital.
+
+## Implementação do Protótipo Final
+
+Link do [deploy](jcpe-fmhxhfgya5fxb5b0.brazilsouth-01.azurewebsites.net) do Protótipo de Alta Fidelidade.
