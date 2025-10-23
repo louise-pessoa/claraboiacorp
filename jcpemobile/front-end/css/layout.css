@@ -132,13 +132,23 @@
 
 .botao-busca,
 .botao-perfil {
-    width: 53px;
-    height: 53px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--cor-texto-secundario);
     transition: var(--transicao-rapida);
+}
+
+.botao-busca {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+}
+
+.botao-perfil {
+    width: 45px;
+    height: 45px;
+    padding: 0;
 }
 
 .botao-busca:active,
@@ -147,11 +157,10 @@
     border-radius: var(--borda-raio-circular);
 }
 
-/* Ícone de perfil no botão do cabeçalho */
-.botao-perfil .icone-perfil {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
+/* SVGs nos botões do cabeçalho */
+.botao-busca svg,
+.botao-perfil svg {
+    display: block;
 }
 
 /* ===================================================
