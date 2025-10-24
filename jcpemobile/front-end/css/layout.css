@@ -10,13 +10,19 @@
 /* Barra UOL no topo da página */
 .barra-uol {
     width: 100%;
-    background-color: #000000;
-    border-bottom: 1px solid #222222;
+    background-color: #262626;
+    border-bottom: 1px solid #262626;
     position: fixed;
     top: 0;
     left: 0;
     z-index: calc(var(--z-top) + 1);
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Barra UOL oculta quando cabeçalho está oculto */
+.barra-uol.barra-oculta {
+    top: -50px;
 }
 
 .barra-uol-container {
@@ -55,7 +61,19 @@
    =================================================== */
 
 /* Barra vermelha fixa no topo */
+.top-bar {
+    position: fixed;
+    top: 37px;
+    left: 0;
+    right: 0;
+    height: 0;
+    z-index: var(--z-fixed);
+    transition: all 0.3s ease-in-out;
+}
 
+.top-bar.barra-oculta {
+    top: -50px;
+}
 
 /* Cabeçalho principal */
 .cabecalho {
@@ -67,7 +85,18 @@
     background: var(--cor-fundo);
     border-bottom: var(--borda-largura) solid var(--cor-borda-clara);
     z-index: var(--z-fixed);
-    transition: transform var(--transicao-normal);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Cabeçalho oculto ao rolar para baixo */
+.cabecalho.cabecalho-oculto {
+    top: -100px;
+}
+
+/* Cabeçalho visível ao rolar para cima */
+.cabecalho.cabecalho-visivel {
+    top: 37px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cabecalho-container {
@@ -496,11 +525,102 @@
     background: var(--cor-fundo-terciario);
 }
 
+/* Redes Sociais do Menu */
+.menu-redes-sociais {
+    padding: var(--espaco-4);
+    border-top: var(--borda-largura) solid var(--cor-borda-clara);
+    margin-top: auto;
+}
+
+.menu-redes-sociais h3 {
+    font-size: var(--fonte-tamanho-base);
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espaco-3);
+    text-align: center;
+}
+
+.redes-sociais-lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--espaco-3);
+    flex-wrap: wrap;
+}
+
+.redes-sociais-lista a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--cor-fundo-secundario);
+    color: var(--cor-texto-secundario);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    border: 2px solid var(--cor-borda-clara);
+}
+
+.redes-sociais-lista a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Cores específicas para cada rede social */
+.redes-sociais-lista a:nth-child(1):hover {
+    background: #1877F2;
+    color: white;
+    border-color: #1877F2;
+}
+
+.redes-sociais-lista a:nth-child(2):hover {
+    background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+    color: white;
+    border-color: transparent;
+}
+
+.redes-sociais-lista a:nth-child(3):hover {
+    background: #000000;
+    color: white;
+    border-color: #000000;
+}
+
+.redes-sociais-lista a:nth-child(4):hover {
+    background: #0A66C2;
+    color: white;
+    border-color: #0A66C2;
+}
+
+.redes-sociais-lista a:nth-child(5):hover {
+    background: #FF0000;
+    color: white;
+    border-color: #FF0000;
+}
+
+.redes-sociais-lista a:nth-child(6):hover {
+    background: #000000;
+    color: #69C9D0;
+    border-color: #000000;
+}
+
+/* Responsividade das redes sociais */
+@media (max-width: 768px) {
+    .redes-sociais-lista a {
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+    }
+    
+    .menu-redes-sociais {
+        padding: var(--espaco-3);
+    }
+}
+
 /* Rodapé do Menu */
 .menu-lateral-rodape {
     padding: var(--espaco-4);
     border-top: var(--borda-largura) solid var(--cor-borda-clara);
-    margin-top: auto;
 }
 
 .menu-lateral-rodape a {
