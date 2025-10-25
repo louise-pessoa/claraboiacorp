@@ -278,10 +278,10 @@
             <section class="noticia-destaque">
                 
 
-                <h2 class="secao-titulo">Mais Vistas Hoje</h2>
+               
                 
                 {% if noticias_mais_vistas %}
-                <ul style="list-style: none; padding: 0;">
+                
                     
                 {% for noticia in noticias_mais_vistas|slice:"0:9" %}
                 <a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
@@ -323,14 +323,12 @@
                 {% endfor %}
                 </ul>
                 {% else %}
-                <p style="padding: 20px; text-align: center; color: #666;">Nenhuma notícia encontrada.</p>
+                
                 {% endif %}
             </section>
 
             <!-- Blocos de Notícias Categorizadas -->
             <section class="noticias-categorizadas">
-                <h2 class="secao-titulo">Últimas Notícias</h2>
-
                 <div class="grade-noticias">
                     {% for noticia in todas_noticias|slice:"0:15" %}
                         {% if forloop.counter0|divisibleby:3 %}

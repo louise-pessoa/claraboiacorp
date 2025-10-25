@@ -51,7 +51,7 @@
     <div class="barra-uol">
         <div class="barra-uol-container">
             <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
-                <img src="{% static 'images/LogoUol.svg' %}" alt="UOL" class="logo-uol">
+                <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
             </a>
         </div>
     </div>
@@ -138,7 +138,11 @@
     <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
         <div class="menu-lateral-cabecalho">
             <div class="menu-hamburguer-icone">
-                <i class="fas fa-bars"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="52" viewBox="0 0 56 52" fill="none">
+                    <path d="M11.6667 15.1667H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M11.6667 25.0045H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M11.6667 34.8423H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+                </svg>
             </div>
             <button class="menu-lateral-fechar" id="menuLateralFechar" aria-label="Fechar menu">
                 <i class="fas fa-times"></i>
@@ -148,10 +152,15 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <img src="{% static 'images/User.png.png' %}" alt="Perfil" class="icone-perfil">
+                <img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
-                    <span class="perfil-nome">Visitante</span>
-                    <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
+                    {% if user.is_authenticated %}
+                        <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
+                        <a href="{% url 'logout_usuario' %}" class="perfil-link">Sair</a>
+                    {% else %}
+                        <span class="perfil-nome">Visitante</span>
+                        <a href="#" class="perfil-link" id="linkEntrarMenu">Entrar / Cadastrar</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -160,7 +169,6 @@
                 <!-- Categorias -->
                 <li class="menu-item menu-item-expansivel">
                     <button class="menu-link" aria-expanded="false">
-                        <i class="fas fa-newspaper"></i>
                         <span>Categorias</span>
                         <i class="fas fa-chevron-down menu-seta"></i>
                     </button>
@@ -179,28 +187,24 @@
                 <!-- Seções Especiais -->
                 <li class="menu-item">
                     <a href="{% url 'mais_lidas' %}" class="menu-link">
-                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#neels" class="menu-link">
-                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
                         <span>Neels</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#curtas" class="menu-link">
-                        <i class="fas fa-bolt"></i>
                         <span>Curtas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#linha-tempo" class="menu-link">
-                        <i class="fas fa-clock"></i>
                         <span>Linha do Tempo</span>
                     </a>
                 </li>
@@ -208,7 +212,6 @@
                 <!-- Canais -->
                 <li class="menu-item menu-item-expansivel">
                     <button class="menu-link" aria-expanded="false">
-                        <i class="fas fa-tv"></i>
                         <span>Canais</span>
                         <i class="fas fa-chevron-down menu-seta"></i>
                     </button>
@@ -222,14 +225,12 @@
                 <!-- Outras Seções -->
                 <li class="menu-item">
                     <a href="#jornal-digital" class="menu-link">
-                        <i class="fas fa-tablet-alt"></i>
                         <span>Jornal Digital</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="{% url 'salvos' %}" class="menu-link">
-                        <i class="fas fa-bookmark"></i>
                         <span>Notícias Salvas</span>
                     </a>
                 </li>
@@ -239,22 +240,22 @@
             <div class="menu-redes-sociais">
                 <h3>Siga JC</h3>
                 <div class="redes-sociais-lista">
-                    <a href="https://www.facebook.com/jornaldocommercio" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                    <a href="https://www.facebook.com/jornaldocommercioPE/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.instagram.com/jornaldocommercio" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                    <a href="https://www.instagram.com/jc_pe" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="https://twitter.com/jconlinepe" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X">
+                    <a href="https://x.com/jc_pe" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X">
                         <i class="fab fa-x-twitter"></i>
                     </a>
-                    <a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                    <a href="https://www.linkedin.com/company/sistema-jornal-do-commercio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a href="https://www.youtube.com/@jornaldocommercio" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+                    <a href="https://www.youtube.com/@JCPlayOficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@jconlinepe" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+                    <a href="https://www.tiktok.com/@jc_pe" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
                         <i class="fab fa-tiktok"></i>
                     </a>
                 </div>
