@@ -291,9 +291,7 @@
                 <!-- Cabeçalho da Notícia -->
                 <header class="artigo-cabecalho">
                     <div class="artigo-meta">
-                        <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
-                            {{ noticia.categoria.nome|default:'Notícias' }}
-                        </span>
+                        <span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia.categoria.nome|default:'Notícias' }}</span>
                         <time class="artigo-data" datetime="{{ noticia.data_publicacao|date:'Y-m-d' }}">
                             {{ noticia.data_publicacao|date:"d/m/Y" }} - {{ noticia.data_publicacao|timesince }} atrás
                         </time>

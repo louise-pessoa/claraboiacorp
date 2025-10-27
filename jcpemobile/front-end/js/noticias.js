@@ -137,11 +137,9 @@ function criarCardNoticia(noticia, isDestaque = false) {
             <img src="${noticia.imagem}"
                  alt="${noticia.titulo}"
                  loading="lazy">
-            <span class="badge-categoria badge-${noticia.categoria}">
-                ${obterNomeCategoria(noticia.categoria)}
-            </span>
         </div>
         <div class="cartao-conteudo">
+            <span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">${obterNomeCategoria(noticia.categoria)}</span>
             <h2 class="cartao-titulo">${noticia.titulo}</h2>
             <p class="cartao-resumo">${noticia.resumo}</p>
             <div class="cartao-rodape">
