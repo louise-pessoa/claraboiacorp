@@ -868,6 +868,32 @@
     font-size: var(--fonte-tamanho-xs);
 }
 
+.rodape-grupo-jcpm {
+    padding: var(--espaco-6) var(--espacamento-mobile);
+    background: rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.rodape-grupo-texto {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--fonte-tamanho-sm);
+    font-weight: var(--fonte-peso-semibold);
+    margin-bottom: var(--espaco-2);
+}
+
+.rodape-licenciamento {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--fonte-tamanho-xs);
+    margin-bottom: var(--espaco-4);
+}
+
+.marca-grupo-jcpm {
+    height: 40px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 /* ===================================================
    BOTÃO CARREGAR MAIS
    =================================================== */
