@@ -525,6 +525,75 @@
     background: var(--cor-fundo-terciario);
 }
 
+/* Submenu item expansível (segundo nível) */
+.submenu-item-expansivel {
+    position: relative;
+}
+
+.submenu-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--espaco-3) var(--espaco-4) var(--espaco-3) calc(var(--espaco-5) + 24px + var(--espaco-3));
+    color: var(--cor-texto-terciario);
+    font-size: var(--fonte-tamanho-sm);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transicao-rapida);
+    min-height: 40px;
+}
+
+.submenu-link:hover {
+    color: var(--cor-texto-primario);
+    background: var(--cor-fundo-terciario);
+}
+
+.submenu-seta {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    margin-left: var(--espaco-2);
+}
+
+.submenu-link[aria-expanded="true"] .submenu-seta {
+    transform: rotate(180deg);
+}
+
+/* Submenu de segundo nível */
+.submenu-nivel-2 {
+    overflow: hidden;
+    background: var(--cor-fundo);
+    transition: all 0.3s ease;
+    display: none;
+    opacity: 0;
+    max-height: 0;
+}
+
+.submenu-nivel-2.ativo {
+    display: block;
+    opacity: 1;
+    max-height: 300px;
+    transition: all 0.3s ease;
+}
+
+.submenu-nivel-2 a {
+    display: block;
+    padding: var(--espaco-2) var(--espaco-4) var(--espaco-2) calc(var(--espaco-5) + 24px + var(--espaco-3) + var(--espaco-4));
+    color: var(--cor-texto-terciario);
+    font-size: var(--fonte-tamanho-sm);
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    transition: var(--transicao-rapida);
+}
+
+.submenu-nivel-2 a:hover {
+    color: var(--cor-texto-primario);
+    background: var(--cor-fundo-terciario);
+}
+
 /* Redes Sociais do Menu */
 .menu-redes-sociais {
     padding: var(--espaco-4);
@@ -567,41 +636,66 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Cores específicas para cada rede social */
-.redes-sociais-lista a:nth-child(1):hover {
+/* Cores específicas para cada rede social - sempre visíveis */
+.redes-sociais-lista a:nth-child(1) {
     background: #1877F2;
     color: white;
     border-color: #1877F2;
 }
 
-.redes-sociais-lista a:nth-child(2):hover {
+.redes-sociais-lista a:nth-child(2) {
     background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
     color: white;
     border-color: transparent;
 }
 
-.redes-sociais-lista a:nth-child(3):hover {
+.redes-sociais-lista a:nth-child(3) {
     background: #000000;
     color: white;
     border-color: #000000;
 }
 
-.redes-sociais-lista a:nth-child(4):hover {
+.redes-sociais-lista a:nth-child(4) {
     background: #0A66C2;
     color: white;
     border-color: #0A66C2;
 }
 
-.redes-sociais-lista a:nth-child(5):hover {
+.redes-sociais-lista a:nth-child(5) {
     background: #FF0000;
     color: white;
     border-color: #FF0000;
 }
 
-.redes-sociais-lista a:nth-child(6):hover {
+.redes-sociais-lista a:nth-child(6) {
     background: #000000;
     color: #69C9D0;
     border-color: #000000;
+}
+
+/* Efeito hover adicional */
+.redes-sociais-lista a:nth-child(1):hover {
+    background: #0d5dbf;
+}
+
+.redes-sociais-lista a:nth-child(2):hover {
+    background: linear-gradient(45deg, #d16a1f, #b91f66, #6a2a92, #3f46b3);
+}
+
+.redes-sociais-lista a:nth-child(3):hover {
+    background: #1a1a1a;
+}
+
+.redes-sociais-lista a:nth-child(4):hover {
+    background: #084d94;
+}
+
+.redes-sociais-lista a:nth-child(5):hover {
+    background: #cc0000;
+}
+
+.redes-sociais-lista a:nth-child(6):hover {
+    background: #1a1a1a;
 }
 
 /* Responsividade das redes sociais */
