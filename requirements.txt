@@ -25,3 +25,5 @@ psycopg2-binary
 gunicorn
 whitenoise
 requests
+beautifulsoup4==4.12.3
+lxml==5.3.0

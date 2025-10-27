@@ -12,6 +12,7 @@ class Command(BaseCommand):
         parser.add_argument('--api-key', type=str, help='Sua API Key do NewsAPI (ou configure no .env)')
         parser.add_argument('--categoria', type=str, help='Categoria específica')
         parser.add_argument('--limite', type=int, default=5, help='Limite por categoria')
+        parser.add_argument('--minimo', type=int, default=0, help='Mínimo de notícias a adicionar (continua buscando até atingir)')
 
     def handle(self, *args, **options):
         # Tenta pegar a API key do argumento ou variável de ambiente
@@ -32,8 +33,12 @@ class Command(BaseCommand):
         
         limite = options['limite']
         categoria_especifica = options.get('categoria')
+        minimo = options.get('minimo', 0)
         
         self.stdout.write(self.style.SUCCESS('Buscando notícias via NewsAPI...\n'))
+        
+        if minimo > 0:
+            self.stdout.write(self.style.WARNING(f'🎯 Meta: pelo menos {minimo} notícias\n'))
         
         # Cria autor
         autor, _ = Autor.objects.get_or_create(
@@ -52,19 +57,44 @@ class Command(BaseCommand):
         }
         
         total = 0
+        tentativa = 1
+        max_tentativas = 10
         
-        if categoria_especifica:
-            # Busca apenas uma categoria
-            self.stdout.write(f'\n--- {categoria_especifica} ---')
-            palavra = categorias_map.get(categoria_especifica, categoria_especifica)
-            total = self._buscar_por_palavra(api_key, palavra, limite, autor, categoria_especifica)
+        # Loop até atingir o mínimo ou máximo de tentativas
+        while total < minimo or (minimo == 0 and tentativa == 1):
+            if tentativa > max_tentativas:
+                self.stdout.write(self.style.WARNING(f'\n⚠️ Atingido limite de {max_tentativas} tentativas'))
+                break
+            
+            if tentativa > 1:
+                self.stdout.write(self.style.WARNING(f'\n🔄 Tentativa {tentativa} - Faltam {minimo - total} notícias\n'))
+            
+            if categoria_especifica:
+                # Busca apenas uma categoria
+                self.stdout.write(f'\n--- {categoria_especifica} ---')
+                palavra = categorias_map.get(categoria_especifica, categoria_especifica)
+                total += self._buscar_por_palavra(api_key, palavra, limite * tentativa, autor, categoria_especifica)
+            else:
+                # Busca todas as categorias usando palavras-chave
+                for cat_nome, palavra in categorias_map.items():
+                    self.stdout.write(f'\n--- {cat_nome} ---')
+                    total += self._buscar_por_palavra(api_key, palavra, limite, autor, cat_nome)
+                    
+                    if minimo > 0 and total >= minimo:
+                        break
+            
+            tentativa += 1
+            
+            # Se não tem mínimo, sai no primeiro loop
+            if minimo == 0:
+                break
+        
+        if minimo > 0 and total >= minimo:
+            self.stdout.write(self.style.SUCCESS(f'\n✅ Meta atingida! Total: {total} notícias salvas'))
+        elif minimo > 0:
+            self.stdout.write(self.style.WARNING(f'\n⚠️ Não atingiu meta de {minimo}. Total: {total} notícias salvas'))
         else:
-            # Busca todas as categorias usando palavras-chave
-            for cat_nome, palavra in categorias_map.items():
-                self.stdout.write(f'\n--- {cat_nome} ---')
-                total += self._buscar_por_palavra(api_key, palavra, limite, autor, cat_nome)
-        
-        self.stdout.write(self.style.SUCCESS(f'\n✅ Total: {total} notícias salvas'))
+            self.stdout.write(self.style.SUCCESS(f'\n✅ Total: {total} notícias salvas'))
     
     def _buscar_categoria(self, api_key, cat_api, limite, autor, cat_nome=None):
         """Busca notícias de uma categoria"""
