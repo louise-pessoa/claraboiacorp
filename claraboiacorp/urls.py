@@ -24,11 +24,7 @@ urlpatterns = [
     path('', include('jcpemobile.urls')),  # Página inicial na raiz
 ]
 
-<<<<<<< HEAD
-# Servir arquivos estáticos e mídia em desenvolvimento
-=======
 # Servir arquivos estáticos e de media em desenvolvimento
->>>>>>> e4109d629418a4d0feccd7f972f13e625b894d0d
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else None)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
