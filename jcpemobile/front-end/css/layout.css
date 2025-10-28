@@ -872,8 +872,8 @@
    =================================================== */
 
 .rodape {
-    background: var(--cor-primaria);
-    color: var(--cor-fundo);
+    background: #f0f0f0;
+    color: var(--cor-texto-escuro);
     padding: var(--espaco-8) 0 var(--espaco-4);
 }
 
@@ -886,14 +886,73 @@
 }
 
 .rodape-logo img {
-    height: 40px;
-    filter: brightness(0) invert(1);
+    height: 60px;
     margin-bottom: var(--espaco-3);
 }
 
 .rodape-logo p {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.7);
     font-size: var(--fonte-tamanho-sm);
+}
+
+/* Título Nossas Redes */
+.rodape-redes-titulo {
+    color: var(--cor-texto-escuro);
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-semibold);
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+/* Redes Sociais no Rodapé */
+.rodape-redes-sociais {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.icone-social {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--cor-texto-escuro);
+    font-size: 18px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.icone-social:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+}
+
+.icone-facebook:hover {
+    background: #1877F2;
+}
+
+.icone-instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.icone-twitter:hover {
+    background: #1DA1F2;
+}
+
+.icone-linkedin:hover {
+    background: #0A66C2;
+}
+
+.icone-youtube:hover {
+    background: #FF0000;
+}
+
+.icone-tiktok:hover {
+    background: #000000;
 }
 
 .rodape-links {
@@ -904,7 +963,7 @@
 }
 
 .rodape-coluna h3 {
-    color: var(--cor-fundo);
+    color: var(--cor-texto-escuro);
     font-size: var(--fonte-tamanho-base);
     font-weight: var(--fonte-peso-semibold);
     margin-bottom: var(--espaco-3);
@@ -920,13 +979,13 @@
 }
 
 .rodape-coluna a {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.7);
     font-size: var(--fonte-tamanho-sm);
     transition: var(--transicao-rapida);
 }
 
 .rodape-coluna a:hover {
-    color: var(--cor-fundo);
+    color: var(--cor-primaria);
 }
 
 .rodape-social {
@@ -953,30 +1012,30 @@
 
 .rodape-copyright {
     padding: var(--espaco-4) var(--espacamento-mobile);
-    border-top: var(--borda-largura) solid rgba(255, 255, 255, 0.2);
+    border-top: var(--borda-largura) solid rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .rodape-copyright p {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.6);
     font-size: var(--fonte-tamanho-xs);
 }
 
 .rodape-grupo-jcpm {
     padding: var(--espaco-6) var(--espacamento-mobile);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.05);
     text-align: center;
 }
 
 .rodape-grupo-texto {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--cor-texto-escuro);
     font-size: var(--fonte-tamanho-sm);
     font-weight: var(--fonte-peso-semibold);
     margin-bottom: var(--espaco-2);
 }
 
 .rodape-licenciamento {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.7);
     font-size: var(--fonte-tamanho-xs);
     margin-bottom: var(--espaco-4);
 }

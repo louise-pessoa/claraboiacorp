@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
 
@@ -326,7 +327,15 @@
                         {% if noticia.imagem %}
                             <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
                         {% else %}
-                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                            {% if forloop.counter0|divisibleby:4 %}
+                                <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ noticia.titulo }}" loading="lazy">
+                            {% elif forloop.counter0|add:"3"|divisibleby:4 %}
+                                <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ noticia.titulo }}" loading="lazy">
+                            {% elif forloop.counter0|add:"2"|divisibleby:4 %}
+                                <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
+                            {% else %}
+                                <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
+                            {% endif %}
                         {% endif %}
                     </div>
 
@@ -364,7 +373,15 @@
                                         {% if noticia.imagem %}
                                             <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
                                         {% else %}
-                                            <img src="https://picsum.photos/600/300?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% if forloop.counter0|divisibleby:4 %}
+                                                <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% elif forloop.counter0|add:"3"|divisibleby:4 %}
+                                                <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% elif forloop.counter0|add:"2"|divisibleby:4 %}
+                                                <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% else %}
+                                                <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </article>
@@ -382,7 +399,15 @@
                                         {% if noticia.imagem %}
                                             <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
                                         {% else %}
-                                            <img src="https://picsum.photos/200/200?random={{ forloop.counter }}" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% if forloop.counter0|divisibleby:4 %}
+                                                <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% elif forloop.counter0|add:"3"|divisibleby:4 %}
+                                                <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% elif forloop.counter0|add:"2"|divisibleby:4 %}
+                                                <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% else %}
+                                                <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </article>
@@ -430,12 +455,91 @@
         </a>
     </nav>
 
+    <!-- Nossos Produtos -->
+    <section class="nossos-produtos">
+        <div class="nossos-produtos-container">
+            <h2 class="nossos-produtos-titulo">Nossos Produtos</h2>
+            <div class="produtos-grid">
+                <a href="https://www.ne10.uol.com.br/interior" target="_blank" class="produto-item" title="NE10 Interior">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/ne10interior.webp" alt="NE10 Interior">
+                    </div>
+                    <span class="produto-nome">NE10 Interior</span>
+                </a>
+                
+                <a href="https://www.radiojornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="Rádio Jornal">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/radio.webp" alt="Rádio Jornal">
+                    </div>
+                    <span class="produto-nome">Rádio Jornal</span>
+                </a>
+                
+                <a href="https://tvjornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="TV Jornal">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/tvjornal.webp" alt="TV Jornal">
+                    </div>
+                    <span class="produto-nome">TV Jornal</span>
+                </a>
+                
+                <a href="https://jc.ne10.uol.com.br/" target="_blank" class="produto-item" title="Jornal do Commercio">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/jc-novo.webp" alt="Jornal do Commercio">
+                    </div>
+                    <span class="produto-nome">Jornal do Commercio</span>
+                </a>
+                
+                <a href="https://www.blogdotorcedor.com.br/" target="_blank" class="produto-item" title="Blog do Torcedor">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/blog_do_torcedor.webp" alt="Blog do Torcedor">
+                    </div>
+                    <span class="produto-nome">Blog do Torcedor</span>
+                </a>
+                
+                <a href="https://www.social1.com.br/" target="_blank" class="produto-item" title="Social1">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/social.webp" alt="Social1">
+                    </div>
+                    <span class="produto-nome">Social1</span>
+                </a>
+                
+                <a href="https://www.receitadaboa.com.br/" target="_blank" class="produto-item" title="Receita da Boa">
+                    <div class="produto-icone">
+                        <img src="https://sjcc.ne10.uol.com.br/rodape_global/img/receita_da_boa.webp" alt="Receita da Boa">
+                    </div>
+                    <span class="produto-nome">Receita da Boa</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Rodapé -->
     <footer class="rodape" id="rodape">
         <div class="rodape-conteudo">
             <div class="rodape-logo">
-                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+                <img src="https://jc.uol.com.br/img/logo.svg" alt="Jornal do Commercio" class="logo-imagem">
                 <p>O jornal mais tradicional de Pernambuco</p>
+                
+                <h3 class="rodape-redes-titulo">Nossas Redes</h3>
+                <div class="rodape-redes-sociais">
+                    <a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://twitter.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
             </div>
 
             <div class="rodape-links">
