@@ -140,7 +140,11 @@ STATICFILES_DIRS = [
     BASE_DIR / 'jcpemobile' / 'front-end',
 ]
 
+<<<<<<< HEAD
 # Media files (uploads)
+=======
+# Media files (Uploaded files)
+>>>>>>> e4109d629418a4d0feccd7f972f13e625b894d0d
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

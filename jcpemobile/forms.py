@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from .models import Noticia, Categoria, Autor, Tag
 import re
 
 class CadastroUsuarioForm(forms.ModelForm):
@@ -88,3 +89,102 @@ class CadastroUsuarioForm(forms.ModelForm):
             first_name=self.cleaned_data['nome']
         )
         return user
+
+
+class NoticiaForm(forms.ModelForm):
+    """Formulário para criar e editar notícias"""
+
+    class Meta:
+        model = Noticia
+        fields = ['titulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags']
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Digite o título da notícia'
+            }),
+            'resumo': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Breve resumo da notícia (máx. 300 caracteres)'
+            }),
+            'conteudo': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 10,
+                'placeholder': 'Conteúdo completo da notícia'
+            }),
+            'imagem': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            }),
+            'categoria': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'autor': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'tags': forms.SelectMultiple(attrs={
+                'class': 'form-control'
+            }),
+        }
+        labels = {
+            'titulo': 'Título',
+            'resumo': 'Resumo',
+            'conteudo': 'Conteúdo',
+            'imagem': 'Imagem',
+            'categoria': 'Categoria',
+            'autor': 'Autor',
+            'tags': 'Tags',
+        }
+        help_texts = {
+            'resumo': 'Máximo de 300 caracteres',
+            'tags': 'Mantenha pressionado "Control" ou "Command" para selecionar mais de uma',
+        }
+
+    def clean_titulo(self):
+        titulo = self.cleaned_data.get('titulo')
+        if len(titulo) < 10:
+            raise ValidationError('O título deve ter pelo menos 10 caracteres.')
+        return titulo
+
+    def clean_resumo(self):
+        resumo = self.cleaned_data.get('resumo')
+        if resumo and len(resumo) > 300:
+            raise ValidationError('O resumo não pode ter mais de 300 caracteres.')
+        return resumo
+
+
+class CategoriaForm(forms.ModelForm):
+    """Formulário para criar e editar categorias"""
+
+    class Meta:
+        model = Categoria
+        fields = ['nome']
+        widgets = {
+            'nome': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nome da categoria'
+            })
+        }
+
+
+class AutorForm(forms.ModelForm):
+    """Formulário para criar e editar autores"""
+
+    class Meta:
+        model = Autor
+        fields = ['nome', 'bio', 'foto']
+        widgets = {
+            'nome': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nome do autor'
+            }),
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Biografia do autor'
+            }),
+            'foto': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*'
+            })
+        }

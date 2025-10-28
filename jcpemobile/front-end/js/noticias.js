@@ -13,7 +13,7 @@ const NOTICIAS_MOCK = [
         titulo: 'Governo de Pernambuco anuncia novo programa de educação digital',
         resumo: 'Iniciativa vai beneficiar mais de 500 mil estudantes da rede pública com tablets e acesso à internet.',
         categoria: 'educacao',
-        imagem: 'https://picsum.photos/400/250?random=1',
+        imagem: 'https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919',
         tempo: new Date(Date.now() - 2 * 3600000), // 2 horas atrás
         destaque: true
     },
@@ -22,7 +22,7 @@ const NOTICIAS_MOCK = [
         titulo: 'Sport vence clássico contra o Santa Cruz e assume liderança',
         resumo: 'Com gols de Jorginho e Gustavo Coutinho, Leão vence por 2 a 0 na Ilha do Retiro.',
         categoria: 'esportes',
-        imagem: 'https://picsum.photos/400/250?random=2',
+        imagem: 'https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6',
         tempo: new Date(Date.now() - 4 * 3600000), // 4 horas atrás
         destaque: false
     },
@@ -31,7 +31,7 @@ const NOTICIAS_MOCK = [
         titulo: 'Nova linha de metrô será inaugurada no próximo mês',
         resumo: 'Extensão vai conectar zona norte ao centro do Recife, beneficiando 200 mil passageiros por dia.',
         categoria: 'mobilidade',
-        imagem: 'https://picsum.photos/400/250?random=3',
+        imagem: 'https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066',
         tempo: new Date(Date.now() - 6 * 3600000), // 6 horas atrás
         destaque: false
     },
@@ -40,7 +40,7 @@ const NOTICIAS_MOCK = [
         titulo: 'Economia pernambucana cresce 4,5% no trimestre',
         resumo: 'Resultado supera média nacional e coloca o estado entre os que mais cresceram no período.',
         categoria: 'economia',
-        imagem: 'https://picsum.photos/400/250?random=4',
+        imagem: 'https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066',
         tempo: new Date(Date.now() - 8 * 3600000), // 8 horas atrás
         destaque: false
     },
@@ -49,7 +49,7 @@ const NOTICIAS_MOCK = [
         titulo: 'Festival de Inverno de Garanhuns divulga programação completa',
         resumo: 'Evento terá mais de 200 atrações culturais durante 10 dias de festa na Suíça Pernambucana.',
         categoria: 'cultura',
-        imagem: 'https://picsum.photos/400/250?random=5',
+        imagem: 'https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919',
         tempo: new Date(Date.now() - 24 * 3600000), // 1 dia atrás
         destaque: false
     }
@@ -62,7 +62,7 @@ const MAIS_NOTICIAS = [
         titulo: 'Prefeitura do Recife anuncia concurso com 500 vagas',
         resumo: 'Oportunidades para níveis médio e superior em diversas áreas.',
         categoria: 'pernambuco',
-        imagem: 'https://picsum.photos/400/250?random=6',
+        imagem: 'https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6',
         tempo: new Date(Date.now() - 26 * 3600000)
     },
     {
@@ -70,7 +70,7 @@ const MAIS_NOTICIAS = [
         titulo: 'Pesquisa mostra intenção de votos para eleições municipais',
         resumo: 'Levantamento aponta cenários para disputa pela prefeitura da capital.',
         categoria: 'politica',
-        imagem: 'https://picsum.photos/400/250?random=7',
+        imagem: 'https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066',
         tempo: new Date(Date.now() - 28 * 3600000)
     },
     {
@@ -78,7 +78,7 @@ const MAIS_NOTICIAS = [
         titulo: 'Chuvas devem voltar ao estado na próxima semana',
         resumo: 'Meteorologia prevê precipitações em todas as regiões de Pernambuco.',
         categoria: 'pernambuco',
-        imagem: 'https://picsum.photos/400/250?random=8',
+        imagem: 'https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066',
         tempo: new Date(Date.now() - 30 * 3600000)
     }
 ];
@@ -137,11 +137,9 @@ function criarCardNoticia(noticia, isDestaque = false) {
             <img src="${noticia.imagem}"
                  alt="${noticia.titulo}"
                  loading="lazy">
-            <span class="badge-categoria badge-${noticia.categoria}">
-                ${obterNomeCategoria(noticia.categoria)}
-            </span>
         </div>
         <div class="cartao-conteudo">
+            <span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">${obterNomeCategoria(noticia.categoria)}</span>
             <h2 class="cartao-titulo">${noticia.titulo}</h2>
             <p class="cartao-resumo">${noticia.resumo}</p>
             <div class="cartao-rodape">

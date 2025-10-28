@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
 
@@ -350,7 +351,15 @@
                                 {% if salvo.noticia.imagem %}
                                     <img src="{{ salvo.noticia.imagem.url }}" alt="{{ salvo.noticia.titulo }}">
                                 {% else %}
-                                    <img src="{% static 'images/placeholder.jpg' %}" alt="Imagem padrão">
+                                    {% if forloop.counter0|divisibleby:4 %}
+                                        <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ salvo.noticia.titulo }}">
+                                    {% elif forloop.counter0|add:"3"|divisibleby:4 %}
+                                        <img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ salvo.noticia.titulo }}">
+                                    {% elif forloop.counter0|add:"2"|divisibleby:4 %}
+                                        <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ salvo.noticia.titulo }}">
+                                    {% else %}
+                                        <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ salvo.noticia.titulo }}">
+                                    {% endif %}
                                 {% endif %}
                             </div>
                             
@@ -414,17 +423,146 @@
         </a>
     </nav>
 
+    <!-- Nossos Produtos -->
+    <section class="nossos-produtos">
+        <div class="nossos-produtos-container">
+            <h2 class="nossos-produtos-titulo">Nossos Produtos</h2>
+            <div class="produtos-grid">
+                <a href="https://www.ne10.uol.com.br/interior" target="_blank" class="produto-item" title="NE10 Interior">
+                    <div class="produto-icone">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <span class="produto-nome">NE10 Interior</span>
+                </a>
+                
+                <a href="https://www.radiojornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="Rádio Jornal">
+                    <div class="produto-icone">
+                        <i class="fas fa-radio"></i>
+                    </div>
+                    <span class="produto-nome">Rádio Jornal</span>
+                </a>
+                
+                <a href="https://tvjornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="TV Jornal">
+                    <div class="produto-icone">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <span class="produto-nome">TV Jornal</span>
+                </a>
+                
+                <a href="https://jc.ne10.uol.com.br/" target="_blank" class="produto-item" title="Jornal do Commercio">
+                    <div class="produto-icone">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <span class="produto-nome">Jornal do Commercio</span>
+                </a>
+                
+                <a href="https://www.blogdotorcedor.com.br/" target="_blank" class="produto-item" title="Blog do Torcedor">
+                    <div class="produto-icone">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <span class="produto-nome">Blog do Torcedor</span>
+                </a>
+                
+                <a href="https://www.social1.com.br/" target="_blank" class="produto-item" title="Social1">
+                    <div class="produto-icone">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span class="produto-nome">Social1</span>
+                </a>
+                
+                <a href="https://www.receitadaboa.com.br/" target="_blank" class="produto-item" title="Receita da Boa">
+                    <div class="produto-icone">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span class="produto-nome">Receita da Boa</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Rodapé -->
     <footer class="rodape">
         <div class="rodape-conteudo">
             <div class="rodape-logo">
-                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio">
+                <img src="https://jc.uol.com.br/img/logo.svg" alt="Jornal do Commercio">
                 <p>O jornal mais tradicional de Pernambuco</p>
+                
+                <h3 class="rodape-redes-titulo">Nossas Redes</h3>
+                <div class="rodape-redes-sociais">
+                    <a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://twitter.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rodape-links">
+                <div class="rodape-coluna">
+                    <h3>Canais</h3>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Últimas Notícias</a></li>
+                        <li><a href="#colunas">Colunas</a></li>
+                        <li><a href="#opiniao">Opinião</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Institucionais</h3>
+                    <ul>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="https://www.jcpm.com.br/sustentabilidade/" target="_blank">Práticas ASG JCPM</a></li>
+                        <li><a href="https://ne10.uol.com.br/privacidade/" target="_blank">Privacidade</a></li>
+                        <li><a href="#melhores-praticas">Melhores Práticas</a></li>
+                        <li><a href="#lgpd">LGPD</a></li>
+                        <li><a href="#publicacoes">Publicações</a></li>
+                        <li><a href="#expediente">Expediente</a></li>
+                        <li><a href="#fale-conosco">Fale Conosco</a></li>
+                        <li><a href="https://sjcc.gupy.io/" target="_blank">Trabalhe Conosco</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Serviços</h3>
+                    <ul>
+                        <li><a href="#noticias-whatsapp">Notícias pelo WhatsApp</a></li>
+                        <li><a href="#newsletter">Newsletter JC</a></li>
+                        <li><a href="#publicidade-legal">Publicidade Legal</a></li>
+                        <li><a href="https://ads.sjcc.com.br/?utm_source=jc_site&utm_medium=bt_anuncie_conosco&utm_campaign=anuncie_aqui_rodape&_gl=1*2yvvs*_ga*NzAwNTE0NTM1LjE3NTUyNjUzOTc.*_ga_S1QTC8L49Z*czE3NjE2NTkyMjMkbzI2JGcxJHQxNzYxNjYwNzk5JGoyOCRsMCRoMA.." target="_blank">Anuncie Conosco</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Aplicativos</h3>
+                    <ul>
+                        <li><a href="#app-jc">Jornal do Commercio</a></li>
+                        <li><a href="#app-radio">Rádio Jornal</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <div class="rodape-copyright">
             <p>&copy; 2025 Jornal do Commercio. Todos os direitos reservados.</p>
+        </div>
+
+        <div class="rodape-grupo-jcpm">
+            <p class="rodape-grupo-texto">Jornal @ 2025 - Uma empresa do grupo JCPM</p>
+            <p class="rodape-licenciamento">PARA SOLICITAÇÃO DE LICENCIAMENTO, CONTACTAR EDITORES@NE10.COM.BR</p>
+            <img src="https://imagens.ne10.uol.com.br/jcpm/logo_jcpm_footer.svg" alt="Grupo JCPM" class="marca-grupo-jcpm">
         </div>
     </footer>
 

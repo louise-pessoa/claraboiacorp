@@ -464,7 +464,7 @@ function criarCardResultado(noticia) {
     return `
         <article class="cartao-noticia">
             <div class="cartao-conteudo">
-                <span class="badge-categoria badge-${noticia.categoria}">${noticia.categoria}</span>
+                <span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">${noticia.categoria}</span>
                 <h3 class="cartao-titulo">${noticia.titulo}</h3>
                 <time class="cartao-tempo">${window.JC.utils.formatarData(noticia.data)}</time>
             </div>
