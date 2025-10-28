@@ -7,9 +7,9 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
-from .models import Noticia, Visualizacao, NoticaSalva
-from .forms import CadastroUsuarioForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor
+from .forms import CadastroUsuarioForm, NoticiaForm
 from django.db import IntegrityError
 import json
 
@@ -243,7 +243,7 @@ def salvar_noticia(request, noticia_id):
 def remover_noticia_salva(request, noticia_id):
     """View para remover uma notícia salva"""
     noticia = get_object_or_404(Noticia, id=noticia_id)
-    
+
     try:
         noticia_salva = NoticaSalva.objects.get(usuario=request.user, noticia=noticia)
         noticia_salva.delete()
@@ -258,3 +258,78 @@ def remover_noticia_salva(request, noticia_id):
             'message': 'Esta notícia não está nos seus salvos.',
             'salva': False
         })
+
+
+# ========== VIEWS DE ADMIN ==========
+
+def is_staff(user):
+    """Verifica se o usuário é staff/admin"""
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+def admin_dashboard(request):
+    """View para o painel administrativo"""
+    hoje = timezone.now().date()
+
+    # Estatísticas
+    total_noticias = Noticia.objects.count()
+    total_categorias = Categoria.objects.count()
+    total_autores = Autor.objects.count()
+    visualizacoes_hoje = Visualizacao.objects.filter(data=hoje).count()
+
+    # Listar todas as notícias
+    noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+
+    context = {
+        'total_noticias': total_noticias,
+        'total_categorias': total_categorias,
+        'total_autores': total_autores,
+        'visualizacoes_hoje': visualizacoes_hoje,
+        'noticias': noticias,
+    }
+
+    return render(request, 'admin_dashboard.html', context)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+def admin_criar_noticia(request):
+    """View para criar uma nova notícia"""
+    if request.method == 'POST':
+        form = NoticiaForm(request.POST, request.FILES)
+        if form.is_valid():
+            noticia = form.save()
+            messages.success(request, f'Notícia "{noticia.titulo}" criada com sucesso!')
+            return redirect('admin_dashboard')
+    else:
+        form = NoticiaForm()
+
+    return render(request, 'admin_form_noticia.html', {'form': form})
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+def admin_editar_noticia(request, noticia_id):
+    """View para editar uma notícia existente"""
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+
+    if request.method == 'POST':
+        form = NoticiaForm(request.POST, request.FILES, instance=noticia)
+        if form.is_valid():
+            noticia = form.save()
+            messages.success(request, f'Notícia "{noticia.titulo}" atualizada com sucesso!')
+            return redirect('admin_dashboard')
+    else:
+        form = NoticiaForm(instance=noticia)
+
+    return render(request, 'admin_form_noticia.html', {'form': form, 'noticia': noticia})
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def admin_deletar_noticia(request, noticia_id):
+    """View para deletar uma notícia"""
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+    titulo = noticia.titulo
+    noticia.delete()
+    messages.success(request, f'Notícia "{titulo}" deletada com sucesso!')
+    return redirect('admin_dashboard')
