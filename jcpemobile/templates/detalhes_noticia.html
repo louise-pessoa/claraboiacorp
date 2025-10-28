@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
     <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
@@ -290,6 +290,9 @@
                 <a href="#fale-conosco">Fale Conosco</a>
                 <a href="#anuncie">Anuncie</a>
                 <a href="#privacidade">Privacidade</a>
+                <button class="btn-feedback-menu" onclick="abrirModalFeedback()">
+                    Envie seu Feedback
+                </button>
             </div>
         </div>
     </nav>
@@ -500,7 +503,7 @@
                     <ul>
                         <li><a href="{% url 'index' %}">Últimas Notícias</a></li>
                         <li><a href="#colunas">Colunas</a></li>
-                        <li><a href="#opiniao">Opinião</a></li>
+                        <li><button class="btn-feedback-footer" onclick="abrirModalFeedback()">Envie seu Feedback</button></li>
                     </ul>
                 </div>
 

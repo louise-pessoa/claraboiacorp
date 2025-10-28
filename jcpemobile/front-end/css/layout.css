@@ -336,6 +336,7 @@
     z-index: var(--z-modal);
     overflow-y: auto;
     box-shadow: var(--sombra-menu);
+    padding-bottom: 80px;
 }
 
 .menu-lateral.ativo {
@@ -715,14 +716,55 @@
 .menu-lateral-rodape {
     padding: var(--espaco-4);
     border-top: var(--borda-largura) solid var(--cor-borda-clara);
+    margin-bottom: 0;
+    padding-bottom: 20px;
 }
 
-.menu-lateral-rodape a {
+.menu-lateral-rodape a:not(.btn-feedback-menu),
+.menu-lateral-rodape .btn-feedback-menu {
     display: inline-block;
     padding: var(--espaco-2) 0;
     margin-right: var(--espaco-3);
     color: var(--cor-texto-quaternario);
     font-size: var(--fonte-tamanho-sm);
+    transition: color 0.3s ease;
+}
+
+.menu-lateral-rodape a:not(.btn-feedback-menu):hover,
+.menu-lateral-rodape .btn-feedback-menu:hover {
+    color: var(--cor-principal);
+}
+
+/* Botão de Feedback no Menu */
+.btn-feedback-menu {
+    border: none;
+    background: none !important;
+    font-family: inherit;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Responsividade do Rodapé do Menu e Botão Feedback */
+@media (max-width: 768px) {
+    .menu-lateral {
+        padding-bottom: 100px;
+    }
+    
+    .menu-lateral-rodape {
+        padding: var(--espaco-4) var(--espaco-3);
+        padding-bottom: 30px;
+    }
+    
+    .menu-lateral-rodape a:not(.btn-feedback-menu),
+    .menu-lateral-rodape .btn-feedback-menu {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-left: 0;
+        margin-bottom: var(--espaco-2);
+        padding: var(--espaco-2);
+        text-align: left;
+    }
 }
 
 /* Overlay */
@@ -985,6 +1027,24 @@
 }
 
 .rodape-coluna a:hover {
+    color: var(--cor-primaria);
+}
+
+/* Botão de Feedback no Footer */
+.btn-feedback-footer {
+    background: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: var(--fonte-tamanho-sm);
+    font-family: inherit;
+    font-weight: normal;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+    transition: var(--transicao-rapida);
+}
+
+.btn-feedback-footer:hover {
     color: var(--cor-primaria);
 }
 
