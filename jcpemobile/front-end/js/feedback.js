@@ -18,13 +18,26 @@ function fecharModalFeedback() {
     if (modal) {
         modal.classList.remove('ativo');
         document.body.style.overflow = ''; // Restaura scroll da página
-        
+
         // Limpa o formulário
         const form = document.getElementById('formFeedback');
         if (form) {
             form.reset();
             atualizarContador();
         }
+
+        // Limpa preview de imagem
+        const inputImagem = document.getElementById('imagemFeedback');
+        const imagemPreview = document.getElementById('imagemPreview');
+        const previewContainer = document.getElementById('previewContainer');
+        const nomeArquivo = document.getElementById('nomeArquivo');
+        const btnSelecionarImagem = document.getElementById('btnSelecionarImagem');
+
+        if (inputImagem) inputImagem.value = '';
+        if (imagemPreview) imagemPreview.src = '';
+        if (previewContainer) previewContainer.style.display = 'none';
+        if (nomeArquivo) nomeArquivo.textContent = '';
+        if (btnSelecionarImagem) btnSelecionarImagem.style.display = 'inline-block';
     }
 }
 
@@ -80,64 +93,142 @@ document.addEventListener('DOMContentLoaded', function() {
         textarea.addEventListener('input', atualizarContador);
     }
 
+    // Gerenciamento de upload de imagem
+    const btnSelecionarImagem = document.getElementById('btnSelecionarImagem');
+    const inputImagem = document.getElementById('imagemFeedback');
+    const previewContainer = document.getElementById('previewContainer');
+    const imagemPreview = document.getElementById('imagemPreview');
+    const btnRemoverImagem = document.getElementById('btnRemoverImagem');
+    const nomeArquivo = document.getElementById('nomeArquivo');
+
+    // Abrir seletor de arquivo ao clicar no botão
+    if (btnSelecionarImagem && inputImagem) {
+        btnSelecionarImagem.addEventListener('click', function() {
+            inputImagem.click();
+        });
+    }
+
+    // Preview da imagem selecionada
+    if (inputImagem) {
+        inputImagem.addEventListener('change', function(e) {
+            const arquivo = e.target.files[0];
+
+            if (arquivo) {
+                // Validar tamanho do arquivo (max 5MB)
+                if (arquivo.size > 5 * 1024 * 1024) {
+                    alert('A imagem deve ter no máximo 5MB.');
+                    inputImagem.value = '';
+                    return;
+                }
+
+                // Validar tipo de arquivo
+                if (!arquivo.type.startsWith('image/')) {
+                    alert('Por favor, selecione apenas arquivos de imagem.');
+                    inputImagem.value = '';
+                    return;
+                }
+
+                // Mostrar preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagemPreview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    nomeArquivo.textContent = arquivo.name;
+                    btnSelecionarImagem.style.display = 'none';
+                };
+                reader.readAsDataURL(arquivo);
+            }
+        });
+    }
+
+    // Remover imagem
+    if (btnRemoverImagem) {
+        btnRemoverImagem.addEventListener('click', function() {
+            inputImagem.value = '';
+            imagemPreview.src = '';
+            previewContainer.style.display = 'none';
+            nomeArquivo.textContent = '';
+            btnSelecionarImagem.style.display = 'inline-block';
+        });
+    }
+
     // Envio do formulário
     const form = document.getElementById('formFeedback');
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             // Pega os dados do formulário
             const satisfacao = document.querySelector('input[name="satisfacao"]:checked');
             const comentario = document.getElementById('comentario').value;
-            
+            const imagemInput = document.getElementById('imagemFeedback');
+
             if (!satisfacao) {
                 alert('Por favor, selecione um nível de satisfação.');
                 return;
             }
-            
-            // Dados do feedback
-            const feedbackData = {
-                satisfacao: satisfacao.value,
-                comentario: comentario.trim()
-            };
-            
-            console.log('Feedback enviado:', feedbackData);
-            
-            // Aqui você pode adicionar a chamada AJAX para enviar ao backend
-            // Por enquanto, apenas mostra mensagem de sucesso
-            
-            alert('Obrigado pelo seu feedback! 🎉');
-            fecharModalFeedback();
-            
-            // TODO: Implementar envio para o backend
-            // enviarFeedbackParaBackend(feedbackData);
+
+            // Cria FormData para enviar arquivo
+            const formData = new FormData();
+            formData.append('avaliacao', satisfacao.value);
+            formData.append('comentario', comentario.trim());
+            formData.append('nome', 'Anônimo');  // Por enquanto, pode ser anônimo
+            formData.append('email', 'feedback@claraboia.com');  // Email padrão
+
+            // Adiciona imagem se houver
+            if (imagemInput.files.length > 0) {
+                formData.append('imagem', imagemInput.files[0]);
+            }
+
+            console.log('Feedback enviado');
+
+            // Envia para o backend
+            enviarFeedbackParaBackend(formData);
         });
     }
 });
 
-// Função para enviar feedback ao backend (a ser implementada)
-function enviarFeedbackParaBackend(data) {
-    // Exemplo de como seria a implementação com fetch
-    /*
-    fetch('/api/feedback/', {
+// Função para enviar feedback ao backend
+function enviarFeedbackParaBackend(formData) {
+    // Desabilita o botão de envio para evitar múltiplos cliques
+    const btnEnviar = document.querySelector('.btn-enviar-feedback');
+    if (btnEnviar) {
+        btnEnviar.disabled = true;
+        btnEnviar.textContent = 'Enviando...';
+    }
+
+    // Quando enviamos FormData, NÃO devemos definir Content-Type
+    // O navegador define automaticamente com o boundary correto
+    fetch('/feedback/enviar/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': getCookie('csrftoken'),
+            'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(data)
+        body: formData
     })
     .then(response => response.json())
-    .then(data => {
-        console.log('Feedback salvo:', data);
-        alert('Obrigado pelo seu feedback! 🎉');
-        fecharModalFeedback();
+    .then(result => {
+        if (result.success) {
+            console.log('Feedback salvo com sucesso:', result);
+            alert(result.message || 'Obrigado pelo seu feedback!');
+            fecharModalFeedback();
+        } else {
+            console.error('Erro ao salvar feedback:', result);
+            alert(result.message || 'Erro ao enviar feedback. Tente novamente.');
+        }
     })
     .catch(error => {
         console.error('Erro ao enviar feedback:', error);
-        alert('Erro ao enviar feedback. Tente novamente.');
+        alert('Erro ao enviar feedback. Por favor, tente novamente.');
+    })
+    .finally(() => {
+        // Reabilita o botão de envio
+        if (btnEnviar) {
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = 'Enviar avaliação';
+        }
     });
-    */
 }
 
 // Função auxiliar para pegar o CSRF token

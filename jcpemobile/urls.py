@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     noticia_detalhe, index, cadastro_usuario, login_usuario, logout_usuario,
-    salvos, salvar_noticia, remover_noticia_salva, mais_lidas,
+    salvos, salvar_noticia, remover_noticia_salva, mais_lidas, enviar_feedback,
     admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia
 )
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('mais-lidas/', mais_lidas, name='mais_lidas'),
     path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
     path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
+    path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
 
     # Rotas de Admin (Painel Customizado)
     path('painel/', admin_dashboard, name='admin_dashboard'),

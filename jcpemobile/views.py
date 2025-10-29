@@ -8,8 +8,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor
-from .forms import CadastroUsuarioForm, NoticiaForm
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback
+from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
 
@@ -258,6 +258,56 @@ def remover_noticia_salva(request, noticia_id):
             'message': 'Esta notícia não está nos seus salvos.',
             'salva': False
         })
+
+
+@require_http_methods(["POST"])
+def enviar_feedback(request):
+    """View para processar o envio de feedback"""
+    try:
+        # Verificar se é uma requisição AJAX
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+        # Verificar se há arquivos (enviado via FormData)
+        if request.FILES:
+            # Dados enviados via FormData
+            form = FeedbackForm(request.POST, request.FILES)
+        elif is_ajax and request.body:
+            # Dados enviados via JSON
+            try:
+                data = json.loads(request.body)
+                form = FeedbackForm(data)
+            except json.JSONDecodeError:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Erro ao processar os dados. Por favor, tente novamente.'
+                }, status=400)
+        else:
+            # Dados enviados via POST normal
+            form = FeedbackForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            feedback = form.save()
+            return JsonResponse({
+                'success': True,
+                'message': 'Obrigado pelo seu feedback! Sua opinião é muito importante para nós.'
+            })
+        else:
+            # Retorna os erros do formulário
+            errors = {}
+            for field, error_list in form.errors.items():
+                errors[field] = error_list[0] if error_list else ''
+
+            return JsonResponse({
+                'success': False,
+                'errors': errors,
+                'message': 'Por favor, corrija os erros no formulário.'
+            })
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': f'Erro ao enviar feedback: {str(e)}'
+        }, status=500)
 
 
 # ========== VIEWS DE ADMIN ==========

@@ -257,3 +257,106 @@
         padding: var(--espaco-3);
     }
 }
+
+/* Campo de Upload de Imagem */
+.feedback-imagem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.feedback-imagem > label {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-tamanho-base);
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+}
+
+.feedback-imagem > label i {
+    color: var(--cor-primaria);
+}
+
+.btn-selecionar-imagem {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    padding: var(--espaco-3) var(--espaco-5);
+    background: white;
+    border: 2px solid var(--cor-borda);
+    border-radius: 12px;
+    color: var(--cor-texto-secundario);
+    font-size: var(--fonte-tamanho-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-selecionar-imagem:hover {
+    border-color: var(--cor-primaria);
+    color: var(--cor-primaria);
+    background: var(--cor-primaria-fundo);
+}
+
+.btn-selecionar-imagem i {
+    font-size: 1.1rem;
+}
+
+.nome-arquivo {
+    font-size: var(--fonte-tamanho-sm);
+    color: var(--cor-texto-terciario);
+    margin-top: var(--espaco-2);
+}
+
+/* Preview da Imagem */
+.imagem-preview-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--cor-borda);
+    margin-top: var(--espaco-2);
+}
+
+.imagem-preview-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.btn-remover-imagem {
+    position: absolute;
+    top: var(--espaco-2);
+    right: var(--espaco-2);
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-remover-imagem:hover {
+    background: var(--cor-primaria);
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .btn-selecionar-imagem {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .imagem-preview-container {
+        max-width: 100%;
+    }
+}

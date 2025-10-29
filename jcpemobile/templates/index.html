@@ -344,14 +344,39 @@
 
                 <div class="feedback-comentario">
                     <label for="comentario">Quer fazer um comentário? (opcional)</label>
-                    <textarea 
-                        id="comentario" 
-                        name="comentario" 
-                        maxlength="140" 
+                    <textarea
+                        id="comentario"
+                        name="comentario"
+                        maxlength="140"
                         placeholder="Conte-nos mais sobre sua experiência..."
                         rows="4"
                     ></textarea>
                     <span class="contador-caracteres">0/140</span>
+                </div>
+
+                <div class="feedback-imagem">
+                    <label for="imagemFeedback">
+                        <i class="fas fa-image"></i>
+                        Anexar imagem (opcional)
+                    </label>
+                    <input
+                        type="file"
+                        id="imagemFeedback"
+                        name="imagem"
+                        accept="image/*"
+                        style="display: none;"
+                    >
+                    <div class="imagem-preview-container" id="previewContainer" style="display: none;">
+                        <img id="imagemPreview" src="" alt="Preview da imagem">
+                        <button type="button" class="btn-remover-imagem" id="btnRemoverImagem">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <button type="button" class="btn-selecionar-imagem" id="btnSelecionarImagem">
+                        <i class="fas fa-paperclip"></i>
+                        Escolher arquivo
+                    </button>
+                    <span class="nome-arquivo" id="nomeArquivo"></span>
                 </div>
 
                 <button type="submit" class="btn-enviar-feedback">Enviar avaliação</button>
