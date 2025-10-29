@@ -92,45 +92,52 @@ class CadastroUsuarioForm(forms.ModelForm):
 
 
 class NoticiaForm(forms.ModelForm):
-    """Formulário para criar e editar notícias"""
+    """Formulário para criar e editar notícias com editor rico"""
 
     class Meta:
         model = Noticia
         fields = ['titulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags']
         widgets = {
             'titulo': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Digite o título da notícia'
+                'class': 'form-control editor-titulo',
+                'placeholder': 'Digite o título da notícia',
+                'id': 'id_titulo'
             }),
             'resumo': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'form-control editor-resumo',
                 'rows': 3,
-                'placeholder': 'Breve resumo da notícia (máx. 300 caracteres)'
+                'placeholder': 'Breve resumo da notícia (máx. 300 caracteres)',
+                'id': 'id_resumo'
             }),
             'conteudo': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'form-control editor-conteudo-hidden',
                 'rows': 10,
-                'placeholder': 'Conteúdo completo da notícia'
+                'id': 'id_conteudo',
+                'style': 'display: none;'
             }),
             'imagem': forms.FileInput(attrs={
                 'class': 'form-control',
-                'accept': 'image/*'
+                'accept': 'image/*',
+                'id': 'id_imagem_principal'
             }),
             'categoria': forms.Select(attrs={
-                'class': 'form-control'
+                'class': 'form-control',
+                'id': 'id_categoria'
             }),
             'autor': forms.Select(attrs={
-                'class': 'form-control'
+                'class': 'form-control',
+                'id': 'id_autor'
             }),
             'tags': forms.SelectMultiple(attrs={
-                'class': 'form-control'
+                'class': 'form-control',
+                'id': 'id_tags'
             }),
         }
         labels = {
             'titulo': 'Título',
             'resumo': 'Resumo',
             'conteudo': 'Conteúdo',
-            'imagem': 'Imagem',
+            'imagem': 'Imagem Principal',
             'categoria': 'Categoria',
             'autor': 'Autor',
             'tags': 'Tags',
@@ -138,6 +145,7 @@ class NoticiaForm(forms.ModelForm):
         help_texts = {
             'resumo': 'Máximo de 300 caracteres',
             'tags': 'Mantenha pressionado "Control" ou "Command" para selecionar mais de uma',
+            'conteudo': 'Use o editor abaixo para formatar seu conteúdo',
         }
 
     def clean_titulo(self):

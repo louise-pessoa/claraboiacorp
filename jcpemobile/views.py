@@ -333,3 +333,83 @@ def admin_deletar_noticia(request, noticia_id):
     noticia.delete()
     messages.success(request, f'Notícia "{titulo}" deletada com sucesso!')
     return redirect('admin_dashboard')
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+def admin_preview_noticia(request, noticia_id):
+    """View para pré-visualizar uma notícia antes de publicar"""
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+    
+    # Pegar notícias relacionadas (mesma categoria)
+    noticias_relacionadas = Noticia.objects.filter(
+        categoria=noticia.categoria
+    ).exclude(id=noticia.id).order_by('-data_publicacao')[:4]
+    
+    context = {
+        'noticia': noticia,
+        'noticias_relacionadas': noticias_relacionadas,
+        'is_preview': True,  # Flag para indicar que é preview
+    }
+    
+    return render(request, 'preview_noticia.html', context)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def admin_criar_categoria(request):
+    """View API para criar uma nova categoria"""
+    try:
+        nome = request.POST.get('nome', '').strip()
+        
+        if not nome:
+            return JsonResponse({'success': False, 'message': 'Nome da categoria é obrigatório.'}, status=400)
+        
+        # Verifica se já existe
+        if Categoria.objects.filter(nome__iexact=nome).exists():
+            return JsonResponse({'success': False, 'message': 'Já existe uma categoria com este nome.'}, status=400)
+        
+        categoria = Categoria.objects.create(nome=nome)
+        
+        return JsonResponse({
+            'success': True,
+            'message': f'Categoria "{nome}" criada com sucesso!',
+            'categoria': {
+                'id': categoria.id,
+                'nome': categoria.nome
+            }
+        })
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def admin_criar_autor(request):
+    """View API para criar um novo autor"""
+    try:
+        nome = request.POST.get('nome', '').strip()
+        bio = request.POST.get('bio', '').strip()
+        
+        if not nome:
+            return JsonResponse({'success': False, 'message': 'Nome do autor é obrigatório.'}, status=400)
+        
+        # Verifica se já existe
+        if Autor.objects.filter(nome__iexact=nome).exists():
+            return JsonResponse({'success': False, 'message': 'Já existe um autor com este nome.'}, status=400)
+        
+        autor = Autor.objects.create(
+            nome=nome,
+            bio=bio if bio else None
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': f'Autor "{nome}" criado com sucesso!',
+            'autor': {
+                'id': autor.id,
+                'nome': autor.nome
+            }
+        })
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
+
