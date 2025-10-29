@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Noticia, Categoria, Autor, Tag
+from .models import Noticia, Categoria, Autor, Tag, Feedback
 import re
 
 class CadastroUsuarioForm(forms.ModelForm):
@@ -196,3 +196,25 @@ class AutorForm(forms.ModelForm):
                 'accept': 'image/*'
             })
         }
+
+
+class FeedbackForm(forms.ModelForm):
+    """Formulário para envio de feedback"""
+
+    class Meta:
+        model = Feedback
+        fields = ['nome', 'email', 'avaliacao', 'comentario', 'imagem']
+
+    def clean_avaliacao(self):
+        """Valida se a avaliação está entre 1 e 5"""
+        avaliacao = self.cleaned_data.get('avaliacao')
+        if avaliacao and (avaliacao < 1 or avaliacao > 5):
+            raise ValidationError('A avaliação deve estar entre 1 e 5.')
+        return avaliacao
+
+    def clean_comentario(self):
+        """Valida o tamanho máximo do comentário"""
+        comentario = self.cleaned_data.get('comentario')
+        if comentario and len(comentario) > 140:
+            raise ValidationError('O comentário não pode ter mais de 140 caracteres.')
+        return comentario

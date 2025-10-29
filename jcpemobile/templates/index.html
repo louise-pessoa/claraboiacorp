@@ -288,6 +288,96 @@
     <!-- Overlay do Menu -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
+<<<<<<< HEAD
+=======
+    <!-- Modal de Feedback -->
+    <div class="modal-feedback" id="modalFeedback">
+        <div class="modal-feedback-content">
+            <button class="modal-feedback-fechar" id="fecharModalFeedback" aria-label="Fechar">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2>Queremos saber a sua opinião</h2>
+            
+            <form id="formFeedback" class="form-feedback">
+                <div class="feedback-pergunta">
+                    <label>Como você avalia sua experiência no site?</label>
+                    <div class="feedback-escala">
+                        <input type="radio" id="nivel1" name="satisfacao" value="1" required>
+                        <label for="nivel1" class="escala-opcao">
+                            <span class="escala-numero">1</span>
+                            <span class="escala-texto">Muito ruim</span>
+                        </label>
+
+                        <input type="radio" id="nivel2" name="satisfacao" value="2">
+                        <label for="nivel2" class="escala-opcao">
+                            <span class="escala-numero">2</span>
+                            <span class="escala-texto">Ruim</span>
+                        </label>
+
+                        <input type="radio" id="nivel3" name="satisfacao" value="3">
+                        <label for="nivel3" class="escala-opcao">
+                            <span class="escala-numero">3</span>
+                            <span class="escala-texto">Neutro</span>
+                        </label>
+
+                        <input type="radio" id="nivel4" name="satisfacao" value="4">
+                        <label for="nivel4" class="escala-opcao">
+                            <span class="escala-numero">4</span>
+                            <span class="escala-texto">Bom</span>
+                        </label>
+
+                        <input type="radio" id="nivel5" name="satisfacao" value="5">
+                        <label for="nivel5" class="escala-opcao">
+                            <span class="escala-numero">5</span>
+                            <span class="escala-texto">Muito bom</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="feedback-comentario">
+                    <label for="comentario">Quer fazer um comentário? (opcional)</label>
+                    <textarea
+                        id="comentario"
+                        name="comentario"
+                        maxlength="140"
+                        placeholder="Conte-nos mais sobre sua experiência..."
+                        rows="4"
+                    ></textarea>
+                    <span class="contador-caracteres">0/140</span>
+                </div>
+
+                <div class="feedback-imagem">
+                    <label for="imagemFeedback">
+                        <i class="fas fa-image"></i>
+                        Anexar imagem (opcional)
+                    </label>
+                    <input
+                        type="file"
+                        id="imagemFeedback"
+                        name="imagem"
+                        accept="image/*"
+                        style="display: none;"
+                    >
+                    <div class="imagem-preview-container" id="previewContainer" style="display: none;">
+                        <img id="imagemPreview" src="" alt="Preview da imagem">
+                        <button type="button" class="btn-remover-imagem" id="btnRemoverImagem">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <button type="button" class="btn-selecionar-imagem" id="btnSelecionarImagem">
+                        <i class="fas fa-paperclip"></i>
+                        Escolher arquivo
+                    </button>
+                    <span class="nome-arquivo" id="nomeArquivo"></span>
+                </div>
+
+                <button type="submit" class="btn-enviar-feedback">Enviar avaliação</button>
+            </form>
+        </div>
+    </div>
+
+>>>>>>> f5010d897039faa6fc4a19d0e2dd5beb23a150b8
     <!-- Conteúdo Principal -->
     <main class="conteudo-principal" id="conteudoPrincipal">
         <div class="container">

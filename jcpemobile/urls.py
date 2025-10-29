@@ -1,9 +1,8 @@
 from django.urls import path
 from .views import (
     noticia_detalhe, index, cadastro_usuario, login_usuario, logout_usuario,
-    salvos, salvar_noticia, remover_noticia_salva, mais_lidas,
-    admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia,
-    admin_preview_noticia, admin_criar_categoria, admin_criar_autor
+    salvos, salvar_noticia, remover_noticia_salva, mais_lidas, enviar_feedback,
+    admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia
 )
 
 urlpatterns = [
@@ -15,17 +14,18 @@ urlpatterns = [
     path('mais-lidas/', mais_lidas, name='mais_lidas'),
     path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
     path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
+    path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
 
     # Rotas de Admin (Painel Customizado)
     path('painel/', admin_dashboard, name='admin_dashboard'),
     path('painel/noticia/criar/', admin_criar_noticia, name='admin_criar_noticia'),
     path('painel/noticia/<int:noticia_id>/editar/', admin_editar_noticia, name='admin_editar_noticia'),
     path('painel/noticia/<int:noticia_id>/deletar/', admin_deletar_noticia, name='admin_deletar_noticia'),
-    path('painel/noticia/<int:noticia_id>/preview/', admin_preview_noticia, name='admin_preview_noticia'),
+    #path('painel/noticia/<int:noticia_id>/preview/', admin_preview_noticia, name='admin_preview_noticia'),
     
     # Rotas API para criar categoria/autor
-    path('painel/api/categoria/criar/', admin_criar_categoria, name='admin_criar_categoria'),
-    path('painel/api/autor/criar/', admin_criar_autor, name='admin_criar_autor'),
+    #path('painel/api/categoria/criar/', admin_criar_categoria, name='admin_criar_categoria'),
+    #path('painel/api/autor/criar/', admin_criar_autor, name='admin_criar_autor'),
 
     path('<slug:slug>/', noticia_detalhe, name='noticia_detalhe'),
 ]
