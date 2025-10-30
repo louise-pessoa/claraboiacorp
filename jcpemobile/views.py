@@ -264,14 +264,10 @@ def remover_noticia_salva(request, noticia_id):
 def enviar_feedback(request):
     """View para processar o envio de feedback"""
     try:
-        # Verificar se é uma requisição AJAX
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        # Verificar o Content-Type para decidir como processar
+        content_type = request.content_type
 
-        # Verificar se há arquivos (enviado via FormData)
-        if request.FILES:
-            # Dados enviados via FormData
-            form = FeedbackForm(request.POST, request.FILES)
-        elif is_ajax and request.body:
+        if content_type and 'application/json' in content_type:
             # Dados enviados via JSON
             try:
                 data = json.loads(request.body)
@@ -282,7 +278,7 @@ def enviar_feedback(request):
                     'message': 'Erro ao processar os dados. Por favor, tente novamente.'
                 }, status=400)
         else:
-            # Dados enviados via POST normal
+            # Dados enviados via FormData (multipart/form-data ou application/x-www-form-urlencoded)
             form = FeedbackForm(request.POST, request.FILES)
 
         if form.is_valid():
