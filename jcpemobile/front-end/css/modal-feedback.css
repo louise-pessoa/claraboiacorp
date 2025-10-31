@@ -92,7 +92,7 @@
 /* Escala de Satisfação */
 .feedback-escala {
     display: flex;
-    gap: var(--espaco-3);
+    gap: 4px;
     justify-content: space-between;
 }
 
@@ -101,17 +101,17 @@
 }
 
 .escala-opcao {
-    flex: 1;
+    flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--espaco-2);
-    padding: var(--espaco-4) var(--espaco-2);
-    border: 2px solid var(--cor-borda);
-    border-radius: 12px;
+    gap: 2px;
+    padding: 2px 1px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: white;
+    background: transparent;
 }
 
 .escala-opcao:hover {
@@ -125,7 +125,7 @@
 }
 
 .escala-numero {
-    font-size: 1.5rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--cor-texto-primario);
 }
@@ -227,15 +227,16 @@
     }
 
     .feedback-escala {
-        gap: var(--espaco-2);
+        gap: 2px;
     }
 
     .escala-opcao {
-        padding: var(--espaco-3) var(--espaco-1);
+        padding: 1px 1px;
+        gap: 1px;
     }
 
     .escala-numero {
-        font-size: 1.25rem;
+        font-size: 0.8rem;
     }
 
     .escala-texto {
