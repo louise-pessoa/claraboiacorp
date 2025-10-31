@@ -390,10 +390,68 @@ rows="4"
 
 <!-- Conteúdo Principal -->
 <main class="conteudo-principal" id="conteudoPrincipal">
-<div class="container">
 
-<!-- Notícia Principal em Destaque -->
-<section class="noticia-destaque">
+    <style>
+    :root{
+      --red:#8b0000;
+      --accent:#d82b2b;
+      --bg:#faf7f5;
+      --card:#ffffff;
+      --muted:#6b6b6b;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+
+    /* Hero card */
+    .hero{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.08);max-width:420px;margin:18px auto}
+    .hero .hero-img{width:100%;height:190px;object-fit:cover;display:block;background:linear-gradient(90deg,#333,#666)}
+    .hero .hero-body{padding:14px}
+    .eyebrow{display:inline-block;color:var(--muted);font-size:13px;margin-bottom:8px}
+    .hero h1{font-size:20px;margin:0 0 8px 0;line-height:1.15}
+
+    /* list of cards */
+    .list{margin-top:16px;display:flex;flex-direction:column;gap:12px;max-width:420px;margin:18px auto;padding:0 14px}
+    .item{display:flex;gap:12px;align-items:center;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,0.04)}
+    .marker{width:6px;height:64px;background:var(--accent);border-radius:6px}
+    .item .meta{flex:1}
+    .item h3{margin:0;font-size:15px}
+    .item p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .thumb{width:78px;height:56px;border-radius:8px;flex-shrink:0;object-fit:cover;background:#ddd}
+
+    /* small screens adjustments */
+    @media(min-width:740px){
+      .hero, .list{max-width:740px}
+    }
+  </style>
+
+    <article class="hero" role="article" aria-label="Notícia principal">
+      <img class="hero-img" alt="Imagem da notícia" src="https://images.unsplash.com/photo-1515165562835-cf2b6b8f7d3b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=000"/>
+      <div class="hero-body">
+        <div class="eyebrow">#Ranking</div>
+        <h1>9 pontos sobre os casos de intoxicação por metanol</h1>
+      </div>
+    </article>
+
+    <section class="list" aria-label="Mais matérias">
+      <div class="item">
+        <div class="marker" aria-hidden></div>
+        <div class="meta">
+          <h3>Educação</h3>
+          <p>kan\fnpakNSffkNsdkNvk nsfkdnvkn aokdpqwkopf kopesnvkwjadj</p>
+        </div>
+        <img class="thumb" alt="Perfil" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=000" />
+      </div>
+
+      <div class="item">
+        <div class="marker" aria-hidden></div>
+        <div class="meta">
+          <h3>Esporte</h3>
+          <p>kan\fnpakNSffkNsdkNvk nsfkdnvkn aokdpqwkopf kopesnvkwjadj</p>
+        </div>
+        <img class="thumb" alt="Esporte" src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=000" />
+      </div>
+
+    </section>
 
 
 
