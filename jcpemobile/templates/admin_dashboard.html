@@ -301,12 +301,11 @@
                             <td>{{ noticia.data_publicacao|date:"d/m/Y H:i" }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="btn btn-primary" target="_blank" title="Ver notícia publicada">Ver</a>
-                                    <a href="{% url 'admin_preview_noticia' noticia.id %}" class="btn" style="background: #17a2b8; color: white;" target="_blank" title="Pré-visualizar">Preview</a>
-                                    <a href="{% url 'admin_editar_noticia' noticia.id %}" class="btn btn-warning" title="Editar notícia">Editar</a>
+                                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="btn btn-primary" target="_blank">Ver</a>
+                                    <a href="{% url 'admin_editar_noticia' noticia.id %}" class="btn btn-warning">Editar</a>
                                     <form method="POST" action="{% url 'admin_deletar_noticia' noticia.id %}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar esta notícia?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger" title="Deletar notícia">Deletar</button>
+                                        <button type="submit" class="btn btn-danger">Deletar</button>
                                     </form>
                                 </div>
                             </td>
