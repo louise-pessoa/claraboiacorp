@@ -61,9 +61,11 @@
 <div class="cabecalho-container">
 <!-- Menu Hamburguer (Mobile) -->
 <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
-<span class="hamburguer-linha"></span>
-<span class="hamburguer-linha"></span>
-<span class="hamburguer-linha"></span>
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="15 5 70 38" fill="none">
+<path d="M11.6667 15.1666H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 25.0045H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 34.8423H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
 </button>
 
 <!-- Logo -->
@@ -437,234 +439,235 @@ rows="4"
 
 <!-- Conteúdo Principal -->
 <main class="conteudo-principal" id="conteudoPrincipal">
+<div class="container">
 
-    <style>
-    :root{
-      --red:#8b0000;
-      --accent:#d82b2b;
-      --bg:#faf7f5;
-      --card:#ffffff;
-      --muted:#6b6b6b;
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
+<style>
+/* Reset para o conteúdo principal */
+.conteudo-principal {
+  background-color: #f6f6f6;
+  padding: 16px;
+  padding-top: 140px;
+  min-height: 100vh;
+}
 
-    /* Hero card */
-    .hero{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.08);max-width:420px;margin:18px auto;position:relative}
-    .hero .hero-img{width:100%;height:190px;object-fit:cover;display:block;background:linear-gradient(90deg,#333,#666)}
-    .hero .hero-body{padding:14px}
-    .hero-title-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
-    .hero-actions{display:flex;gap:4px;flex-shrink:0;margin-top:2px}
-    .hero-action-btn{background:transparent;border:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:#666;transition:all 0.2s ease}
-    .hero-action-btn:hover{background:#f5f5f5;color:#222}
-    .hero-action-btn:active{transform:scale(0.95)}
-    .hero-action-btn.favorited{color:#d82b2b}
-    .hero-action-btn.favorited svg path{fill:#d82b2b;stroke:#d82b2b}
-    .eyebrow{display:inline-block;color:var(--muted);font-size:13px;margin-bottom:8px}
-    .hero h1{font-size:20px;margin:0;line-height:1.15;flex:1}
+.container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-    /* list of cards */
-    .list{margin-top:16px;display:flex;flex-direction:column;gap:12px;max-width:420px;margin:18px auto;padding:0 14px}
-    .item{display:flex;gap:12px;align-items:center;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,0.04)}
-    .marker{width:6px;height:64px;background:var(--accent);border-radius:6px}
-    .item .meta{flex:1}
-    .item h3{margin:0;font-size:15px}
-    .item p{margin:6px 0 0;color:var(--muted);font-size:13px}
-    .thumb{width:78px;height:56px;border-radius:8px;flex-shrink:0;object-fit:cover;background:#ddd}
+/* CARD GERAL */
+.card {
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 100%;
+}
 
-    /* small screens adjustments */
-    @media(min-width:740px){
-      .hero, .list{max-width:740px}
-    }
-  </style>
+/* PRIMEIRA NOTÍCIA (imagem em cima) */
+.card.top img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
 
-    <article class="hero" role="article" aria-label="Notícia principal">
-      <img class="hero-img" alt="Imagem da notícia" src="https://www.diariodepernambuco.com.br/_midias/jpg/2025/10/25/1200x800/1_vodka-781972.jpg"/>
+.card.top .content {
+  padding: 14px;
+}
 
-      <div class="hero-body">
-        <div class="eyebrow">Vida Urbana</div>
-        <div class="hero-title-row">
-          <h1>9 pontos sobre os casos de intoxicação por metanol</h1>
-          <!-- Ações: Favoritar e Compartilhar -->
-          <div class="hero-actions">
-            <button class="hero-action-btn" aria-label="Favoritar" onclick="toggleFavorite(this)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 29 39" fill="none">
-                <path d="M1.72505 34.5051L2.05744 35.7208C2.11819 35.943 2.2334 36.1465 2.39265 36.3129C2.95883 36.9045 3.91204 36.8782 4.44466 36.2561L13.7613 25.3749C14.1532 24.9172 14.8579 24.9075 15.2622 25.3542L24.3211 35.3616C25.1134 36.2368 26.5154 36.1413 27.1816 35.1667C27.389 34.8632 27.5 34.5042 27.5 34.1366V18.3989V14.0676C27.5 12.889 27.2916 11.7196 26.8845 10.6136L26.4758 9.50293C26.0782 8.42285 25.4972 7.4195 24.7584 6.53707L24.1058 5.75772C23.7691 5.35564 23.4013 4.98067 23.0059 4.63627L22.5401 4.2307C21.9488 3.71572 21.2989 3.27209 20.6039 2.90895L20.3611 2.7821C19.4918 2.32788 18.5603 2.00403 17.5967 1.82094L16.8325 1.67575C15.9318 1.50461 15.0118 1.45815 14.0984 1.53769L12.8183 1.64917C11.9926 1.72107 11.1791 1.89534 10.3964 2.16798L9.13134 2.60864C8.16615 2.94485 7.25821 3.42703 6.43916 4.03839L6.06743 4.31586C5.62325 4.64741 5.2074 5.01531 4.82418 5.41577L4.55395 5.69815C4.03629 6.23911 3.58102 6.8365 3.19669 7.47908L3.05731 7.71213C2.45709 8.71569 2.03754 9.81675 1.81773 10.9653L1.67827 11.6939C1.55969 12.3135 1.5 12.9429 1.5 13.5737V30.6254V32.8286C1.5 33.395 1.57569 33.9588 1.72505 34.5051Z" stroke="currentColor" stroke-width="3"/>
-              </svg>
-            </button>
-            <button class="hero-action-btn" aria-label="Compartilhar" onclick="shareArticle()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </article>
+.tag {
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 6px;
+  display: inline-block;
+  width: fit-content;
+  background-color: #E31B23;
+  color: #ffffff;
+}
 
-    <section class="list" aria-label="Mais matérias">
-      <div class="item">
-        <div class="marker" aria-hidden></div>
-        <div class="meta">
-          <h3>Educação</h3>
-          <p>Profissionais de educação receberão mais de R$ 207 milhões em bônus.</p>
-        </div>
-        <img class="thumb" alt="Perfil" src="https://www.diariodepernambuco.com.br/_midias/jpg/2025/10/02/1200x800/1_01102025rv011-762143.jpg" />
-      </div>
+.saude { background-color: #E31B23; color: #ffffff; }
+.educacao { background-color: #E31B23; color: #ffffff; }
+.esporte { background-color: #E31B23; color: #ffffff; }
 
-      <div class="item">
-        <div class="marker" aria-hidden></div>
-        <div class="meta">
-          <h3>Esporte</h3>
-          <p>Santa Cruz confirma empréstimo do atacante Thiaguinho ao ABC</p>
-        </div>
-        <img class="thumb" alt="Esporte" src="https://www.diariodepernambuco.com.br/_midias/jpg/2025/05/19/1200x800/1_central_x_santa_cruz___thiaguinho__11_-453844.jpg" />
-      </div>
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin: 3px 0 2px 0;
+  line-height: 1.3;
+}
 
-    </section>
+.desc {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.4;
+  margin: 4px 0 0 0;
+}
 
+/* NOTÍCIAS MENORES COM BARRA VERMELHA */
+.card.side {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  position: relative;
+  border-radius: 18px;
+}
 
+.card.side::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 15px;
+  bottom: 15px;
+  width: 4px;
+  background-color: #d32f2f;
+  border-radius: 3px;
+}
 
+.side .content {
+  flex: 1;
+  margin-left: 12px;
+}
 
-{% if noticias_mais_vistas %}
+.side .tag {
+  font-size: 10.5px;
+  padding: 1px 5px;
+  margin-bottom: 2px;
+  display: block;
+}
 
+.side .title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 1px 0;
+  line-height: 1.3;
+}
 
-{% for noticia in noticias_mais_vistas|slice:"0:9" %}
-<a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
-<article class="noticia-destaque-bloco" style="position: relative;">
+.side .desc {
+  font-size: 11px;
+  color: #444;
+  line-height: 1.3;
+  margin: 0;
+}
 
-<!-- Ranking Badge -->
-<div style="position: absolute; top: 10px; left: 10px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10;">
-{{ forloop.counter }}
+.side img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+/* Responsivo para diferentes tamanhos */
+@media (max-width: 480px) {
+  .conteudo-principal {
+    padding: 12px;
+    padding-top: 120px;
+  }
+  
+  .container {
+    gap: 12px;
+  }
+  
+  .card.top img {
+    height: 160px;
+  }
+  
+  .side img {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+@media (min-width: 768px) {
+  .conteudo-principal {
+    padding: 24px;
+    padding-top: 150px;
+  }
+  
+  .container {
+    max-width: 600px;
+    gap: 20px;
+  }
+  
+  .card.top img {
+    height: 240px;
+  }
+  
+  .card.top .content {
+    padding: 18px;
+  }
+  
+  .title {
+    font-size: 16px;
+  }
+  
+  .desc {
+    font-size: 14px;
+  }
+  
+  .side .title {
+    font-size: 14px;
+  }
+  
+  .side .desc {
+    font-size: 12px;
+  }
+  
+  .side img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 740px;
+  }
+}
+</style>
+
+<!-- Notícia principal -->
+<div class="card top">
+  <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia principal">
+  <div class="content">
+    <span class="tag saude">Saúde</span>
+    <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
+    <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas.</p>
+  </div>
 </div>
 
-<div class="cartao-conteudo">
-<span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia.categoria.nome|default:'Notícias' }}</span>
-<h3 class="cartao-titulo">
-{{ noticia.titulo }}
-</h3>
-
-<time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
-
-<p style="margin-top: 8px; font-size: 0.875rem;">
-<span style="color: #666;">({{ noticia.visualizacoes_do_dia }} visualizações hoje)</span>
-</p>
-
-</div>
-<div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
-{% if noticia.imagem %}
-<img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
-{% else %}
-{% if forloop.counter0|divisibleby:4 %}
-<img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ noticia.titulo }}" loading="lazy">
-{% elif forloop.counter0|add:"3"|divisibleby:4 %}
-<img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ noticia.titulo }}" loading="lazy">
-{% elif forloop.counter0|add:"2"|divisibleby:4 %}
-<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
-{% else %}
-<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
-{% endif %}
-{% endif %}
+<!-- Segunda notícia -->
+<div class="card side">
+  <div class="content">
+    <span class="tag educacao">Educação</span>
+    <h2 class="title">Política: novo projeto de lei em votação</h2>
+    <p class="desc">Proposta visa modernizar as casas e fortalecer a infraestrutura urbana.</p>
+  </div>
+  <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia lateral 1">
 </div>
 
-</article>
-</a>
-{% endfor %}
-</ul>
-{% else %}
+<!-- Terceira notícia -->
+<div class="card side">
+  <div class="content">
+    <span class="tag esporte">Esporte</span>
+    <h2 class="title">Câmara aprova plano de incentivo ao esporte</h2>
+    <p class="desc">Medida busca ampliar o acesso a atividades esportivas em comunidades e escolas públicas.</p>
+  </div>
+  <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia lateral 2">
+</div>
 
-{% endif %}
-</section>
+</div>
 
-<!-- Blocos de Notícias Categorizadas -->
-<section class="noticias-categorizadas">
-<div class="grade-noticias">
-{% for noticia in todas_noticias|slice:"0:15" %}
-{% if forloop.counter0|divisibleby:3 %}
-{% if not forloop.first %}</div>{% endif %}
-<div class="bloco-noticias">
-<h3 class="bloco-categoria-titulo">{{ noticia.categoria.nome|default:'Notícias' }}</h3>
-{% endif %}
-
-<a href="{% url 'noticia_detalhe' noticia.slug %}" class="link-noticia">
-{% if forloop.counter0|divisibleby:3 %}
-<!-- Notícia Destaque do Bloco -->
-<article class="noticia-destaque-bloco">
-<div class="cartao-conteudo">
-<span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia.categoria.nome|default:'Notícias' }}</span>
-<h3 class="cartao-titulo">
-{{ noticia.titulo }}
-</h3>
-<time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
-</div>
-<div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
-{% if noticia.imagem %}
-<img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
-{% else %}
-{% if forloop.counter0|divisibleby:4 %}
-<img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ noticia.titulo }}" loading="lazy">
-{% elif forloop.counter0|add:"3"|divisibleby:4 %}
-<img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ noticia.titulo }}" loading="lazy">
-{% elif forloop.counter0|add:"2"|divisibleby:4 %}
-<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
-{% else %}
-<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
-{% endif %}
-{% endif %}
-</div>
-</article>
-{% else %}
-<!-- Notícias Secundárias -->
-<article class="noticia-secundaria">
-<div class="cartao-conteudo">
-<span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia.categoria.nome|default:'Notícias' }}</span>
-<h3 class="cartao-titulo">
-{{ noticia.titulo }}
-</h3>
-<time class="cartao-tempo">{{ noticia.data_publicacao|timesince }}</time>
-</div>
-<div class="cartao-imagem cartao-imagem-{{ noticia.categoria.slug|default:'pernambuco' }}">
-{% if noticia.imagem %}
-<img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
-{% else %}
-{% if forloop.counter0|divisibleby:4 %}
-<img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/e7847dd0-b670-4e6f-a11f-c589c128a919" alt="{{ noticia.titulo }}" loading="lazy">
-{% elif forloop.counter0|add:"3"|divisibleby:4 %}
-<img src="https://www.pe.gov.br/api/xvia-cms-backend/assets/713b79c9-e217-4d4f-a13c-f5e7a8292de6" alt="{{ noticia.titulo }}" loading="lazy">
-{% elif forloop.counter0|add:"2"|divisibleby:4 %}
-<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/26/jj_35-35923864.jpg?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
-{% else %}
-<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/05/27/806x444/1_ground_zero___recife___pernambuco___brazil_3_-34523497.jpg?20251025060219?ims=1600x1066" alt="{{ noticia.titulo }}" loading="lazy">
-{% endif %}
-{% endif %}
-</div>
-</article>
-{% endif %}
-</a>
-
-{% if forloop.last %}</div>{% endif %}
-{% endfor %}
-</div>
-</section>
-
-<!-- Feed de Notícias Adicionais -->
-<section class="feed-noticias" id="feedNoticias">
-<h2 class="secao-titulo">Mais Notícias</h2>
-<!-- Cards adicionais serão inseridos aqui via JS -->
-</section>
-
-<!-- Botão Carregar Mais -->
-<div class="carregar-mais-container">
-<button class="botao-carregar-mais" id="botaoCarregarMais">
-<span>Carregar mais notícias</span>
-<i class="fas fa-arrow-down"></i>
-</button>
-</div>
-</div>
 </main>
 
 <!-- Navegação Inferior (Mobile) -->
