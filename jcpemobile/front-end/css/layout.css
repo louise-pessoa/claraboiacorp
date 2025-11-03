@@ -624,78 +624,42 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: var(--cor-fundo-secundario);
-    color: var(--cor-texto-secundario);
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--cor-texto-escuro);
     font-size: 1.3rem;
     transition: all 0.3s ease;
-    border: 2px solid var(--cor-borda-clara);
+    border: none;
 }
 
 .redes-sociais-lista a:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
 }
 
-/* Cores específicas para cada rede social - sempre visíveis */
-.redes-sociais-lista a:nth-child(1) {
-    background: #1877F2;
-    color: white;
-    border-color: #1877F2;
-}
-
-.redes-sociais-lista a:nth-child(2) {
-    background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
-    color: white;
-    border-color: transparent;
-}
-
-.redes-sociais-lista a:nth-child(3) {
-    background: #000000;
-    color: white;
-    border-color: #000000;
-}
-
-.redes-sociais-lista a:nth-child(4) {
-    background: #0A66C2;
-    color: white;
-    border-color: #0A66C2;
-}
-
-.redes-sociais-lista a:nth-child(5) {
-    background: #FF0000;
-    color: white;
-    border-color: #FF0000;
-}
-
-.redes-sociais-lista a:nth-child(6) {
-    background: #000000;
-    color: #69C9D0;
-    border-color: #000000;
-}
-
-/* Efeito hover adicional */
+/* Cores específicas para cada rede social - apenas no hover */
 .redes-sociais-lista a:nth-child(1):hover {
-    background: #0d5dbf;
+    background: #1877F2;
 }
 
 .redes-sociais-lista a:nth-child(2):hover {
-    background: linear-gradient(45deg, #d16a1f, #b91f66, #6a2a92, #3f46b3);
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
 .redes-sociais-lista a:nth-child(3):hover {
-    background: #1a1a1a;
+    background: #1DA1F2;
 }
 
 .redes-sociais-lista a:nth-child(4):hover {
-    background: #084d94;
+    background: #0A66C2;
 }
 
 .redes-sociais-lista a:nth-child(5):hover {
-    background: #cc0000;
+    background: #FF0000;
 }
 
 .redes-sociais-lista a:nth-child(6):hover {
-    background: #1a1a1a;
+    background: #000000;
 }
 
 /* Responsividade das redes sociais */
