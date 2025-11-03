@@ -691,6 +691,54 @@
     font-size: var(--fonte-tamanho-sm);
 }
 
+/* Garantir que o botão de feedback no rodapé do menu tenha o mesmo alinhamento/espacamento */
+.menu-lateral-rodape .btn-feedback-menu {
+    display: inline-block;
+    padding: var(--espaco-2) 0;
+    margin-right: var(--espaco-3);
+    color: var(--cor-texto-quaternario);
+    font-size: var(--fonte-tamanho-sm);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Em telas pequenas garantir quebra adequada */
+@media (max-width: 420px) {
+    .menu-lateral-rodape a,
+    .menu-lateral-rodape .btn-feedback-menu {
+        display: block;
+        margin-right: 0;
+        padding: var(--espaco-2) 0;
+    }
+}
+
+/* Footer - garantir que o botão de feedback no rodapé da página siga o mesmo estilo */
+.btn-feedback-footer {
+    display: inline-block;
+    padding: var(--espaco-2) 0;
+    margin-right: var(--espaco-3);
+    color: rgba(0, 0, 0, 0.7);
+    font-size: var(--fonte-tamanho-sm);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.btn-feedback-footer:hover {
+    color: var(--cor-primaria);
+}
+
+@media (max-width: 420px) {
+    .btn-feedback-footer {
+        display: block;
+        margin-right: 0;
+        padding: var(--espaco-2) 0;
+    }
+}
+
 /* Overlay */
 .menu-overlay {
     position: fixed;

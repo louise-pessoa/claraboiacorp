@@ -193,7 +193,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="#neels" class="menu-link">
+                    <a href="{% url 'neels' %}" class="menu-link">
                         <span>Neels</span>
                     </a>
                 </li>
@@ -290,6 +290,9 @@
                 <a href="#fale-conosco">Fale Conosco</a>
                 <a href="#anuncie">Anuncie</a>
                 <a href="#privacidade">Privacidade</a>
+                <button class="btn-feedback-menu" onclick="abrirModalFeedback()">
+                    Envie seu Feedback
+                </button>
             </div>
         </div>
     </nav>
@@ -402,7 +405,7 @@
     <span>Pesquisa</span>
     </button>
 
-    <a href="#neels" class="nav-item">
+    <a href="{% url 'neels' %}" class="nav-item">
     <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
     <span>Neels</span>
     </a>

@@ -30,6 +30,16 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+def neels(request):
+    """View para a página Neels"""
+    # Pegar todas as notícias ordenadas por data de publicação
+    noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+    
+    context = {
+        'noticias': noticias,
+    }
+    return render(request, 'neels.html', context)
+
 def get_client_ip(request):
     fake_ip = request.GET.get('fake_ip')  # Exemplo: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222
     if fake_ip:
