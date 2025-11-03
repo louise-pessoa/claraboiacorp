@@ -1,6 +1,6 @@
 describe('Teste de Feedback', () => {
   it('Deve enviar um feedback a partir do menu hamburguer', () => {
-    cy.visit('http://127.0.0.1:8000/')
+    cy.visit('/')
     cy.get('#menuHamburguer').click()
     cy.get('.btn-feedback-menu').click()
     cy.get('label[for="nivel5"]').click()

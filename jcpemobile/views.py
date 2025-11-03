@@ -379,3 +379,50 @@ def admin_deletar_noticia(request, noticia_id):
     noticia.delete()
     messages.success(request, f'Notícia "{titulo}" deletada com sucesso!')
     return redirect('admin_dashboard')
+
+
+@user_passes_test(is_staff, login_url='login_usuario')
+@require_http_methods(["POST"])
+def admin_criar_autor(request):
+    """View API para criar um novo autor via AJAX"""
+    try:
+        data = json.loads(request.body)
+        nome = data.get('nome', '').strip()
+        bio = data.get('bio', '').strip()
+        
+        if not nome:
+            return JsonResponse({
+                'success': False,
+                'error': 'O nome do autor é obrigatório.'
+            }, status=400)
+        
+        # Verificar se já existe um autor com esse nome
+        if Autor.objects.filter(nome=nome).exists():
+            return JsonResponse({
+                'success': False,
+                'error': 'Já existe um autor com esse nome.'
+            }, status=400)
+        
+        # Criar o novo autor
+        autor = Autor.objects.create(nome=nome, bio=bio)
+        
+        return JsonResponse({
+            'success': True,
+            'autor': {
+                'id': autor.id,
+                'nome': autor.nome
+            },
+            'message': f'Autor "{autor.nome}" criado com sucesso!'
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'error': 'Erro ao processar dados.'
+        }, status=400)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+

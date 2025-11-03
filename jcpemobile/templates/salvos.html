@@ -758,6 +758,62 @@ Envie seu Feedback
                 svg.setAttribute('fill', 'none');
                 icon.style.opacity = '0.4';
             }
+<<<<<<< HEAD
+=======
+            return cookieValue;
+        }
+
+        function mostrarNotificacao(mensagem, tipo) {
+            const notificacaoExistente = document.querySelector('.notificacao-feedback');
+            if (notificacaoExistente) {
+                notificacaoExistente.remove();
+            }
+            
+            const notificacao = document.createElement('div');
+            notificacao.className = `notificacao-feedback notificacao-${tipo}`;
+            notificacao.innerHTML = `
+                <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${mensagem}</span>
+            `;
+            
+            // Adicionar estilos apenas uma vez
+            if (!document.getElementById('notificacao-feedback-styles')) {
+                const styleElement = document.createElement('style');
+                styleElement.id = 'notificacao-feedback-styles';
+                styleElement.textContent = `
+                    .notificacao-feedback {
+                        position: fixed;
+                        top: 80px;
+                        right: 20px;
+                        padding: 15px 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        z-index: 10000;
+                        animation: slideInRight 0.3s ease-out;
+                        font-size: 0.95rem;
+                        font-weight: 500;
+                    }
+                    .notificacao-success { background-color: #10b981; color: white; }
+                    .notificacao-error { background-color: #ef4444; color: white; }
+                    .notificacao-feedback i { font-size: 1.2rem; }
+                    @keyframes slideInRight {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(styleElement);
+            }
+            
+            document.body.appendChild(notificacao);
+            
+            setTimeout(() => {
+                notificacao.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => notificacao.remove(), 300);
+            }, 3000);
+>>>>>>> e63c120e7f3cc7584d0d15ec1223c53686533d47
         }
     </script>
 </body>

@@ -59,6 +59,27 @@
             background: #218838;
         }
 
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .form-group-with-button {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .form-group-with-button > div:first-child {
+            flex: 1;
+        }
+
         .container {
             max-width: 900px;
             margin: 2rem auto;
@@ -158,6 +179,94 @@
             .btn {
                 width: 100%;
             }
+
+            .form-group-with-button {
+                flex-direction: column;
+            }
+
+            .btn-primary {
+                width: 100%;
+            }
+        }
+
+        /* Estilos do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            animation: slideDown 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #1a1a1a;
+        }
+
+        .close {
+            font-size: 2rem;
+            color: #6c757d;
+            cursor: pointer;
+            border: none;
+            background: none;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #1a1a1a;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
     </style>
 </head>
@@ -213,12 +322,17 @@
                     {% endif %}
                 </div>
 
-                <div class="form-group">
-                    <label for="id_autor">Autor *</label>
-                    {{ form.autor }}
-                    {% if form.autor.errors %}
-                        <div class="error">{{ form.autor.errors.0 }}</div>
-                    {% endif %}
+                <div class="form-group-with-button">
+                    <div>
+                        <label for="id_autor">Autor *</label>
+                        {{ form.autor }}
+                        {% if form.autor.errors %}
+                            <div class="error">{{ form.autor.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnNovoAutor" style="margin-top: 1.8rem;">
+                        + Novo Autor
+                    </button>
                 </div>
 
                 <div class="form-group">
@@ -251,5 +365,151 @@
             </form>
         </div>
     </div>
+
+    <!-- Modal para Criar Novo Autor -->
+    <div id="modalAutor" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Novo Autor</h3>
+                <button class="close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nomeAutor">Nome do Autor *</label>
+                    <input type="text" id="nomeAutor" class="form-control" placeholder="Ex: João Silva" required>
+                    <div id="erroNomeAutor" class="error" style="display: none;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="bioAutor">Biografia (opcional)</label>
+                    <textarea id="bioAutor" class="form-control" rows="3" placeholder="Breve descrição sobre o autor..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnSalvarAutor">Salvar Autor</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const modal = document.getElementById('modalAutor');
+        const btnNovoAutor = document.getElementById('btnNovoAutor');
+        const closeModal = document.getElementById('closeModal');
+        const btnCancelar = document.getElementById('btnCancelar');
+        const btnSalvarAutor = document.getElementById('btnSalvarAutor');
+        const nomeAutorInput = document.getElementById('nomeAutor');
+        const bioAutorInput = document.getElementById('bioAutor');
+        const erroNomeAutor = document.getElementById('erroNomeAutor');
+        const selectAutor = document.getElementById('id_autor');
+
+        // Abrir modal
+        btnNovoAutor.addEventListener('click', () => {
+            modal.classList.add('show');
+            nomeAutorInput.value = '';
+            bioAutorInput.value = '';
+            erroNomeAutor.style.display = 'none';
+            nomeAutorInput.focus();
+        });
+
+        // Fechar modal
+        function fecharModal() {
+            modal.classList.remove('show');
+        }
+
+        closeModal.addEventListener('click', fecharModal);
+        btnCancelar.addEventListener('click', fecharModal);
+
+        // Fechar ao clicar fora do modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+
+        // Função para obter o CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Salvar novo autor
+        btnSalvarAutor.addEventListener('click', async () => {
+            const nome = nomeAutorInput.value.trim();
+            const bio = bioAutorInput.value.trim();
+
+            // Validação
+            if (!nome) {
+                erroNomeAutor.textContent = 'O nome do autor é obrigatório.';
+                erroNomeAutor.style.display = 'block';
+                nomeAutorInput.focus();
+                return;
+            }
+
+            // Desabilitar botão durante o envio
+            btnSalvarAutor.disabled = true;
+            btnSalvarAutor.textContent = 'Salvando...';
+
+            try {
+                const response = await fetch('{% url "admin_criar_autor" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ nome, bio })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Adicionar o novo autor ao select
+                    const option = new Option(data.autor.nome, data.autor.id, true, true);
+                    selectAutor.add(option);
+                    
+                    // Mostrar mensagem de sucesso
+                    const container = document.querySelector('.form-container');
+                    const alerta = document.createElement('div');
+                    alerta.className = 'alert alert-success';
+                    alerta.innerHTML = `<strong>Sucesso!</strong> ${data.message}`;
+                    container.insertBefore(alerta, container.firstChild);
+                    
+                    // Remover alerta após 5 segundos
+                    setTimeout(() => alerta.remove(), 5000);
+                    
+                    // Fechar modal
+                    fecharModal();
+                } else {
+                    erroNomeAutor.textContent = data.error;
+                    erroNomeAutor.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                erroNomeAutor.textContent = 'Erro ao criar autor. Tente novamente.';
+                erroNomeAutor.style.display = 'block';
+            } finally {
+                btnSalvarAutor.disabled = false;
+                btnSalvarAutor.textContent = 'Salvar Autor';
+            }
+        });
+
+        // Permitir Enter para salvar
+        nomeAutorInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                btnSalvarAutor.click();
+            }
+        });
+    </script>
 </body>
 </html>
