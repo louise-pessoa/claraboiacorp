@@ -292,6 +292,56 @@ Envie seu Feedback
 
 <!-- Grid de Notícias em cards verticais -->
 <div class="neels-grid">
+<!-- Cartão de exemplo 1 - Esporte -->
+<a href="#" class="neels-card">
+<img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Esporte" class="neels-card-image">
+<div class="neels-card-content">
+<span class="neels-card-tag">Esporte</span>
+<h2 class="neels-card-title">Com gols de Gustavo Coutinho e Jorginho, o Sport venceu no sábado (04) na ilha do Retiro e segue no G-4 da Série B.</h2>
+<p class="neels-card-description">O Sport conquistou mais uma vitória importante na Série B do Campeonato Brasileiro.</p>
+</div>
+</a>
+
+<!-- Cartão de exemplo 2 - Educação -->
+<a href="#" class="neels-card">
+<img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Educação" class="neels-card-image">
+<div class="neels-card-content">
+<span class="neels-card-tag">Educação</span>
+<h2 class="neels-card-title">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas públicas de todo o país.</h2>
+<p class="neels-card-description">Programa de incentivo à leitura alcança milhares de estudantes em todo Brasil.</p>
+</div>
+</a>
+
+<!-- Cartão de exemplo 3 - Política -->
+<a href="#" class="neels-card">
+<img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Política" class="neels-card-image">
+<div class="neels-card-content">
+<span class="neels-card-tag">Política</span>
+<h2 class="neels-card-title">Congresso Nacional aprova novas medidas de combate à corrupção e transparência pública.</h2>
+<p class="neels-card-description">Pacote de medidas visa fortalecer os mecanismos de fiscalização e controle público.</p>
+</div>
+</a>
+
+<!-- Cartão de exemplo 4 - Economia -->
+<a href="#" class="neels-card">
+<img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Economia" class="neels-card-image">
+<div class="neels-card-content">
+<span class="neels-card-tag">Economia</span>
+<h2 class="neels-card-title">Mercado financeiro reage positivamente a novos indicadores econômicos e dólar recua.</h2>
+<p class="neels-card-description">Bolsa de valores registra alta expressiva e investidores demonstram otimismo.</p>
+</div>
+</a>
+
+<!-- Cartão de exemplo 5 - Cultura -->
+<a href="#" class="neels-card">
+<img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Cultura" class="neels-card-image">
+<div class="neels-card-content">
+<span class="neels-card-tag">Cultura</span>
+<h2 class="neels-card-title">Festival de cinema brasileiro anuncia programação com mais de 100 filmes inéditos.</h2>
+<p class="neels-card-description">Evento cultural reúne produções nacionais e promove debate sobre audiovisual brasileiro.</p>
+</div>
+</a>
+
 {% for noticia in noticias %}
 <a href="{% url 'noticia_detalhe' noticia.slug %}" class="neels-card">
 <img src="{{ noticia.imagem_destaque.url }}" alt="{{ noticia.titulo }}" class="neels-card-image">
@@ -301,8 +351,6 @@ Envie seu Feedback
 <p class="neels-card-description">{{ noticia.resumo|truncatewords:20 }}</p>
 </div>
 </a>
-{% empty %}
-<p>Nenhuma notícia disponível no momento.</p>
 {% endfor %}
 </div>
 </div>
