@@ -24,7 +24,15 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get('#login_email').type(userEmail)
   cy.get('#login_senha').type(userPassword)
   cy.get('#btnEntrar').click()
-  cy.wait(1000) // Aguardar fechamento do modal
+  
+  // Aguardar o modal fechar completamente
+  cy.get('#modalLogin', { timeout: 5000 }).should('not.be.visible')
+  
+  // Verificar se está na home page
+  cy.url().should('eq', Cypress.config().baseUrl + '/')
+  
+  // Aguardar a página carregar completamente
+  cy.wait(500)
 })
 
 // Comando customizado para acessar notícias salvas

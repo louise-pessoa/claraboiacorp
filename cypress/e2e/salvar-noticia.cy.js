@@ -1,7 +1,7 @@
 describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
 
   beforeEach(() => {
-    cy.visit('http://127.0.0.1:8000/')
+    cy.visit('/')
   })
 
   // Cenário 1: Notícia salva com sucesso
@@ -10,8 +10,8 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
     cy.login()
 
     // E está visualizando uma notícia de seu interesse
-    cy.get('.link-noticia', { timeout: 10000 }).should('be.visible')
-    cy.get('.link-noticia').first().click()
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
     cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
 
     // Quando ele clica no botão "Salvar"
@@ -28,8 +28,8 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
     cy.login()
 
     // Salvar uma notícia primeiro
-    cy.get('.link-noticia', { timeout: 10000 }).should('be.visible')
-    cy.get('.link-noticia').first().click()
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
     cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
     cy.get('#botaoSalvar').click()
     cy.wait(1000)
@@ -55,8 +55,8 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
     cy.login()
 
     // Salvar uma notícia primeiro
-    cy.get('.link-noticia', { timeout: 10000 }).should('be.visible')
-    cy.get('.link-noticia').first().click()
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
     cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
     cy.get('#botaoSalvar').click()
     cy.wait(1000)
@@ -93,8 +93,8 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
   it('Deve exibir mensagem solicitando login ao tentar salvar sem estar logado', () => {
     // Dado que o visitante não está logado
     // Quando ele tenta clicar no botão "Salvar"
-    cy.get('.link-noticia', { timeout: 10000 }).should('be.visible')
-    cy.get('.link-noticia').first().click()
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
     cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
     cy.get('#botaoSalvar').click()
 
@@ -106,8 +106,8 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
   it('Deve alterar o estado visual do botão após salvar a notícia', () => {
     cy.login()
 
-    cy.get('.link-noticia', { timeout: 10000 }).should('be.visible')
-    cy.get('.link-noticia').first().click()
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
     cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
 
     // Verificar estado inicial (não salvo)
@@ -128,8 +128,8 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
     cy.login()
 
     // Salvar uma notícia
-    cy.get('.link-noticia', { timeout: 10000 }).should('be.visible')
-    cy.get('.link-noticia').first().click()
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
     cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
     cy.get('#botaoSalvar').click()
     cy.wait(1000)

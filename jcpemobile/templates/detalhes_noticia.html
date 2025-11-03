@@ -659,38 +659,39 @@
                 <span>${mensagem}</span>
             `;
             
-            const styles = document.createElement('style');
-            styles.textContent = `
-                .notificacao-salvar {
-                    position: fixed;
-                    top: 80px;
-                    right: 20px;
-                    padding: 15px 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    z-index: 10000;
-                    animation: slideInRight 0.3s ease-out;
-                    font-size: 0.95rem;
-                    font-weight: 500;
-                }
-                .notificacao-success { background-color: #10b981; color: white; }
-                .notificacao-error { background-color: #ef4444; color: white; }
-                .notificacao-salvar i { font-size: 1.2rem; }
-                @keyframes slideInRight {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                .botao-acao.salvo {
-                    background-color: var(--cor-primaria, #0066cc);
-                    color: white;
-                }
-            `;
+            // Adicionar estilos apenas uma vez
             if (!document.getElementById('notificacao-styles')) {
-                styles.id = 'notificacao-styles';
-                document.head.appendChild(styles);
+                const styleElement = document.createElement('style');
+                styleElement.id = 'notificacao-styles';
+                styleElement.textContent = `
+                    .notificacao-salvar {
+                        position: fixed;
+                        top: 80px;
+                        right: 20px;
+                        padding: 15px 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        z-index: 10000;
+                        animation: slideInRight 0.3s ease-out;
+                        font-size: 0.95rem;
+                        font-weight: 500;
+                    }
+                    .notificacao-success { background-color: #10b981; color: white; }
+                    .notificacao-error { background-color: #ef4444; color: white; }
+                    .notificacao-salvar i { font-size: 1.2rem; }
+                    @keyframes slideInRight {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    .botao-acao.salvo {
+                        background-color: var(--cor-primaria, #0066cc);
+                        color: white;
+                    }
+                `;
+                document.head.appendChild(styleElement);
             }
             
             document.body.appendChild(notificacao);
