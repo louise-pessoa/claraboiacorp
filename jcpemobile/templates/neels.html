@@ -62,6 +62,7 @@
     transition: all 0.3s ease;
     text-decoration: none;
     display: block;
+    position: relative;
 }
 
 .neels-card:hover {
@@ -77,19 +78,22 @@
 }
 
 .neels-card-content {
-    padding: 16px;
+    padding: 20px 16px 16px 16px;
 }
 
 .neels-card-tag {
+    position: absolute;
+    top: 190px;
+    left: -15px;
     display: inline-block;
     background: #E30613;
     color: #fff;
     font-size: 12px;
     font-weight: 600;
-    padding: 4px 12px;
+    padding: 1px 32px;
     border-radius: 12px;
-    margin-bottom: 12px;
     text-transform: uppercase;
+    z-index: 10;
 }
 
 .neels-card-title {
@@ -98,6 +102,7 @@
     color: #1a1a1a;
     line-height: 1.4;
     margin-bottom: 8px;
+    margin-top: 25px;
 }
 
 .neels-card-description {
