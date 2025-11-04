@@ -379,18 +379,18 @@
                 </div>
             </div>
 
-            {% if noticias %}
-                <table class="noticias-table">
-                    <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Categorias</th>
-                            <th>Autor</th>
-                            <th>Data</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table class="noticias-table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categorias</th>
+                        <th>Autor</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if noticias %}
                         {% for noticia in noticias %}
                         <tr>
                             <td>{{ noticia.titulo|truncatewords:8 }}</td>
@@ -423,14 +423,16 @@
                             </td>
                         </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <div class="empty-state">
-                    <p>Nenhuma notícia cadastrada ainda.</p>
-                    <a href="{% url 'admin_criar_noticia' %}" class="btn btn-success">Criar Primeira Notícia</a>
-                </div>
-            {% endif %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                <p>Nenhuma notícia cadastrada ainda.</p>
+                                <a href="{% url 'admin_criar_noticia' %}" class="btn btn-success">Criar Primeira Notícia</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
