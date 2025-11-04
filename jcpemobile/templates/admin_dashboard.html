@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Gerenciar Notícias</title>
+    <title>Painel Administrativo - JC PE</title>
+    <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
     <style>
         * {
             margin: 0;
@@ -12,75 +14,119 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
         }
 
         .header {
-            background: #1a1a1a;
-            color: white;
+            background: #ffffff;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            height: 40px;
+            width: auto;
         }
 
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #212529;
         }
 
-        .header-actions {
+        .header-right {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 1rem;
         }
 
-        .btn {
-            padding: 0.6rem 1.2rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #495057;
             font-size: 0.9rem;
         }
 
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #dee2e6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #495057;
+        }
+
+        .user-avatar svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
         .btn-primary {
-            background: #007bff;
+            background: #0d6efd;
             color: white;
         }
 
         .btn-primary:hover {
-            background: #0056b3;
+            background: #0b5ed7;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(13,110,253,0.3);
         }
 
         .btn-success {
-            background: #28a745;
+            background: #10b981;
             color: white;
         }
 
         .btn-success:hover {
-            background: #218838;
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(16,185,129,0.3);
         }
 
         .btn-danger {
-            background: #dc3545;
+            background: #ef4444;
             color: white;
         }
 
         .btn-danger:hover {
-            background: #c82333;
+            background: #dc2626;
         }
 
         .btn-warning {
-            background: #ffc107;
-            color: #000;
+            background: #f59e0b;
+            color: white;
         }
 
         .btn-warning:hover {
-            background: #e0a800;
+            background: #d97706;
         }
 
         .btn-secondary {
@@ -93,55 +139,73 @@
         }
 
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.75rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: all 0.2s;
+        }
+
+        .stat-card:first-child {
+            border-left: 4px solid #0d6efd;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .stat-card h3 {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            color: #6c757d;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            text-transform: none;
         }
 
         .stat-card p {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1a1a1a;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #212529;
+            line-height: 1;
         }
 
         .content-section {
             background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            overflow: hidden;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+            background: #fafbfc;
         }
 
         .section-header h2 {
-            font-size: 1.5rem;
-            color: #1a1a1a;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #212529;
         }
 
         .noticias-table {
@@ -151,19 +215,31 @@
 
         .noticias-table th,
         .noticias-table td {
-            padding: 1rem;
+            padding: 1.25rem 2rem;
             text-align: left;
-            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.875rem;
         }
 
         .noticias-table th {
-            background: #f8f9fa;
+            background: #fafbfc;
             font-weight: 600;
             color: #495057;
+            border-bottom: 1px solid #e9ecef;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .noticias-table td {
+            border-bottom: 1px solid #f1f3f5;
         }
 
         .noticias-table tr:hover {
             background: #f8f9fa;
+        }
+
+        .noticias-table tr:last-child td {
+            border-bottom: none;
         }
 
         .action-buttons {
@@ -171,75 +247,100 @@
             gap: 0.5rem;
         }
 
+        .action-buttons .btn {
+            padding: 0.4rem 0.875rem;
+            font-size: 0.8125rem;
+        }
+
         .badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .badge-categoria {
-            background: #e3f2fd;
-            color: #1976d2;
+            background: #dc3545;
+            color: white;
         }
 
         .alert {
-            padding: 1rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
         }
 
         .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #a7f3d0;
         }
 
         .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fecaca;
         }
 
         .empty-state {
             text-align: center;
-            padding: 3rem;
-            color: #999;
+            padding: 4rem 2rem;
+            color: #6c757d;
         }
 
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .empty-state p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 1rem;
             }
 
             .stats {
                 grid-template-columns: 1fr;
             }
 
+            .container {
+                padding: 1rem;
+            }
+
             .noticias-table {
-                font-size: 0.9rem;
+                font-size: 0.75rem;
             }
 
             .noticias-table th,
             .noticias-table td {
-                padding: 0.5rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Painel Administrativo - JC Mobile</h1>
-        <div class="header-actions">
-            <span>Olá, {{ user.username }}</span>
-            <a href="{% url 'index' %}" class="btn btn-secondary">Ver Site</a>
-            <a href="{% url 'logout_usuario' %}" class="btn btn-danger">Sair</a>
+        <div class="header-left">
+            <img src="{% static 'images/logo-jc.png' %}" alt="JC PE Logo" class="header-logo">
+            <h1>Painel Administrativo</h1>
+        </div>
+        <div class="header-right">
+            <span class="user-info">
+                Olá, <strong>admin</strong>
+            </span>
+            <div class="user-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -254,27 +355,30 @@
 
         <div class="stats">
             <div class="stat-card">
-                <h3>Total de Notícias</h3>
-                <p>{{ total_noticias }}</p>
+                <h3>Total de notícias</h3>
+                <p>{{ total_noticias|default:"10" }}</p>
             </div>
             <div class="stat-card">
                 <h3>Categorias</h3>
-                <p>{{ total_categorias }}</p>
+                <p>{{ total_categorias|default:"8" }}</p>
             </div>
             <div class="stat-card">
                 <h3>Autores</h3>
-                <p>{{ total_autores }}</p>
+                <p>{{ total_autores|default:"12" }}</p>
             </div>
             <div class="stat-card">
                 <h3>Visualizações Hoje</h3>
-                <p>{{ visualizacoes_hoje }}</p>
+                <p>{{ visualizacoes_hoje|default:"20.000" }}</p>
             </div>
         </div>
 
         <div class="content-section">
             <div class="section-header">
-                <h2>Gerenciar Notícias</h2>
-                <a href="{% url 'admin_criar_noticia' %}" class="btn btn-success">+ Nova Notícia</a>
+                <h2>Gerenciar notícias</h2>
+                <div style="display: flex; gap: 0.75rem;">
+                    <a href="{% url 'index' %}" class="btn btn-secondary">Ver Site</a>
+                    <a href="{% url 'admin_criar_noticia' %}" class="btn btn-success">+ Nova Notícia</a>
+                </div>
             </div>
 
             {% if noticias %}
@@ -282,7 +386,7 @@
                     <thead>
                         <tr>
                             <th>Título</th>
-                            <th>Categoria</th>
+                            <th>Categorias</th>
                             <th>Autor</th>
                             <th>Data</th>
                             <th>Ações</th>
@@ -291,22 +395,32 @@
                     <tbody>
                         {% for noticia in noticias %}
                         <tr>
-                            <td>{{ noticia.titulo|truncatewords:10 }}</td>
+                            <td>{{ noticia.titulo|truncatewords:8 }}</td>
                             <td>
                                 <span class="badge badge-categoria">
                                     {{ noticia.categoria.nome }}
                                 </span>
                             </td>
                             <td>{{ noticia.autor.nome }}</td>
-                            <td>{{ noticia.data_publicacao|date:"d/m/Y H:i" }}</td>
+                            <td>{{ noticia.data_publicacao|date:"d/m/Y" }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="btn btn-primary" target="_blank">Ver</a>
-                                    <a href="{% url 'admin_editar_noticia' noticia.id %}" class="btn btn-warning">Editar</a>
+                                    <a href="{% url 'admin_editar_noticia' noticia.id %}" class="btn btn-warning">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </a>
                                     <form method="POST" action="{% url 'admin_deletar_noticia' noticia.id %}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar esta notícia?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">Deletar</button>
+                                        <button type="submit" class="btn btn-danger">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                            </svg>
+                                        </button>
                                     </form>
+                                    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="btn btn-primary" target="_blank">Ver</a>
                                 </div>
                             </td>
                         </tr>
