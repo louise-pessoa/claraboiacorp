@@ -772,13 +772,24 @@ rows="4"
 </div>
 
 <!-- Enquetes de noticia -->
-<h2>Enquetes</h2>
+<h1>Enquetes Populares</h1>
 
-{% for enquete in enquetes %}
-  {% include "parcial_enquete.html" with enquete=enquete %}
-{% empty %}
-  <p>Não há enquetes disponíveis no momento.</p>
-{% endfor %}
+{% if top3 %}
+  <ul>
+  {% for enquete in top3 %}
+    <li>
+      <a href="{% url 'detalhe_enquete' enquete.id %}">
+        {{ enquete.titulo }}
+      </a>
+      — {{ enquete.total_votos }} votos
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>Nenhuma enquete disponível.</p>
+{% endif %}
+
+<a href="{% url 'lista_enquetes' %}">Ver todas as enquetes</a>
 
 
 <!-- Segunda notícia -->

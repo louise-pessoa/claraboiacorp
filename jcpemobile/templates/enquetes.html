@@ -1,0 +1,22 @@
+<h1>Todas as Enquetes</h1>
+
+{% for enquete in enquetes %}
+  <div>
+    <h3>
+      <a href="{% url 'detalhe_enquete' enquete.id %}">
+        {{ enquete.titulo }}
+      </a>
+    </h3>
+    <p>{{ enquete.pergunta }}</p>
+    <p>Total de votos: {{ enquete.total_votos }}</p>
+  </div>
+{% empty %}
+  <p>Nenhuma enquete disponível.</p>
+{% endfor %}
+
+<!-- Voltar para pagina inicial -->
+<div class="artigo-navegacao" style="margin-top: 30px;">
+  <a href="{% url 'index' %}" class="botao-voltar">
+  <i class="fas fa-arrow-left"></i> Voltar para página inicial
+  </a>
+</div>

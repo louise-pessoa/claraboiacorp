@@ -1,0 +1,30 @@
+<h2>{{ enquete.titulo }}</h2>
+<p>{{ enquete.pergunta }}</p>
+
+{% if not ja_votou %}
+<form method="post">
+  {% csrf_token %}
+  {% for opcao in opcoes %}
+    <div>
+      <label>
+        <input type="radio" name="opcao" value="{{ opcao.id }}" required>
+        {{ opcao.texto }}
+      </label>
+    </div>
+  {% endfor %}
+  <button type="submit">Votar</button>
+</form>
+{% else %}
+<h3>Resultado da Enquete:</h3>
+<ul>
+  {% for opcao in opcoes %}
+    <li>
+      {{ opcao.texto }} — {{ opcao.votos_percentual|floatformat:2 }}%
+      ({{ opcao.votos.count }} votos)
+    </li>
+  {% endfor %}
+</ul>
+<p>Total de votos: {{ total_votos }}</p>
+{% endif %}
+
+<a href="{% url 'lista_enquetes' %}">Voltar às enquetes</a>

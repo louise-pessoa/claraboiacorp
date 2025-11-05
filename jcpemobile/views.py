@@ -24,36 +24,45 @@ def index(request):
     # Pegar todas as notícias para exibir na página
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
 
-    enquetes = Enquete.objects.all().order_by('-id')[:3]
+    # parte de enquetes para exibir na home
+    enquetes = Enquete.objects.annotate(total=Count('opcoes__votos')).order_by('-total')[:3]
 
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
         'todas_noticias': todas_noticias,
-        'enquetes': enquetes,
+        'top3': enquetes,
     }
     return render(request, 'index.html', context)
 
-def votar_enquete(request, enquete_id):
+# Página com todas as enquetes
+def lista_enquetes(request):
+    enquetes = Enquete.objects.all()
+    return render(request, 'enquetes.html', {'enquetes': enquetes})
+
+
+# Página de detalhe/votação de uma enquete
+def detalhe_enquete(request, enquete_id):
     enquete = get_object_or_404(Enquete, id=enquete_id)
     ip_usuario = get_client_ip(request)
+    ja_votou = Voto.objects.filter(opcao__enquete=enquete, ip_usuario=ip_usuario).exists()
 
-    # Verifica se o IP já votou nesta enquete
-    if Voto.objects.filter(opcao__enquete=enquete, ip_usuario=ip_usuario).exists():
-        return JsonResponse({'erro': 'Você já votou nesta enquete.'}, status=400)
+    if request.method == 'POST' and not ja_votou:
+        opcao_id = request.POST.get('opcoes')
+        opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
+        Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
+        return redirect('detalhe_enquete', enquete_id=enquete.id)
 
-    opcao_id = request.POST.get('opcao')
-    opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
+    opcoes = enquete.opcoes.all()
+    total_votos = enquete.total_votos()
 
-    # Cria o voto
-    Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
+    contexto = {
+        'enquete': enquete,
+        'opcoes': opcoes,
+        'total_votos': total_votos,
+        'ja_votou': ja_votou,
+    }
 
-    # Retorna os resultados atualizados
-    resultados = [
-        {'texto': o.texto, 'percentual': round(o.percentual(), 2)}
-        for o in enquete.opcoes.all()
-    ]
-
-    return JsonResponse({'mensagem': 'Voto registrado com sucesso!', 'resultados': resultados})
+    return render(request, 'detalhe_enquete.html', contexto)
 
 def neels(request):
     """View para a página Neels"""

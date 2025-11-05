@@ -136,7 +136,7 @@ class Opcao(models.Model):
 class Voto(models.Model):
     opcao = models.ForeignKey(Opcao, on_delete=models.CASCADE, related_name="votos")
     ip_usuario = models.GenericIPAddressField()
-    data = models.DateTimeField(default=timezone.now)
+    data = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ('opcao', 'ip_usuario')
+    def __str__(self):
+        return f"Voto em {self.opcao.texto} ({self.ip_usuario})"
