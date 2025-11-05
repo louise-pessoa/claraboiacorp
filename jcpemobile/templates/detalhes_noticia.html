@@ -334,8 +334,8 @@
 
                 <!-- Imagem Principal -->
                 {% if noticia.imagem %}
-                <div class="artigo-imagem-principal">
-                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                <div class="artigo-imagem-principal" style="text-align: center; border-radius: 12px;">
+                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy" style="border-radius: 12px; max-height: 400px; max-width: 100%; object-fit: contain; display: inline-block;">
                 </div>
                 {% endif %}
 
@@ -382,8 +382,8 @@
                         {% for noticia_rel in noticias_relacionadas %}
                         <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="card-noticia-relacionada" style="display: block; text-decoration: none; color: inherit; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; background-color: #ffffff;">
                             {% if noticia_rel.imagem %}
-                            <div class="imagem-relacionada" style="width: 100%; height: 180px; overflow: hidden; background-color: #f3f4f6;">
-                                <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="imagem-relacionada" style="width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; border-radius: 12px 12px 0 0;">
+                                <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px 12px 0 0;">
                             </div>
                             {% endif %}
                             <div class="conteudo-relacionada" style="padding: 16px;">

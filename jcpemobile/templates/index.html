@@ -475,9 +475,10 @@ rows="4"
 /* PRIMEIRA NOTÍCIA (imagem em cima) */
 .card.top img {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
+  max-height: 200px;
+  object-fit: contain;
   display: block;
+  margin: 0 auto;
 }
 
 .card.top .content {
@@ -568,10 +569,10 @@ rows="4"
 }
 
 .side img {
-  width: 100px;
-  height: 100px;
+  max-width: 110px;
+  max-height: 110px;
   border-radius: 10px;
-  object-fit: cover;
+  object-fit: contain;
   margin-left: 10px;
   flex-shrink: 0;
   position: relative;
@@ -589,12 +590,12 @@ rows="4"
   }
   
   .card.top img {
-    height: 160px;
+    max-height: 180px;
   }
-  
+
   .side img {
-    width: 106px;
-    height: 75px;
+    max-width: 100px;
+    max-height: 90px;
   }
 }
 
@@ -767,7 +768,7 @@ rows="4"
   {% with todas_noticias|first as noticia_principal %}
   {% if noticia_principal %}
   <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
-    <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}">
+    <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
     <div class="content">
       <span class="tag">{{ noticia_principal.categoria.nome }}</span>
       <h2 class="title">{{ noticia_principal.titulo }}</h2>
@@ -805,7 +806,7 @@ rows="4"
       <h2 class="title">{{ noticia.titulo }}</h2>
       <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
     </div>
-    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" style="border-radius: 12px;">
   </a>
   {% endfor %}
 {% else %}
