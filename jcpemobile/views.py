@@ -46,10 +46,14 @@ def detalhe_enquete(request, enquete_id):
     ip_usuario = get_client_ip(request)
     ja_votou = Voto.objects.filter(opcao__enquete=enquete, ip_usuario=ip_usuario).exists()
 
-    if request.method == 'POST' and not ja_votou:
-        opcao_id = request.POST.get('opcoes')
-        opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
-        Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
+    if request.method == 'POST':
+        if ja_votou:
+            messages.warning(request, "Você já votou nesta enquete!")
+        else:
+            opcao_id = request.POST.get('opcao')  
+            opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
+            Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
+            messages.success(request, "Voto registrado com sucesso!")
         return redirect('detalhe_enquete', enquete_id=enquete.id)
 
     opcoes = enquete.opcoes.all()
@@ -63,6 +67,7 @@ def detalhe_enquete(request, enquete_id):
     }
 
     return render(request, 'detalhe_enquete.html', contexto)
+
 
 def neels(request):
     """View para a página Neels"""

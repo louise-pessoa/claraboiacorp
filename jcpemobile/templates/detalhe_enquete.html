@@ -1,30 +1,29 @@
 <h2>{{ enquete.titulo }}</h2>
 <p>{{ enquete.pergunta }}</p>
 
-{% if not ja_votou %}
-<form method="post">
-  {% csrf_token %}
-  {% for opcao in opcoes %}
-    <div>
-      <label>
-        <input type="radio" name="opcao" value="{{ opcao.id }}" required>
-        {{ opcao.texto }}
-      </label>
-    </div>
-  {% endfor %}
-  <button type="submit">Votar</button>
-</form>
+{% if ja_votou %}
+    <h3>Resultados:</h3>
+    <ul>
+        {% for opcao in opcoes %}
+            <li>
+                {{ opcao.texto }} – 
+                {{ opcao.votos.count }} votos 
+                ({{ opcao.percentual|floatformat:1 }}%)
+            </li>
+        {% endfor %}
+    </ul>
 {% else %}
-<h3>Resultado da Enquete:</h3>
-<ul>
-  {% for opcao in opcoes %}
-    <li>
-      {{ opcao.texto }} — {{ opcao.votos_percentual|floatformat:2 }}%
-      ({{ opcao.votos.count }} votos)
-    </li>
-  {% endfor %}
-</ul>
-<p>Total de votos: {{ total_votos }}</p>
+    <form method="POST" action="{% url 'detalhe_enquete' enquete.id %}">
+        {% csrf_token %}
+        {% for opcao in opcoes %}
+            <label>
+                <input type="radio" name="opcao" value="{{ opcao.id }}" required>
+                {{ opcao.texto }}
+            </label><br>
+        {% endfor %}
+        <button type="submit">Votar</button>
+    </form>
 {% endif %}
+
 
 <a href="{% url 'lista_enquetes' %}">Voltar às enquetes</a>
