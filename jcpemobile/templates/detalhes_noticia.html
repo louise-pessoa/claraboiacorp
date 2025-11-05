@@ -374,6 +374,33 @@
                 </div>
                 {% endif %}
 
+                <!-- Notícias Relacionadas -->
+                {% if noticias_relacionadas %}
+                <section class="noticias-relacionadas" style="margin-top: 48px; padding-top: 32px; border-top: 2px solid #e5e7eb;">
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin-bottom: 24px;">Você também pode gostar</h2>
+                    <div class="grid-noticias-relacionadas" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                        {% for noticia_rel in noticias_relacionadas %}
+                        <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="card-noticia-relacionada" style="display: block; text-decoration: none; color: inherit; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; background-color: #ffffff;">
+                            {% if noticia_rel.imagem %}
+                            <div class="imagem-relacionada" style="width: 100%; height: 180px; overflow: hidden; background-color: #f3f4f6;">
+                                <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            {% endif %}
+                            <div class="conteudo-relacionada" style="padding: 16px;">
+                                {% if noticia_rel.categoria %}
+                                <span class="categoria-tag" style="font-size: 0.75rem; font-weight: 600; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia_rel.categoria.nome }}</span>
+                                {% endif %}
+                                <h3 class="titulo-relacionada" style="font-size: 1rem; font-weight: 600; color: #111827; line-height: 1.4; margin-bottom: 8px;">{{ noticia_rel.titulo|truncatewords:12 }}</h3>
+                                {% if noticia_rel.resumo %}
+                                <p class="resumo-relacionada" style="font-size: 0.875rem; color: #6b7280; line-height: 1.5;">{{ noticia_rel.resumo|truncatewords:15 }}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+
                 <!-- Voltar -->
                 <div class="artigo-navegacao" style="margin-top: 30px;">
                     <a href="{% url 'index' %}" class="botao-voltar">
@@ -564,7 +591,27 @@
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/navegacao.js' %}"></script>
-    
+
+    <!-- Estilos para notícias relacionadas -->
+    <style>
+        .card-noticia-relacionada:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+
+        @media (max-width: 768px) {
+            .grid-noticias-relacionadas {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .grid-noticias-relacionadas {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+    </style>
+
     <script>
         // JavaScript para botão de salvar notícia
         document.addEventListener('DOMContentLoaded', function() {

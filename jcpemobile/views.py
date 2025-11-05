@@ -108,9 +108,32 @@ def noticia_detalhe(request, slug):
     if request.user.is_authenticated:
         noticia_salva = NoticaSalva.objects.filter(usuario=request.user, noticia=noticia).exists()
 
+    # Buscar notícias relacionadas
+    noticias_relacionadas = []
+    if noticia.categoria:
+        # Buscar notícias da mesma categoria, excluindo a notícia atual
+        noticias_relacionadas = Noticia.objects.filter(
+            categoria=noticia.categoria
+        ).exclude(
+            id=noticia.id
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')[:4]
+
+    # Se não houver notícias relacionadas suficientes, buscar notícias gerais
+    if len(noticias_relacionadas) < 4:
+        noticias_gerais = Noticia.objects.exclude(
+            id=noticia.id
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')[:4]
+
+        # Combinar notícias relacionadas com gerais, evitando duplicatas
+        ids_existentes = [n.id for n in noticias_relacionadas]
+        for noticia_geral in noticias_gerais:
+            if noticia_geral.id not in ids_existentes and len(noticias_relacionadas) < 4:
+                noticias_relacionadas = list(noticias_relacionadas) + [noticia_geral]
+
     return render(request, 'detalhes_noticia.html', {
         'noticia': noticia,
-        'noticia_salva': noticia_salva
+        'noticia_salva': noticia_salva,
+        'noticias_relacionadas': noticias_relacionadas
     })
 
 

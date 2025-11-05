@@ -761,56 +761,56 @@ rows="4"
 }
 </style>
 
-<!-- Notícia principal -->
-<div class="card top">
-  <img src="https://media.istockphoto.com/id/1673718113/pt/foto/woman-reporter-presents-news-bulletin.jpg?s=612x612&w=0&k=20&c=GbQ5uNzYx_1VOuNV0ThuaoJu8OsQuyZatwEvAaeL1NI=" alt="Notícia principal">
-  <div class="content">
-    <span class="tag saude">Saúde</span>
-    <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
-    <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas.</p>
-  </div>
-</div>
+<!-- Notícias dinâmicas -->
+{% if todas_noticias %}
+  <!-- Notícia principal (primeira notícia) -->
+  {% with todas_noticias|first as noticia_principal %}
+  {% if noticia_principal %}
+  <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+    <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}">
+    <div class="content">
+      <span class="tag">{{ noticia_principal.categoria.nome }}</span>
+      <h2 class="title">{{ noticia_principal.titulo }}</h2>
+      <p class="desc">{{ noticia_principal.resumo|truncatewords:20 }}</p>
+    </div>
+  </a>
+  {% endif %}
+  {% endwith %}
 
-<!-- Enquetes de noticia -->
-<h1>Enquetes Populares</h1>
+  <!-- Enquetes de noticia -->
+  <h1>Enquetes Populares</h1>
 
-{% if top3 %}
-  <ul>
-  {% for enquete in top3 %}
-    <li>
-      <a href="{% url 'detalhe_enquete' enquete.id %}">
-        {{ enquete.titulo }}
-      </a>
-      — {{ enquete.total_votos }} votos
-    </li>
+  {% if top3 %}
+    <ul>
+    {% for enquete in top3 %}
+      <li>
+        <a href="{% url 'detalhe_enquete' enquete.id %}">
+          {{ enquete.titulo }}
+        </a>
+        — {{ enquete.total_votos }} votos
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nenhuma enquete disponível.</p>
+  {% endif %}
+
+  <a href="{% url 'lista_enquetes' %}">Ver todas as enquetes</a>
+
+  <!-- Próximas notícias (2ª e 3ª) -->
+  {% for noticia in todas_noticias|slice:"1:3" %}
+  <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+    <div class="content">
+      <span class="tag">{{ noticia.categoria.nome }}</span>
+      <h2 class="title">{{ noticia.titulo }}</h2>
+      <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+    </div>
+    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+  </a>
   {% endfor %}
-  </ul>
 {% else %}
-  <p>Nenhuma enquete disponível.</p>
+  <p>Nenhuma notícia disponível no momento.</p>
 {% endif %}
-
-<a href="{% url 'lista_enquetes' %}">Ver todas as enquetes</a>
-
-
-<!-- Segunda notícia -->
-<div class="card side">
-  <div class="content">
-    <span class="tag educacao">Educação</span>
-    <h2 class="title">Enem 2025: inscritos autodeclarados indígenas crescem 89%, desde 2022</h2>
-    <p class="desc">Em um recorte por sexo, o painel ...</p>
-  </div>
-  <img src="https://media.istockphoto.com/id/2225608969/pt/foto/brazilian-national-high-school-exam-enem-app-on-smartphone-screen-brazilian-education.jpg?s=612x612&w=0&k=20&c=Zn4G2td84a8pT0z8zWqkiP66azreCE17yLgdvasELrg=" alt="Notícia lateral 1">
-</div>
-
-<!-- Terceira notícia -->
-<div class="card side">
-  <div class="content">
-    <span class="tag esporte">Esporte  </span>
-    <h2 class="title">Câmara aprova plano de incentivo ao esporte</h2>
-    <p class="desc">Medida busca ampliar atividades esportivas em escolas públicas.</p>
-  </div>
-  <img src="https://media.istockphoto.com/id/1553957608/pt/vetorial/black-friday-sale-poster-design.jpg?s=612x612&w=0&k=20&c=CGX-67jVSBaysGxiUjSn5dNZQcKZ7RhBRRY1pE6Ec70=" alt="Notícia lateral 2">
-</div>
 
 <!-- Carrossel de Vídeos -->
 <section class="video-carousel-section">
