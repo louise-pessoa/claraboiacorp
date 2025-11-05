@@ -13,13 +13,29 @@ from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
 
+def get_client_ip(request):
+    fake_ip_post = request.POST.get('fake_ip')
+    if fake_ip_post:
+        return fake_ip_post
+
+    fake_ip = request.GET.get('fake_ip')  # Exemplo: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222
+    if fake_ip:
+        return fake_ip
+
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 def index(request):
     """View para a página inicial"""
     hoje = timezone.now().date()
     # Busca as notícias mais vistas do dia, com ordenamento secundário por data de publicação
     noticias_mais_vistas = Noticia.objects.all().annotate(
         visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
-    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 9 notícias do dia
+    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 10 notícias do dia
 
     # Pegar todas as notícias para exibir na página
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
@@ -43,18 +59,28 @@ def lista_enquetes(request):
 # Página de detalhe/votação de uma enquete
 def detalhe_enquete(request, enquete_id):
     enquete = get_object_or_404(Enquete, id=enquete_id)
+
+    # IMPORTANT: get_client_ip agora lê POST/GET fake_ip também
     ip_usuario = get_client_ip(request)
     ja_votou = Voto.objects.filter(opcao__enquete=enquete, ip_usuario=ip_usuario).exists()
 
     if request.method == 'POST':
         if ja_votou:
-            messages.warning(request, "Você já votou nesta enquete!")
+            # avisar que já votou
+            messages.warning(request, "Você já votou nesta enquete com o IP atual.")
         else:
-            opcao_id = request.POST.get('opcao')  
+            opcao_id = request.POST.get('opcao')
+            # validação adicional: opcao_id existe
             opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
             Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
             messages.success(request, "Voto registrado com sucesso!")
-        return redirect('detalhe_enquete', enquete_id=enquete.id)
+        # redireciona para a mesma página para evitar reenvio de formulário
+        # preservando querystring (ex.: ?fake_ip=1.2.3.4) para conveniência de testes
+        redirect_url = request.path
+        qs = request.META.get('QUERY_STRING')
+        if qs:
+            redirect_url = f"{redirect_url}?{qs}"
+        return redirect(redirect_url)
 
     opcoes = enquete.opcoes.all()
     total_votos = enquete.total_votos()
@@ -78,18 +104,6 @@ def neels(request):
         'noticias': noticias,
     }
     return render(request, 'neels.html', context)
-
-def get_client_ip(request):
-    fake_ip = request.GET.get('fake_ip')  # Exemplo: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222
-    if fake_ip:
-        return fake_ip
-
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 
 def noticia_detalhe(request, slug):
     noticia = get_object_or_404(Noticia, slug=slug)

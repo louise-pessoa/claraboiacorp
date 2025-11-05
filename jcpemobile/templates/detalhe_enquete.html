@@ -1,29 +1,57 @@
-<h2>{{ enquete.titulo }}</h2>
-<p>{{ enquete.pergunta }}</p>
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ enquete.titulo }}</title>
+</head>
+<body>
 
-{% if ja_votou %}
+  <!-- Mensagens (se ainda não estiverem no base.html) -->
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="message {{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h2>{{ enquete.titulo }}</h2>
+  <p>{{ enquete.pergunta }}</p>
+
+  {% if ja_votou %}
     <h3>Resultados:</h3>
     <ul>
-        {% for opcao in opcoes %}
-            <li>
-                {{ opcao.texto }} – 
-                {{ opcao.votos.count }} votos 
-                ({{ opcao.percentual|floatformat:1 }}%)
-            </li>
-        {% endfor %}
+      {% for opcao in opcoes %}
+        <li>
+          {{ opcao.texto }} — {{ opcao.votos.count }} votos
+          ({{ opcao.percentual|floatformat:1 }}%)
+        </li>
+      {% endfor %}
     </ul>
-{% else %}
-    <form method="POST" action="{% url 'detalhe_enquete' enquete.id %}">
-        {% csrf_token %}
-        {% for opcao in opcoes %}
-            <label>
-                <input type="radio" name="opcao" value="{{ opcao.id }}" required>
-                {{ opcao.texto }}
-            </label><br>
-        {% endfor %}
-        <button type="submit">Votar</button>
+    <p>Total de votos: {{ total_votos }}</p>
+  {% else %}
+    <form method="post">
+      {% csrf_token %}
+      {% for opcao in opcoes %}
+        <label>
+          <input type="radio" name="opcao" value="{{ opcao.id }}" required>
+          {{ opcao.texto }}
+        </label><br>
+      {% endfor %}
+
+      {# Campo opcional para testes: envia fake_ip junto com o POST #}
+      {# - Você pode remover esse bloco em produção #}
+      <div style="margin-top:8px;">
+        <label>Fake IP (apenas para teste):
+          <input type="text" name="fake_ip" placeholder="ex: 1.2.3.4" value="{{ request.GET.fake_ip }}">
+        </label>
+      </div>
+
+      <button type="submit">Votar</button>
     </form>
-{% endif %}
+  {% endif %}
 
-
-<a href="{% url 'lista_enquetes' %}">Voltar às enquetes</a>
+  <p><a href="{% url 'lista_enquetes' %}">Voltar às enquetes</a></p>
+</body>
+</html>
