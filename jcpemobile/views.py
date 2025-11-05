@@ -40,13 +40,9 @@ def index(request):
     # Pegar todas as notícias para exibir na página
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
 
-    # parte de enquetes para exibir na home
-    enquetes = Enquete.objects.annotate(total=Count('opcoes__votos')).order_by('-total')[:3]
-
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
         'todas_noticias': todas_noticias,
-        'top3': enquetes,
     }
     return render(request, 'index.html', context)
 
@@ -122,6 +118,33 @@ def noticia_detalhe(request, slug):
     if request.user.is_authenticated:
         noticia_salva = NoticaSalva.objects.filter(usuario=request.user, noticia=noticia).exists()
 
+    # Processar votação da enquete se houver
+    ja_votou_enquete = False
+    enquete = None
+    if hasattr(noticia, 'enquete'):
+        enquete = noticia.enquete
+
+        # Verificar se já votou
+        ja_votou_enquete = Voto.objects.filter(
+            opcao__enquete=enquete,
+            ip_usuario=ip
+        ).exists()
+
+        # Processar voto se for POST
+        if request.method == 'POST' and not ja_votou_enquete:
+            opcao_id = request.POST.get('opcao_id')
+            if opcao_id:
+                try:
+                    opcao = Opcao.objects.get(id=opcao_id, enquete=enquete)
+                    Voto.objects.create(opcao=opcao, ip_usuario=ip)
+                    ja_votou_enquete = True
+                    messages.success(request, 'Voto registrado com sucesso!')
+                    return redirect('noticia_detalhe', slug=slug)
+                except Opcao.DoesNotExist:
+                    messages.error(request, 'Opção inválida.')
+        elif request.method == 'POST' and ja_votou_enquete:
+            messages.warning(request, 'Você já votou nesta enquete.')
+
     # Buscar notícias relacionadas
     noticias_relacionadas = []
     if noticia.categoria:
@@ -147,7 +170,9 @@ def noticia_detalhe(request, slug):
     return render(request, 'detalhes_noticia.html', {
         'noticia': noticia,
         'noticia_salva': noticia_salva,
-        'noticias_relacionadas': noticias_relacionadas
+        'noticias_relacionadas': noticias_relacionadas,
+        'enquete': enquete,
+        'ja_votou_enquete': ja_votou_enquete
     })
 
 
@@ -431,6 +456,28 @@ def admin_criar_noticia(request):
         form = NoticiaForm(request.POST, request.FILES)
         if form.is_valid():
             noticia = form.save()
+
+            # Processar enquete se existir
+            tem_enquete = request.POST.get('tem_enquete') == 'on'
+            if tem_enquete:
+                titulo_enquete = request.POST.get('titulo_enquete', '').strip()
+                pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
+
+                if titulo_enquete and pergunta_enquete:
+                    # Criar enquete
+                    enquete = Enquete.objects.create(
+                        titulo=titulo_enquete,
+                        pergunta=pergunta_enquete,
+                        noticia=noticia
+                    )
+
+                    # Criar opções
+                    opcoes = request.POST.getlist('opcao[]')
+                    for texto_opcao in opcoes:
+                        texto_opcao = texto_opcao.strip()
+                        if texto_opcao:
+                            Opcao.objects.create(enquete=enquete, texto=texto_opcao)
+
             messages.success(request, f'Notícia "{noticia.titulo}" criada com sucesso!')
             return redirect('admin_dashboard')
     else:
@@ -448,6 +495,41 @@ def admin_editar_noticia(request, noticia_id):
         form = NoticiaForm(request.POST, request.FILES, instance=noticia)
         if form.is_valid():
             noticia = form.save()
+
+            # Processar enquete
+            tem_enquete = request.POST.get('tem_enquete') == 'on'
+
+            if tem_enquete:
+                titulo_enquete = request.POST.get('titulo_enquete', '').strip()
+                pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
+
+                if titulo_enquete and pergunta_enquete:
+                    # Atualizar ou criar enquete
+                    if hasattr(noticia, 'enquete'):
+                        enquete = noticia.enquete
+                        enquete.titulo = titulo_enquete
+                        enquete.pergunta = pergunta_enquete
+                        enquete.save()
+                        # Deletar opções antigas
+                        enquete.opcoes.all().delete()
+                    else:
+                        enquete = Enquete.objects.create(
+                            titulo=titulo_enquete,
+                            pergunta=pergunta_enquete,
+                            noticia=noticia
+                        )
+
+                    # Criar opções
+                    opcoes = request.POST.getlist('opcao[]')
+                    for texto_opcao in opcoes:
+                        texto_opcao = texto_opcao.strip()
+                        if texto_opcao:
+                            Opcao.objects.create(enquete=enquete, texto=texto_opcao)
+            else:
+                # Se não tem enquete mas tinha antes, deletar
+                if hasattr(noticia, 'enquete'):
+                    noticia.enquete.delete()
+
             messages.success(request, f'Notícia "{noticia.titulo}" atualizada com sucesso!')
             return redirect('admin_dashboard')
     else:

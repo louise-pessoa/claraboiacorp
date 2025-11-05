@@ -8,6 +8,26 @@ class OpcaoInline(admin.TabularInline):
     min_num = 2  # exige no mínimo 2 opções (pode remover se quiser)
     can_delete = True  # permite remover opções
 
+# Mostra opções dentro da enquete que está dentro da notícia
+class OpcaoEnqueteInline(admin.TabularInline):
+    model = Opcao
+    extra = 2
+    min_num = 2
+    can_delete = True
+    verbose_name = "Opção"
+    verbose_name_plural = "Opções da Enquete"
+
+# Mostra a enquete dentro da página de edição de uma notícia
+class EnqueteInline(admin.StackedInline):
+    model = Enquete
+    extra = 0
+    max_num = 1
+    can_delete = True
+    verbose_name = "Enquete"
+    verbose_name_plural = "Enquete da Notícia"
+    fields = ('titulo', 'pergunta')
+    inlines = []  # Não podemos ter inlines dentro de inlines no Django admin padrão
+
 # Admin principal da Enquete
 @admin.register(Enquete)
 class EnqueteAdmin(admin.ModelAdmin):
@@ -46,6 +66,7 @@ class NoticiaAdmin(admin.ModelAdmin):
 	list_display = ('titulo', 'categoria', 'autor', 'data_publicacao')
 	search_fields = ('titulo', 'resumo', 'conteudo')
 	list_filter = ('categoria', 'autor', 'tags')
+	inlines = [EnqueteInline]
 
 
 @admin.register(Autor)

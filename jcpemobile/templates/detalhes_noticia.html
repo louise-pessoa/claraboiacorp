@@ -364,6 +364,59 @@
                     {{ noticia.conteudo|linebreaks }}
                 </div>
 
+                <!-- Enquete -->
+                {% if enquete %}
+                <div class="enquete-container" style="margin-top: 40px; padding: 24px; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); border-radius: 16px; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
+                        <i class="fas fa-poll" style="margin-right: 8px;"></i>{{ enquete.titulo }}
+                    </h3>
+                    <p style="font-size: 1rem; color: #e5e7eb; margin-bottom: 20px;">{{ enquete.pergunta }}</p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" style="padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; {% if message.tags == 'success' %}background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0;{% elif message.tags == 'warning' %}background: #fef3c7; color: #92400e; border: 1px solid #fde68a;{% elif message.tags == 'error' %}background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if not ja_votou_enquete %}
+                        <!-- Formulário de votação -->
+                        <form method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+                            {% csrf_token %}
+                            {% for opcao in enquete.opcoes.all %}
+                            <label class="opcao-voto" style="display: flex; align-items: center; padding: 14px 18px; background: rgba(255, 255, 255, 0.95); border-radius: 10px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <input type="radio" name="opcao_id" value="{{ opcao.id }}" required style="margin-right: 12px; width: 18px; height: 18px; cursor: pointer;">
+                                <span style="font-size: 0.95rem; color: #111827; font-weight: 500;">{{ opcao.texto }}</span>
+                            </label>
+                            {% endfor %}
+                            <button type="submit" style="margin-top: 8px; padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);">
+                                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>Votar
+                            </button>
+                        </form>
+                    {% else %}
+                        <!-- Resultados da enquete -->
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            {% for opcao in enquete.opcoes.all %}
+                            <div class="resultado-opcao">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-size: 0.95rem; color: #ffffff; font-weight: 600;">{{ opcao.texto }}</span>
+                                    <span style="font-size: 0.95rem; color: #ffffff; font-weight: 700;">{{ opcao.percentual|floatformat:1 }}%</span>
+                                </div>
+                                <div style="width: 100%; height: 12px; background: rgba(255, 255, 255, 0.3); border-radius: 6px; overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: {{ opcao.percentual }}%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.4);"></div>
+                                </div>
+                                <span style="font-size: 0.8rem; color: #e5e7eb; margin-top: 4px; display: block;">{{ opcao.votos.count }} voto{{ opcao.votos.count|pluralize }}</span>
+                            </div>
+                            {% endfor %}
+                            <p style="margin-top: 12px; font-size: 0.85rem; color: #e5e7eb; text-align: center;">
+                                <i class="fas fa-users" style="margin-right: 6px;"></i>Total de votos: {{ enquete.total_votos }}
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
                 <!-- Tags -->
                 {% if noticia.tags.exists %}
                 <div class="artigo-tags">

@@ -113,6 +113,7 @@ class NoticaSalva(models.Model):
 class Enquete(models.Model):
     titulo = models.CharField(max_length=255)
     pergunta = models.CharField(max_length=255)
+    noticia = models.OneToOneField(Noticia, on_delete=models.CASCADE, related_name="enquete", null=True, blank=True)
 
     def __str__(self):
         return self.titulo

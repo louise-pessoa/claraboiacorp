@@ -450,6 +450,72 @@
                     {% endif %}
                 </div>
 
+                <!-- Seção de Enquete -->
+                <div class="form-group" style="border-top: 1px solid #e9ecef; padding-top: 2rem; margin-top: 2rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" name="tem_enquete" id="id_tem_enquete"
+                               {% if noticia and noticia.enquete %}checked{% endif %}
+                               onchange="toggleEnquete()">
+                        <strong>Adicionar enquete a esta notícia</strong>
+                    </label>
+                    <div class="help-text">Os usuários poderão votar na enquete ao ler a notícia</div>
+                </div>
+
+                <div id="enquete-fields" style="{% if not noticia or not noticia.enquete %}display: none;{% endif %}">
+                    <div class="form-group">
+                        <label for="id_titulo_enquete">Título da Enquete</label>
+                        <input type="text" name="titulo_enquete" id="id_titulo_enquete"
+                               placeholder="Ex: O que você achou desta notícia?"
+                               value="{% if noticia and noticia.enquete %}{{ noticia.enquete.titulo }}{% endif %}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_pergunta_enquete">Pergunta da Enquete</label>
+                        <input type="text" name="pergunta_enquete" id="id_pergunta_enquete"
+                               placeholder="Ex: Qual é a sua opinião?"
+                               value="{% if noticia and noticia.enquete %}{{ noticia.enquete.pergunta }}{% endif %}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Opções de Resposta (mínimo 2)</label>
+                        <div id="opcoes-container">
+                            {% if noticia and noticia.enquete %}
+                                {% for opcao in noticia.enquete.opcoes.all %}
+                                <div class="opcao-item" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="text" name="opcao[]" placeholder="Ex: Muito bom"
+                                           value="{{ opcao.texto }}"
+                                           style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                                    <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                                            style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        Remover
+                                    </button>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="opcao-item" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="text" name="opcao[]" placeholder="Ex: Muito bom"
+                                           style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                                    <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                                            style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        Remover
+                                    </button>
+                                </div>
+                                <div class="opcao-item" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="text" name="opcao[]" placeholder="Ex: Bom"
+                                           style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                                    <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                                            style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        Remover
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="adicionarOpcao()" style="margin-top: 0.5rem;">
+                            + Adicionar Opção
+                        </button>
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-success">
                         {% if noticia %}Salvar Alterações{% else %}Criar Notícia{% endif %}
@@ -604,6 +670,42 @@
                 btnSalvarAutor.click();
             }
         });
+
+        // Funções para gerenciar enquete
+        function toggleEnquete() {
+            const checkbox = document.getElementById('id_tem_enquete');
+            const enqueteFields = document.getElementById('enquete-fields');
+            enqueteFields.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function adicionarOpcao() {
+            const container = document.getElementById('opcoes-container');
+            const novaOpcao = document.createElement('div');
+            novaOpcao.className = 'opcao-item';
+            novaOpcao.style.cssText = 'display: flex; gap: 0.5rem; margin-bottom: 0.5rem;';
+            novaOpcao.innerHTML = `
+                <input type="text" name="opcao[]" placeholder="Nova opção"
+                       style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                        style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    Remover
+                </button>
+            `;
+            container.appendChild(novaOpcao);
+        }
+
+        function removerOpcao(btn) {
+            const container = document.getElementById('opcoes-container');
+            const opcoes = container.querySelectorAll('.opcao-item');
+
+            // Não permitir remover se houver apenas 2 opções
+            if (opcoes.length <= 2) {
+                alert('É necessário ter no mínimo 2 opções para a enquete.');
+                return;
+            }
+
+            btn.parentElement.remove();
+        }
     </script>
 </body>
 </html>
