@@ -109,3 +109,34 @@ class NoticaSalva(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} salvou {self.noticia.titulo}"
+
+class Enquete(models.Model):
+    titulo = models.CharField(max_length=255)
+    pergunta = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.titulo
+
+    def total_votos(self):
+        return sum(opcao.votos.count() for opcao in self.opcoes.all())
+
+
+class Opcao(models.Model):
+    enquete = models.ForeignKey(Enquete, on_delete=models.CASCADE, related_name="opcoes")
+    texto = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.texto
+
+    def percentual(self):
+        total = self.enquete.total_votos()
+        return (self.votos.count() / total * 100) if total > 0 else 0
+
+
+class Voto(models.Model):
+    opcao = models.ForeignKey(Opcao, on_delete=models.CASCADE, related_name="votos")
+    ip_usuario = models.GenericIPAddressField()
+    data = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('opcao', 'ip_usuario')

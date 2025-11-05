@@ -3,7 +3,7 @@ from .views import (
     noticia_detalhe, index, cadastro_usuario, login_usuario, logout_usuario,
     salvos, salvar_noticia, remover_noticia_salva, mais_lidas, enviar_feedback,
     admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia,
-    admin_criar_autor, neels
+    admin_criar_autor, neels, votar_enquete
 )
 
 urlpatterns = [
@@ -17,6 +17,8 @@ urlpatterns = [
     path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
     path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
+    path('<int:enquete_id>/votar/', votar_enquete, name='votar_enquete'),
+
 
     # Rotas de Admin (Painel Customizado)
     path('painel/', admin_dashboard, name='admin_dashboard'),

@@ -1,6 +1,19 @@
 from django.contrib import admin
-from .models import Categoria, Tag, Noticia, Autor, Feedback
+from .models import Categoria, Tag, Noticia, Autor, Feedback, Enquete, Opcao, Voto
 
+class OpcaoInline(admin.TabularInline):
+    model = Opcao
+    extra = 2  # mostra 2 campos de opção por padrão
+
+@admin.register(Enquete)
+class EnqueteAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'pergunta')
+    inlines = [OpcaoInline]
+
+@admin.register(Voto)
+class VotoAdmin(admin.ModelAdmin):
+    list_display = ('opcao', 'ip_usuario', 'data')
+    list_filter = ('data',)
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):

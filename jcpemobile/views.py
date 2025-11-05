@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao
 from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
@@ -24,11 +24,36 @@ def index(request):
     # Pegar todas as notícias para exibir na página
     todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
 
+    enquetes = Enquete.objects.all().order_by('-id')[:3]
+
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
         'todas_noticias': todas_noticias,
+        'enquetes': enquetes,
     }
     return render(request, 'index.html', context)
+
+def votar_enquete(request, enquete_id):
+    enquete = get_object_or_404(Enquete, id=enquete_id)
+    ip_usuario = get_client_ip(request)
+
+    # Verifica se o IP já votou nesta enquete
+    if Voto.objects.filter(opcao__enquete=enquete, ip_usuario=ip_usuario).exists():
+        return JsonResponse({'erro': 'Você já votou nesta enquete.'}, status=400)
+
+    opcao_id = request.POST.get('opcao')
+    opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
+
+    # Cria o voto
+    Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
+
+    # Retorna os resultados atualizados
+    resultados = [
+        {'texto': o.texto, 'percentual': round(o.percentual(), 2)}
+        for o in enquete.opcoes.all()
+    ]
+
+    return JsonResponse({'mensagem': 'Voto registrado com sucesso!', 'resultados': resultados})
 
 def neels(request):
     """View para a página Neels"""

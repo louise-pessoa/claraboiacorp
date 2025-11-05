@@ -771,6 +771,16 @@ rows="4"
   </div>
 </div>
 
+<!-- Enquetes de noticia -->
+<h2>Enquetes</h2>
+
+{% for enquete in enquetes %}
+  {% include "parcial_enquete.html" with enquete=enquete %}
+{% empty %}
+  <p>Não há enquetes disponíveis no momento.</p>
+{% endfor %}
+
+
 <!-- Segunda notícia -->
 <div class="card side">
   <div class="content">
