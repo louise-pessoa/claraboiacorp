@@ -17,9 +17,6 @@ urlpatterns = [
     path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
     path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
-    path('enquetes/', lista_enquetes, name='lista_enquetes'),
-    path('<int:enquete_id>/', detalhe_enquete, name='detalhe_enquete'),
-
 
     # Rotas de Admin (Painel Customizado)
     path('painel/', admin_dashboard, name='admin_dashboard'),
