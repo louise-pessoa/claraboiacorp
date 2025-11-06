@@ -33,6 +33,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    display: block;
     transition: transform var(--transicao-lenta);
 }
 
@@ -528,4 +530,34 @@
 
 .skeleton-texto:last-child {
     width: 70%;
+}
+
+/* ===================================================
+   ADAPTAÇÕES PARA DESKTOP
+   =================================================== */
+
+@media (min-width: 768px) {
+    /* Aumenta altura das imagens em desktop */
+    .cartao-imagem {
+        height: 250px;
+    }
+
+    /* Card Destaque - imagem maior em desktop */
+    .cartao-noticia--destaque .cartao-imagem {
+        height: 320px;
+    }
+
+    /* Card Compacto - aumenta tamanho em desktop */
+    .cartao-noticia--compacto {
+        height: 130px;
+    }
+
+    .cartao-noticia--compacto .cartao-imagem {
+        width: 160px;
+    }
+
+    /* Skeleton também se adapta */
+    .skeleton-imagem {
+        height: 250px;
+    }
 }

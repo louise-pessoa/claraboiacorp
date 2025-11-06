@@ -166,6 +166,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    display: block;
     transition: transform var(--transicao-lenta);
 }
 
@@ -253,6 +255,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    display: block;
     transition: transform var(--transicao-lenta);
 }
 
@@ -520,4 +524,31 @@
 
 .cartao-noticia-grid:nth-child(3) {
     animation-delay: 0.3s;
+}
+
+/* ===================================================
+   ADAPTAÇÕES PARA DESKTOP
+   =================================================== */
+
+@media (min-width: 768px) {
+    /* Notícia Destaque - imagem maior em desktop */
+    .noticia-destaque-bloco .cartao-imagem {
+        height: 350px;
+    }
+
+    /* Notícias Secundárias - imagem maior em desktop */
+    .noticia-secundaria .cartao-imagem {
+        width: 140px;
+        height: 140px;
+        min-width: 140px;
+    }
+
+    /* Ajusta conteúdo para melhor proporção */
+    .noticia-secundaria .cartao-conteudo {
+        padding: var(--espaco-4);
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-base);
+    }
 }
