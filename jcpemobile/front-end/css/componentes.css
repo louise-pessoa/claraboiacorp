@@ -24,12 +24,16 @@
 .cartao-imagem {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 0;
+    padding-bottom: 60%; /* Proporção 5:3 - padrão para todos */
     overflow: hidden;
     background: var(--cor-fundo-secundario);
 }
 
 .cartao-imagem img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -109,7 +113,7 @@
 }
 
 .cartao-noticia--destaque .cartao-imagem {
-    height: 240px;
+    padding-bottom: 60%; /* Mesma proporção 5:3 */
 }
 
 .cartao-noticia--destaque .cartao-titulo {
@@ -121,12 +125,16 @@
 .cartao-noticia--compacto {
     display: flex;
     flex-direction: row;
-    height: 100px;
+    min-height: 110px;
 }
 
 .cartao-noticia--compacto .cartao-imagem {
-    width: 120px;
-    height: 100%;
+    width: 140px;
+    min-width: 140px;
+    height: auto;
+    padding-bottom: 0;
+    aspect-ratio: 1 / 1; /* Imagem quadrada no compacto */
+    flex-shrink: 0;
 }
 
 .cartao-noticia--compacto .cartao-conteudo {
@@ -504,7 +512,8 @@
 
 .skeleton-imagem {
     width: 100%;
-    height: 200px;
+    height: 0;
+    padding-bottom: 60%; /* Mesma proporção 5:3 */
     background: var(--cor-fundo-secundario);
     position: relative;
     overflow: hidden;
@@ -537,27 +546,28 @@
    =================================================== */
 
 @media (min-width: 768px) {
-    /* Aumenta altura das imagens em desktop */
+    /* Mantém a mesma proporção em desktop */
     .cartao-imagem {
-        height: 250px;
+        padding-bottom: 60%; /* Proporção 5:3 em desktop também */
     }
 
-    /* Card Destaque - imagem maior em desktop */
+    /* Card Destaque - mesma proporção */
     .cartao-noticia--destaque .cartao-imagem {
-        height: 320px;
+        padding-bottom: 60%;
     }
 
     /* Card Compacto - aumenta tamanho em desktop */
     .cartao-noticia--compacto {
-        height: 130px;
+        min-height: 150px;
     }
 
     .cartao-noticia--compacto .cartao-imagem {
-        width: 160px;
+        width: 200px;
+        min-width: 200px;
     }
 
     /* Skeleton também se adapta */
     .skeleton-imagem {
-        height: 250px;
+        padding-bottom: 60%;
     }
 }
