@@ -334,8 +334,8 @@
 
                 <!-- Imagem Principal -->
                 {% if noticia.imagem %}
-                <div class="artigo-imagem-principal">
-                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                <div class="artigo-imagem-principal" style="text-align: center; border-radius: 12px;">
+                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy" style="border-radius: 12px; max-height: 400px; max-width: 100%; object-fit: contain; display: inline-block;">
                 </div>
                 {% endif %}
 
@@ -364,6 +364,59 @@
                     {{ noticia.conteudo|linebreaks }}
                 </div>
 
+                <!-- Enquete -->
+                {% if enquete %}
+                <div class="enquete-container" style="margin-top: 40px; padding: 24px; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); border-radius: 16px; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
+                        <i class="fas fa-poll" style="margin-right: 8px;"></i>{{ enquete.titulo }}
+                    </h3>
+                    <p style="font-size: 1rem; color: #e5e7eb; margin-bottom: 20px;">{{ enquete.pergunta }}</p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" style="padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; {% if message.tags == 'success' %}background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0;{% elif message.tags == 'warning' %}background: #fef3c7; color: #92400e; border: 1px solid #fde68a;{% elif message.tags == 'error' %}background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if not ja_votou_enquete %}
+                        <!-- Formulário de votação -->
+                        <form method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+                            {% csrf_token %}
+                            {% for opcao in enquete.opcoes.all %}
+                            <label class="opcao-voto" style="display: flex; align-items: center; padding: 14px 18px; background: rgba(255, 255, 255, 0.95); border-radius: 10px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <input type="radio" name="opcao_id" value="{{ opcao.id }}" required style="margin-right: 12px; width: 18px; height: 18px; cursor: pointer;">
+                                <span style="font-size: 0.95rem; color: #111827; font-weight: 500;">{{ opcao.texto }}</span>
+                            </label>
+                            {% endfor %}
+                            <button type="submit" style="margin-top: 8px; padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);">
+                                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>Votar
+                            </button>
+                        </form>
+                    {% else %}
+                        <!-- Resultados da enquete -->
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            {% for opcao in enquete.opcoes.all %}
+                            <div class="resultado-opcao">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-size: 0.95rem; color: #ffffff; font-weight: 600;">{{ opcao.texto }}</span>
+                                    <span style="font-size: 0.95rem; color: #ffffff; font-weight: 700;">{{ opcao.percentual|floatformat:1 }}%</span>
+                                </div>
+                                <div style="width: 100%; height: 12px; background: rgba(255, 255, 255, 0.3); border-radius: 6px; overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: {{ opcao.percentual }}%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.4);"></div>
+                                </div>
+                                <span style="font-size: 0.8rem; color: #e5e7eb; margin-top: 4px; display: block;">{{ opcao.votos.count }} voto{{ opcao.votos.count|pluralize }}</span>
+                            </div>
+                            {% endfor %}
+                            <p style="margin-top: 12px; font-size: 0.85rem; color: #e5e7eb; text-align: center;">
+                                <i class="fas fa-users" style="margin-right: 6px;"></i>Total de votos: {{ enquete.total_votos }}
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
                 <!-- Tags -->
                 {% if noticia.tags.exists %}
                 <div class="artigo-tags">
@@ -372,6 +425,33 @@
                         <a href="#" class="tag">{{ tag.nome }}</a>
                     {% endfor %}
                 </div>
+                {% endif %}
+
+                <!-- Notícias Relacionadas -->
+                {% if noticias_relacionadas %}
+                <section class="noticias-relacionadas" style="margin-top: 48px; padding-top: 32px; border-top: 2px solid #e5e7eb;">
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin-bottom: 24px;">Você também pode gostar</h2>
+                    <div class="grid-noticias-relacionadas" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                        {% for noticia_rel in noticias_relacionadas %}
+                        <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="card-noticia-relacionada" style="display: block; text-decoration: none; color: inherit; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; background-color: #ffffff;">
+                            {% if noticia_rel.imagem %}
+                            <div class="imagem-relacionada" style="width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; border-radius: 12px 12px 0 0;">
+                                <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px 12px 0 0;">
+                            </div>
+                            {% endif %}
+                            <div class="conteudo-relacionada" style="padding: 16px;">
+                                {% if noticia_rel.categoria %}
+                                <span class="categoria-tag" style="font-size: 0.75rem; font-weight: 600; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia_rel.categoria.nome }}</span>
+                                {% endif %}
+                                <h3 class="titulo-relacionada" style="font-size: 1rem; font-weight: 600; color: #111827; line-height: 1.4; margin-bottom: 8px;">{{ noticia_rel.titulo|truncatewords:12 }}</h3>
+                                {% if noticia_rel.resumo %}
+                                <p class="resumo-relacionada" style="font-size: 0.875rem; color: #6b7280; line-height: 1.5;">{{ noticia_rel.resumo|truncatewords:15 }}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
                 {% endif %}
 
                 <!-- Voltar -->
@@ -564,7 +644,27 @@
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/navegacao.js' %}"></script>
-    
+
+    <!-- Estilos para notícias relacionadas -->
+    <style>
+        .card-noticia-relacionada:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+
+        @media (max-width: 768px) {
+            .grid-noticias-relacionadas {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .grid-noticias-relacionadas {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+    </style>
+
     <script>
         // JavaScript para botão de salvar notícia
         document.addEventListener('DOMContentLoaded', function() {

@@ -8,39 +8,16 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao
 from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
 
-def index(request):
-    """View para a página inicial"""
-    hoje = timezone.now().date()
-    # Busca as notícias mais vistas do dia, com ordenamento secundário por data de publicação
-    noticias_mais_vistas = Noticia.objects.all().annotate(
-        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
-    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 9 notícias do dia
-
-    # Pegar todas as notícias para exibir na página
-    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
-
-    context = {
-        'noticias_mais_vistas': noticias_mais_vistas,
-        'todas_noticias': todas_noticias,
-    }
-    return render(request, 'index.html', context)
-
-def neels(request):
-    """View para a página Neels"""
-    # Pegar todas as notícias ordenadas por data de publicação
-    noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
-    
-    context = {
-        'noticias': noticias,
-    }
-    return render(request, 'neels.html', context)
-
 def get_client_ip(request):
+    fake_ip_post = request.POST.get('fake_ip')
+    if fake_ip_post:
+        return fake_ip_post
+
     fake_ip = request.GET.get('fake_ip')  # Exemplo: http://127.0.0.1:8000/noticias/noticia_teste/?fake_ip=222.222.222.222
     if fake_ip:
         return fake_ip
@@ -51,6 +28,78 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def index(request):
+    """View para a página inicial"""
+    hoje = timezone.now().date()
+    # Busca as notícias mais vistas do dia, com ordenamento secundário por data de publicação
+    noticias_mais_vistas = Noticia.objects.all().annotate(
+        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
+    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 10 notícias do dia
+
+    # Pegar todas as notícias para exibir na página
+    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+
+    context = {
+        'noticias_mais_vistas': noticias_mais_vistas,
+        'todas_noticias': todas_noticias,
+    }
+    return render(request, 'index.html', context)
+
+# Página com todas as enquetes
+def lista_enquetes(request):
+    enquetes = Enquete.objects.all()
+    return render(request, 'enquetes.html', {'enquetes': enquetes})
+
+
+# Página de detalhe/votação de uma enquete
+def detalhe_enquete(request, enquete_id):
+    enquete = get_object_or_404(Enquete, id=enquete_id)
+
+    # IMPORTANT: get_client_ip agora lê POST/GET fake_ip também
+    ip_usuario = get_client_ip(request)
+    ja_votou = Voto.objects.filter(opcao__enquete=enquete, ip_usuario=ip_usuario).exists()
+
+    if request.method == 'POST':
+        if ja_votou:
+            # avisar que já votou
+            messages.warning(request, "Você já votou nesta enquete com o IP atual.")
+        else:
+            opcao_id = request.POST.get('opcao')
+            # validação adicional: opcao_id existe
+            opcao = get_object_or_404(Opcao, id=opcao_id, enquete=enquete)
+            Voto.objects.create(opcao=opcao, ip_usuario=ip_usuario)
+            messages.success(request, "Voto registrado com sucesso!")
+        # redireciona para a mesma página para evitar reenvio de formulário
+        # preservando querystring (ex.: ?fake_ip=1.2.3.4) para conveniência de testes
+        redirect_url = request.path
+        qs = request.META.get('QUERY_STRING')
+        if qs:
+            redirect_url = f"{redirect_url}?{qs}"
+        return redirect(redirect_url)
+
+    opcoes = enquete.opcoes.all()
+    total_votos = enquete.total_votos()
+
+    contexto = {
+        'enquete': enquete,
+        'opcoes': opcoes,
+        'total_votos': total_votos,
+        'ja_votou': ja_votou,
+    }
+
+    return render(request, 'detalhe_enquete.html', contexto)
+
+
+def neels(request):
+    """View para a página Neels"""
+    # Pegar todas as notícias ordenadas por data de publicação
+    noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+    
+    context = {
+        'noticias': noticias,
+    }
+    return render(request, 'neels.html', context)
 
 def noticia_detalhe(request, slug):
     noticia = get_object_or_404(Noticia, slug=slug)
@@ -69,9 +118,61 @@ def noticia_detalhe(request, slug):
     if request.user.is_authenticated:
         noticia_salva = NoticaSalva.objects.filter(usuario=request.user, noticia=noticia).exists()
 
+    # Processar votação da enquete se houver
+    ja_votou_enquete = False
+    enquete = None
+    if hasattr(noticia, 'enquete'):
+        enquete = noticia.enquete
+
+        # Verificar se já votou
+        ja_votou_enquete = Voto.objects.filter(
+            opcao__enquete=enquete,
+            ip_usuario=ip
+        ).exists()
+
+        # Processar voto se for POST
+        if request.method == 'POST' and not ja_votou_enquete:
+            opcao_id = request.POST.get('opcao_id')
+            if opcao_id:
+                try:
+                    opcao = Opcao.objects.get(id=opcao_id, enquete=enquete)
+                    Voto.objects.create(opcao=opcao, ip_usuario=ip)
+                    ja_votou_enquete = True
+                    messages.success(request, 'Voto registrado com sucesso!')
+                    return redirect('noticia_detalhe', slug=slug)
+                except Opcao.DoesNotExist:
+                    messages.error(request, 'Opção inválida.')
+        elif request.method == 'POST' and ja_votou_enquete:
+            messages.warning(request, 'Você já votou nesta enquete.')
+
+    # Buscar notícias relacionadas
+    noticias_relacionadas = []
+    if noticia.categoria:
+        # Buscar notícias da mesma categoria, excluindo a notícia atual
+        noticias_relacionadas = Noticia.objects.filter(
+            categoria=noticia.categoria
+        ).exclude(
+            id=noticia.id
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')[:4]
+
+    # Se não houver notícias relacionadas suficientes, buscar notícias gerais
+    if len(noticias_relacionadas) < 4:
+        noticias_gerais = Noticia.objects.exclude(
+            id=noticia.id
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')[:4]
+
+        # Combinar notícias relacionadas com gerais, evitando duplicatas
+        ids_existentes = [n.id for n in noticias_relacionadas]
+        for noticia_geral in noticias_gerais:
+            if noticia_geral.id not in ids_existentes and len(noticias_relacionadas) < 4:
+                noticias_relacionadas = list(noticias_relacionadas) + [noticia_geral]
+
     return render(request, 'detalhes_noticia.html', {
         'noticia': noticia,
-        'noticia_salva': noticia_salva
+        'noticia_salva': noticia_salva,
+        'noticias_relacionadas': noticias_relacionadas,
+        'enquete': enquete,
+        'ja_votou_enquete': ja_votou_enquete
     })
 
 
@@ -355,6 +456,28 @@ def admin_criar_noticia(request):
         form = NoticiaForm(request.POST, request.FILES)
         if form.is_valid():
             noticia = form.save()
+
+            # Processar enquete se existir
+            tem_enquete = request.POST.get('tem_enquete') == 'on'
+            if tem_enquete:
+                titulo_enquete = request.POST.get('titulo_enquete', '').strip()
+                pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
+
+                if titulo_enquete and pergunta_enquete:
+                    # Criar enquete
+                    enquete = Enquete.objects.create(
+                        titulo=titulo_enquete,
+                        pergunta=pergunta_enquete,
+                        noticia=noticia
+                    )
+
+                    # Criar opções
+                    opcoes = request.POST.getlist('opcao[]')
+                    for texto_opcao in opcoes:
+                        texto_opcao = texto_opcao.strip()
+                        if texto_opcao:
+                            Opcao.objects.create(enquete=enquete, texto=texto_opcao)
+
             messages.success(request, f'Notícia "{noticia.titulo}" criada com sucesso!')
             return redirect('admin_dashboard')
     else:
@@ -372,6 +495,41 @@ def admin_editar_noticia(request, noticia_id):
         form = NoticiaForm(request.POST, request.FILES, instance=noticia)
         if form.is_valid():
             noticia = form.save()
+
+            # Processar enquete
+            tem_enquete = request.POST.get('tem_enquete') == 'on'
+
+            if tem_enquete:
+                titulo_enquete = request.POST.get('titulo_enquete', '').strip()
+                pergunta_enquete = request.POST.get('pergunta_enquete', '').strip()
+
+                if titulo_enquete and pergunta_enquete:
+                    # Atualizar ou criar enquete
+                    if hasattr(noticia, 'enquete'):
+                        enquete = noticia.enquete
+                        enquete.titulo = titulo_enquete
+                        enquete.pergunta = pergunta_enquete
+                        enquete.save()
+                        # Deletar opções antigas
+                        enquete.opcoes.all().delete()
+                    else:
+                        enquete = Enquete.objects.create(
+                            titulo=titulo_enquete,
+                            pergunta=pergunta_enquete,
+                            noticia=noticia
+                        )
+
+                    # Criar opções
+                    opcoes = request.POST.getlist('opcao[]')
+                    for texto_opcao in opcoes:
+                        texto_opcao = texto_opcao.strip()
+                        if texto_opcao:
+                            Opcao.objects.create(enquete=enquete, texto=texto_opcao)
+            else:
+                # Se não tem enquete mas tinha antes, deletar
+                if hasattr(noticia, 'enquete'):
+                    noticia.enquete.delete()
+
             messages.success(request, f'Notícia "{noticia.titulo}" atualizada com sucesso!')
             return redirect('admin_dashboard')
     else:
