@@ -10,13 +10,19 @@
 /* Barra UOL no topo da página */
 .barra-uol {
     width: 100%;
-    background-color: #000000;
-    border-bottom: 1px solid #222222;
+    background-color: #262626;
+    border-bottom: 1px solid #262626;
     position: fixed;
     top: 0;
     left: 0;
     z-index: calc(var(--z-top) + 1);
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Barra UOL oculta quando cabeçalho está oculto */
+.barra-uol.barra-oculta {
+    top: -50px;
 }
 
 .barra-uol-container {
@@ -55,7 +61,19 @@
    =================================================== */
 
 /* Barra vermelha fixa no topo */
+.top-bar {
+    position: fixed;
+    top: 37px;
+    left: 0;
+    right: 0;
+    height: 0;
+    z-index: var(--z-fixed);
+    transition: all 0.3s ease-in-out;
+}
 
+.top-bar.barra-oculta {
+    top: -50px;
+}
 
 /* Cabeçalho principal */
 .cabecalho {
@@ -67,7 +85,18 @@
     background: var(--cor-fundo);
     border-bottom: var(--borda-largura) solid var(--cor-borda-clara);
     z-index: var(--z-fixed);
-    transition: transform var(--transicao-normal);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Cabeçalho oculto ao rolar para baixo */
+.cabecalho.cabecalho-oculto {
+    top: -100px;
+}
+
+/* Cabeçalho visível ao rolar para cima */
+.cabecalho.cabecalho-visivel {
+    top: 37px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cabecalho-container {
@@ -132,8 +161,6 @@
 
 .botao-busca,
 .botao-perfil {
-    width: 53px;
-    height: 53px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -141,10 +168,28 @@
     transition: var(--transicao-rapida);
 }
 
+.botao-busca {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+}
+
+.botao-perfil {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+}
+
 .botao-busca:active,
 .botao-perfil:active {
     background-color: var(--cor-fundo-secundario);
     border-radius: var(--borda-raio-circular);
+}
+
+/* SVGs nos botões do cabeçalho */
+.botao-busca svg,
+.botao-perfil svg {
+    display: block;
 }
 
 /* ===================================================
@@ -183,12 +228,14 @@
     height: 40px;
     object-fit: contain;
     display: inline-block;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 360px) {
     .icone-fire {
         width: 18px;
         height: 18px;
+        transform: translateY(1px);
     }
 }
 
@@ -348,16 +395,16 @@
 
 /* Ícone de perfil no menu lateral */
 .icone-perfil {
-    width: 48px;
-    height: 48px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     display: inline-block;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 400px) {
     .icone-perfil {
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 80px;
     }
 }
 
@@ -480,11 +527,160 @@
     background: var(--cor-fundo-terciario);
 }
 
+/* Submenu item expansível (segundo nível) */
+.submenu-item-expansivel {
+    position: relative;
+}
+
+.submenu-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--espaco-3) var(--espaco-4) var(--espaco-3) calc(var(--espaco-5) + 24px + var(--espaco-3));
+    color: var(--cor-texto-terciario);
+    font-size: var(--fonte-tamanho-sm);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transicao-rapida);
+    min-height: 40px;
+}
+
+.submenu-link:hover {
+    color: var(--cor-texto-primario);
+    background: var(--cor-fundo-terciario);
+}
+
+.submenu-seta {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    margin-left: var(--espaco-2);
+}
+
+.submenu-link[aria-expanded="true"] .submenu-seta {
+    transform: rotate(180deg);
+}
+
+/* Submenu de segundo nível */
+.submenu-nivel-2 {
+    overflow: hidden;
+    background: var(--cor-fundo);
+    transition: all 0.3s ease;
+    display: none;
+    opacity: 0;
+    max-height: 0;
+}
+
+.submenu-nivel-2.ativo {
+    display: block;
+    opacity: 1;
+    max-height: 300px;
+    transition: all 0.3s ease;
+}
+
+.submenu-nivel-2 a {
+    display: block;
+    padding: var(--espaco-2) var(--espaco-4) var(--espaco-2) calc(var(--espaco-5) + 24px + var(--espaco-3) + var(--espaco-4));
+    color: var(--cor-texto-terciario);
+    font-size: var(--fonte-tamanho-sm);
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    transition: var(--transicao-rapida);
+}
+
+.submenu-nivel-2 a:hover {
+    color: var(--cor-texto-primario);
+    background: var(--cor-fundo-terciario);
+}
+
+/* Redes Sociais do Menu */
+.menu-redes-sociais {
+    padding: var(--espaco-4);
+    border-top: var(--borda-largura) solid var(--cor-borda-clara);
+    margin-top: auto;
+}
+
+.menu-redes-sociais h3 {
+    font-size: var(--fonte-tamanho-base);
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espaco-3);
+    text-align: center;
+}
+
+.redes-sociais-lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--espaco-3);
+    flex-wrap: wrap;
+}
+
+.redes-sociais-lista a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--cor-texto-escuro);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.redes-sociais-lista a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+}
+
+/* Cores específicas para cada rede social - apenas no hover */
+.redes-sociais-lista a:nth-child(1):hover {
+    background: #1877F2;
+}
+
+.redes-sociais-lista a:nth-child(2):hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.redes-sociais-lista a:nth-child(3):hover {
+    background: #1DA1F2;
+}
+
+.redes-sociais-lista a:nth-child(4):hover {
+    background: #0A66C2;
+}
+
+.redes-sociais-lista a:nth-child(5):hover {
+    background: #FF0000;
+}
+
+.redes-sociais-lista a:nth-child(6):hover {
+    background: #000000;
+}
+
+/* Responsividade das redes sociais */
+@media (max-width: 768px) {
+    .redes-sociais-lista a {
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
+    }
+    
+    .menu-redes-sociais {
+        padding: var(--espaco-3);
+    }
+}
+
 /* Rodapé do Menu */
 .menu-lateral-rodape {
     padding: var(--espaco-4);
     border-top: var(--borda-largura) solid var(--cor-borda-clara);
-    margin-top: auto;
 }
 
 .menu-lateral-rodape a {
@@ -493,6 +689,54 @@
     margin-right: var(--espaco-3);
     color: var(--cor-texto-quaternario);
     font-size: var(--fonte-tamanho-sm);
+}
+
+/* Garantir que o botão de feedback no rodapé do menu tenha o mesmo alinhamento/espacamento */
+.menu-lateral-rodape .btn-feedback-menu {
+    display: inline-block;
+    padding: var(--espaco-2) 0;
+    margin-right: var(--espaco-3);
+    color: var(--cor-texto-quaternario);
+    font-size: var(--fonte-tamanho-sm);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Em telas pequenas garantir quebra adequada */
+@media (max-width: 420px) {
+    .menu-lateral-rodape a,
+    .menu-lateral-rodape .btn-feedback-menu {
+        display: block;
+        margin-right: 0;
+        padding: var(--espaco-2) 0;
+    }
+}
+
+/* Footer - garantir que o botão de feedback no rodapé da página siga o mesmo estilo */
+.btn-feedback-footer {
+    display: inline-block;
+    padding: var(--espaco-2) 0;
+    margin-right: var(--espaco-3);
+    color: rgba(0, 0, 0, 0.7);
+    font-size: var(--fonte-tamanho-sm);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.btn-feedback-footer:hover {
+    color: var(--cor-primaria);
+}
+
+@media (max-width: 420px) {
+    .btn-feedback-footer {
+        display: block;
+        margin-right: 0;
+        padding: var(--espaco-2) 0;
+    }
 }
 
 /* Overlay */
@@ -519,7 +763,7 @@
    =================================================== */
 
 .conteudo-principal {
-    padding-top: calc(44px + var(--altura-cabecalho-mobile) + var(--espaco-4));
+    padding-top: calc(44px + var(--altura-cabecalho-mobile) + 8px);
     padding-bottom: calc(var(--altura-navegacao-inferior) + 24px + var(--espaco-4));
     min-height: 100vh;
     background: var(--cor-fundo);
@@ -596,6 +840,16 @@
     color: var(--cor-texto-secundario);
 }
 
+/* Forçar rótulos da navegação inferior em uma linha e truncar se necessário */
+.navegacao-inferior .nav-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 12px;
+    line-height: 1;
+}
+
 .nav-item:active {
     transform: scale(0.95);
 }
@@ -642,8 +896,8 @@
    =================================================== */
 
 .rodape {
-    background: var(--cor-primaria);
-    color: var(--cor-fundo);
+    background: #f0f0f0;
+    color: var(--cor-texto-escuro);
     padding: var(--espaco-8) 0 var(--espaco-4);
 }
 
@@ -656,14 +910,73 @@
 }
 
 .rodape-logo img {
-    height: 40px;
-    filter: brightness(0) invert(1);
+    height: 60px;
     margin-bottom: var(--espaco-3);
 }
 
 .rodape-logo p {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.7);
     font-size: var(--fonte-tamanho-sm);
+}
+
+/* Título Nossas Redes */
+.rodape-redes-titulo {
+    color: var(--cor-texto-escuro);
+    font-size: var(--fonte-tamanho-base);
+    font-weight: var(--fonte-peso-semibold);
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+/* Redes Sociais no Rodapé */
+.rodape-redes-sociais {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.icone-social {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--cor-texto-escuro);
+    font-size: 18px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.icone-social:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+}
+
+.icone-facebook:hover {
+    background: #1877F2;
+}
+
+.icone-instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.icone-twitter:hover {
+    background: #1DA1F2;
+}
+
+.icone-linkedin:hover {
+    background: #0A66C2;
+}
+
+.icone-youtube:hover {
+    background: #FF0000;
+}
+
+.icone-tiktok:hover {
+    background: #000000;
 }
 
 .rodape-links {
@@ -674,7 +987,7 @@
 }
 
 .rodape-coluna h3 {
-    color: var(--cor-fundo);
+    color: var(--cor-texto-escuro);
     font-size: var(--fonte-tamanho-base);
     font-weight: var(--fonte-peso-semibold);
     margin-bottom: var(--espaco-3);
@@ -690,13 +1003,13 @@
 }
 
 .rodape-coluna a {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.7);
     font-size: var(--fonte-tamanho-sm);
     transition: var(--transicao-rapida);
 }
 
 .rodape-coluna a:hover {
-    color: var(--cor-fundo);
+    color: var(--cor-primaria);
 }
 
 .rodape-social {
@@ -723,13 +1036,39 @@
 
 .rodape-copyright {
     padding: var(--espaco-4) var(--espacamento-mobile);
-    border-top: var(--borda-largura) solid rgba(255, 255, 255, 0.2);
+    border-top: var(--borda-largura) solid rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .rodape-copyright p {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.6);
     font-size: var(--fonte-tamanho-xs);
+}
+
+.rodape-grupo-jcpm {
+    padding: var(--espaco-6) var(--espacamento-mobile);
+    background: rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.rodape-grupo-texto {
+    color: var(--cor-texto-escuro);
+    font-size: var(--fonte-tamanho-sm);
+    font-weight: var(--fonte-peso-semibold);
+    margin-bottom: var(--espaco-2);
+}
+
+.rodape-licenciamento {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: var(--fonte-tamanho-xs);
+    margin-bottom: var(--espaco-4);
+}
+
+.marca-grupo-jcpm {
+    height: 40px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 /* ===================================================
@@ -772,5 +1111,39 @@
     }
     60% {
         transform: translateY(2px);
+    }
+}
+
+/* Garantir que todos os ícones na navegação inferior tenham o mesmo tamanho/proporção */
+.navegacao-inferior .nav-item img,
+.navegacao-inferior .nav-item svg {
+    width: 40px;
+    height: 40px;
+    display: block;
+    object-fit: contain;
+}
+
+@media (max-width: 360px) {
+    .navegacao-inferior .nav-item img,
+    .navegacao-inferior .nav-item svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Diminuir levemente o ícone de 'Mais Lidas' sem afetar os demais ícones */
+.navegacao-inferior .nav-item .icone-fire,
+.icone-fire {
+    width: 36px;
+    height: 36px;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 360px) {
+    .navegacao-inferior .nav-item .icone-fire,
+    .icone-fire {
+        width: 16px;
+        height: 16px;
+        transform: translateY(1px);
     }
 }

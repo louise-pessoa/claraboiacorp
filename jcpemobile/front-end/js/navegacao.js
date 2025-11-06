@@ -34,6 +34,9 @@ function inicializarNavegacao() {
     // Submenus - IMPORTANTE: deve ser configurado após o menu lateral
     configurarSubmenus();
 
+    // Submenus de segundo nível (TV Jornal e Rádio Jornal)
+    configurarSubmenusNivel2();
+
     // Scroll suave
     configurarScrollSuave();
 
@@ -388,6 +391,110 @@ function fecharTodosSubmenus() {
             }
         }
     });
+}
+
+// ===================================================
+// SUBMENUS DE SEGUNDO NÍVEL (TV JORNAL E RÁDIO JORNAL)
+// ===================================================
+
+function configurarSubmenusNivel2() {
+    console.log('Configurando submenus de segundo nível...');
+
+    const submenusExpansiveis = document.querySelectorAll('.submenu-item-expansivel');
+    console.log('Submenus de segundo nível encontrados:', submenusExpansiveis.length);
+
+    submenusExpansiveis.forEach((item, index) => {
+        const botao = item.querySelector('.submenu-link');
+        const submenuNivel2 = item.querySelector('.submenu-nivel-2');
+
+        if (!botao || !submenuNivel2) {
+            console.error(`Problema no submenu nível 2 ${index}: botão ou submenu não encontrado`);
+            return;
+        }
+
+        console.log(`Configurando submenu nível 2 ${index}:`, {
+            texto: botao.querySelector('span')?.textContent,
+            temSubmenu: !!submenuNivel2
+        });
+
+        // Configurar como botão
+        if (botao.tagName === 'BUTTON') {
+            botao.type = 'button';
+        }
+        botao.style.cursor = 'pointer';
+
+        // Estado inicial
+        botao.setAttribute('aria-expanded', 'false');
+        submenuNivel2.classList.remove('ativo');
+        submenuNivel2.style.display = 'none';
+
+        // Evento de clique
+        botao.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            console.log('Clique no submenu nível 2:', botao.querySelector('span')?.textContent);
+
+            const isAberto = botao.getAttribute('aria-expanded') === 'true';
+
+            if (isAberto) {
+                // Fechar
+                botao.setAttribute('aria-expanded', 'false');
+                submenuNivel2.style.display = 'none';
+                submenuNivel2.classList.remove('ativo');
+
+                // Rotacionar seta
+                const seta = botao.querySelector('.submenu-seta');
+                if (seta) {
+                    seta.style.transform = '';
+                }
+
+                console.log('Submenu nível 2 fechado');
+            } else {
+                // Fechar outros submenus de nível 2
+                document.querySelectorAll('.submenu-item-expansivel').forEach(outroItem => {
+                    const outroBotao = outroItem.querySelector('.submenu-link');
+                    const outroSubmenu = outroItem.querySelector('.submenu-nivel-2');
+                    if (outroBotao && outroSubmenu && outroBotao !== botao) {
+                        outroBotao.setAttribute('aria-expanded', 'false');
+                        outroSubmenu.style.display = 'none';
+                        outroSubmenu.classList.remove('ativo');
+
+                        const outraSeta = outroBotao.querySelector('.submenu-seta');
+                        if (outraSeta) {
+                            outraSeta.style.transform = '';
+                        }
+                    }
+                });
+
+                // Abrir este submenu nível 2
+                botao.setAttribute('aria-expanded', 'true');
+                submenuNivel2.style.display = 'block';
+
+                // Pequeno delay para animação funcionar
+                setTimeout(() => {
+                    submenuNivel2.classList.add('ativo');
+                }, 10);
+
+                // Rotacionar seta
+                const seta = botao.querySelector('.submenu-seta');
+                if (seta) {
+                    seta.style.transform = 'rotate(180deg)';
+                }
+
+                console.log('Submenu nível 2 aberto');
+            }
+        });
+
+        // Suporte ao teclado
+        botao.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                botao.click();
+            }
+        });
+    });
+
+    console.log('Configuração de submenus nível 2 concluída');
 }
 
 // ===================================================

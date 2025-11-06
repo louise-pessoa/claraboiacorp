@@ -24,15 +24,21 @@
 .cartao-imagem {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 0;
+    padding-bottom: 50%; /* Proporção 2:1 - bem larga */
     overflow: hidden;
     background: var(--cor-fundo-secundario);
 }
 
 .cartao-imagem img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    display: block;
     transition: transform var(--transicao-lenta);
 }
 
@@ -107,7 +113,7 @@
 }
 
 .cartao-noticia--destaque .cartao-imagem {
-    height: 240px;
+    padding-bottom: 50%; /* Mesma proporção 2:1 */
 }
 
 .cartao-noticia--destaque .cartao-titulo {
@@ -119,17 +125,21 @@
 .cartao-noticia--compacto {
     display: flex;
     flex-direction: row;
-    height: 100px;
+    min-height: 110px; /* Reduzido de 110px */
 }
 
 .cartao-noticia--compacto .cartao-imagem {
-    width: 120px;
-    height: 100%;
+    width: 140px;
+    min-width: 140px;
+    height: auto;
+    padding-bottom: 0;
+    aspect-ratio: 1 / 1; /* Imagem quadrada no compacto */
+    flex-shrink: 0;
 }
 
 .cartao-noticia--compacto .cartao-conteudo {
     flex: 1;
-    padding: var(--espaco-3);
+    padding: var(--espaco-2); /* Reduzido de var(--espaco-3) */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -138,6 +148,11 @@
 .cartao-noticia--compacto .cartao-titulo {
     font-size: var(--fonte-tamanho-sm);
     margin-bottom: var(--espaco-1);
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." */
 }
 
 .cartao-noticia--compacto .cartao-resumo {
@@ -502,7 +517,8 @@
 
 .skeleton-imagem {
     width: 100%;
-    height: 200px;
+    height: 0;
+    padding-bottom: 50%; /* Mesma proporção 2:1 */
     background: var(--cor-fundo-secundario);
     position: relative;
     overflow: hidden;
@@ -528,4 +544,35 @@
 
 .skeleton-texto:last-child {
     width: 70%;
+}
+
+/* ===================================================
+   ADAPTAÇÕES PARA DESKTOP
+   =================================================== */
+
+@media (min-width: 768px) {
+    /* Mantém a mesma proporção em desktop */
+    .cartao-imagem {
+        padding-bottom: 50%; /* Proporção 2:1 em desktop também */
+    }
+
+    /* Card Destaque - mesma proporção */
+    .cartao-noticia--destaque .cartao-imagem {
+        padding-bottom: 50%;
+    }
+
+    /* Card Compacto - aumenta tamanho em desktop */
+    .cartao-noticia--compacto {
+        min-height: 110px; /* Reduzido de 150px */
+    }
+
+    .cartao-noticia--compacto .cartao-imagem {
+        width: 120px; /* Reduzido de 200px */
+        min-width: 120px;
+    }
+
+    /* Skeleton também se adapta */
+    .skeleton-imagem {
+        padding-bottom: 50%;
+    }
 }

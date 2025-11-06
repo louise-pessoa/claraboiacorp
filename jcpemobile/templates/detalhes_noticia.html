@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="{% static 'css/componentes.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
 
     <!-- Icons -->
@@ -51,7 +52,7 @@
     <div class="barra-uol">
         <div class="barra-uol-container">
             <a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
-                <img src="{% static 'images/Uol.png' %}" alt="UOL" class="logo-uol">
+                <img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
             </a>
         </div>
     </div>
@@ -77,14 +78,14 @@
 
             <!-- Ações do Cabeçalho -->
             <div class="cabecalho-acoes">
-                <!-- Busca -->
-                <button class="botao-busca" id="botaoBusca" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
-                </button>
-
+                <!-- (search button removed from header; search remains in bottom navigation) -->
                 <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <img src="{% static 'images/Radio_Fill.png' %}" alt="Meu perfil" class="icone-radio">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="13.3334" r="4" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="12" stroke="#33363F" stroke-width="2"/>
+                        <path d="M23.7074 25.1019C23.8769 25.0088 23.957 24.8073 23.8854 24.6277C23.3712 23.3393 22.3808 22.2046 21.0419 21.3776C19.5955 20.4843 17.8232 20 16 20C14.1768 20 12.4046 20.4842 10.9581 21.3776C9.61925 22.2046 8.6288 23.3393 8.11464 24.6277C8.04298 24.8073 8.12314 25.0088 8.29264 25.1019C13.0929 27.7373 18.9071 27.7373 23.7074 25.1019Z" fill="#33363F"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -132,7 +133,11 @@
     <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
         <div class="menu-lateral-cabecalho">
             <div class="menu-hamburguer-icone">
-                <i class="fas fa-bars"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="52" viewBox="0 0 56 52" fill="none">
+                    <path d="M11.6667 15.1667H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M11.6667 25.0045H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M11.6667 34.8423H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+                </svg>
             </div>
             <button class="menu-lateral-fechar" id="menuLateralFechar" aria-label="Fechar menu">
                 <i class="fas fa-times"></i>
@@ -142,10 +147,15 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <img src="{% static 'images/Profile.png' %}" alt="Perfil" class="icone-perfil">
+                <img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
                 <div class="perfil-info">
-                    <span class="perfil-nome">Visitante</span>
-                    <a href="#entrar" class="perfil-link">Entrar / Cadastrar</a>
+                    {% if user.is_authenticated %}
+                        <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
+                        <a href="{% url 'logout_usuario' %}" class="perfil-link">Sair</a>
+                    {% else %}
+                        <span class="perfil-nome">Visitante</span>
+                        <a href="#" class="perfil-link" id="linkEntrarMenu">Entrar / Cadastrar</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -154,7 +164,6 @@
                 <!-- Categorias -->
                 <li class="menu-item menu-item-expansivel">
                     <button class="menu-link" aria-expanded="false">
-                        <i class="fas fa-newspaper"></i>
                         <span>Categorias</span>
                         <i class="fas fa-chevron-down menu-seta"></i>
                     </button>
@@ -173,28 +182,24 @@
                 <!-- Seções Especiais -->
                 <li class="menu-item">
                     <a href="{% url 'mais_lidas' %}" class="menu-link">
-                        <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
                         <span>Mais Lidas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
-                    <a href="#neels" class="menu-link">
-                        <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+                    <a href="{% url 'neels' %}" class="menu-link">
                         <span>Neels</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#curtas" class="menu-link">
-                        <i class="fas fa-bolt"></i>
                         <span>Curtas</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="#linha-tempo" class="menu-link">
-                        <i class="fas fa-clock"></i>
                         <span>Linha do Tempo</span>
                     </a>
                 </li>
@@ -202,13 +207,34 @@
                 <!-- Canais -->
                 <li class="menu-item menu-item-expansivel">
                     <button class="menu-link" aria-expanded="false">
-                        <i class="fas fa-tv"></i>
                         <span>Canais</span>
                         <i class="fas fa-chevron-down menu-seta"></i>
                     </button>
                     <ul class="submenu">
-                        <li><a href="#tv-jornal">TV Jornal</a></li>
-                        <li><a href="#radio-jornal">Rádio Jornal</a></li>
+                        <!-- TV Jornal com submenu -->
+                        <li class="submenu-item-expansivel">
+                            <button class="submenu-link" aria-expanded="false">
+                                <span>TV Jornal</span>
+                                <i class="fas fa-chevron-down submenu-seta"></i>
+                            </button>
+                            <ul class="submenu-nivel-2">
+                                <li><a href="#tv-jornal-recife">Recife</a></li>
+                                <li><a href="#tv-jornal-interior">Interior</a></li>
+                            </ul>
+                        </li>
+                        <!-- Rádio Jornal com submenu -->
+                        <li class="submenu-item-expansivel">
+                            <button class="submenu-link" aria-expanded="false">
+                                <span>Rádio Jornal</span>
+                                <i class="fas fa-chevron-down submenu-seta"></i>
+                            </button>
+                            <ul class="submenu-nivel-2">
+                                <li><a href="#radio-jornal-recife">Recife</a></li>
+                                <li><a href="#radio-jornal-caruaru">Caruaru</a></li>
+                                <li><a href="#radio-jornal-garanhuns">Garanhuns</a></li>
+                                <li><a href="#radio-jornal-petrolina">Petrolina</a></li>
+                            </ul>
+                        </li>
                         <li><a href="#podcasts">Podcasts</a></li>
                     </ul>
                 </li>
@@ -216,18 +242,41 @@
                 <!-- Outras Seções -->
                 <li class="menu-item">
                     <a href="#jornal-digital" class="menu-link">
-                        <i class="fas fa-tablet-alt"></i>
                         <span>Jornal Digital</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="{% url 'salvos' %}" class="menu-link">
-                        <i class="fas fa-bookmark"></i>
                         <span>Notícias Salvas</span>
                     </a>
                 </li>
             </ul>
+
+            <!-- Redes Sociais -->
+            <div class="menu-redes-sociais">
+                <h3>Siga JC</h3>
+                <div class="redes-sociais-lista">
+                    <a href="https://www.facebook.com/jornaldocommercioPE/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jc_pe" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://x.com/jc_pe" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/sistema-jornal-do-commercio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@JCPlayOficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@jc_pe" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
 
             <!-- Links Secundários -->
             <div class="menu-lateral-rodape">
@@ -235,6 +284,9 @@
                 <a href="#fale-conosco">Fale Conosco</a>
                 <a href="#anuncie">Anuncie</a>
                 <a href="#privacidade">Privacidade</a>
+                <button class="btn-feedback-menu" onclick="abrirModalFeedback()">
+                    Envie seu Feedback
+                </button>
             </div>
         </div>
     </nav>
@@ -259,9 +311,7 @@
                 <!-- Cabeçalho da Notícia -->
                 <header class="artigo-cabecalho">
                     <div class="artigo-meta">
-                        <span class="badge-categoria-inline badge-{{ noticia.categoria.slug|default:'pernambuco' }}">
-                            {{ noticia.categoria.nome|default:'Notícias' }}
-                        </span>
+                        <span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia.categoria.nome|default:'Notícias' }}</span>
                         <time class="artigo-data" datetime="{{ noticia.data_publicacao|date:'Y-m-d' }}">
                             {{ noticia.data_publicacao|date:"d/m/Y" }} - {{ noticia.data_publicacao|timesince }} atrás
                         </time>
@@ -284,8 +334,8 @@
 
                 <!-- Imagem Principal -->
                 {% if noticia.imagem %}
-                <div class="artigo-imagem-principal">
-                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy">
+                <div class="artigo-imagem-principal" style="text-align: center; border-radius: 12px;">
+                    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy" style="border-radius: 12px; max-height: 400px; max-width: 100%; object-fit: contain; display: inline-block;">
                 </div>
                 {% endif %}
 
@@ -314,6 +364,59 @@
                     {{ noticia.conteudo|linebreaks }}
                 </div>
 
+                <!-- Enquete -->
+                {% if enquete %}
+                <div class="enquete-container" style="margin-top: 40px; padding: 24px; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); border-radius: 16px; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);">
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
+                        <i class="fas fa-poll" style="margin-right: 8px;"></i>{{ enquete.titulo }}
+                    </h3>
+                    <p style="font-size: 1rem; color: #e5e7eb; margin-bottom: 20px;">{{ enquete.pergunta }}</p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" style="padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; {% if message.tags == 'success' %}background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0;{% elif message.tags == 'warning' %}background: #fef3c7; color: #92400e; border: 1px solid #fde68a;{% elif message.tags == 'error' %}background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if not ja_votou_enquete %}
+                        <!-- Formulário de votação -->
+                        <form method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+                            {% csrf_token %}
+                            {% for opcao in enquete.opcoes.all %}
+                            <label class="opcao-voto" style="display: flex; align-items: center; padding: 14px 18px; background: rgba(255, 255, 255, 0.95); border-radius: 10px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <input type="radio" name="opcao_id" value="{{ opcao.id }}" required style="margin-right: 12px; width: 18px; height: 18px; cursor: pointer;">
+                                <span style="font-size: 0.95rem; color: #111827; font-weight: 500;">{{ opcao.texto }}</span>
+                            </label>
+                            {% endfor %}
+                            <button type="submit" style="margin-top: 8px; padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);">
+                                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>Votar
+                            </button>
+                        </form>
+                    {% else %}
+                        <!-- Resultados da enquete -->
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            {% for opcao in enquete.opcoes.all %}
+                            <div class="resultado-opcao">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-size: 0.95rem; color: #ffffff; font-weight: 600;">{{ opcao.texto }}</span>
+                                    <span style="font-size: 0.95rem; color: #ffffff; font-weight: 700;">{{ opcao.percentual|floatformat:1 }}%</span>
+                                </div>
+                                <div style="width: 100%; height: 12px; background: rgba(255, 255, 255, 0.3); border-radius: 6px; overflow: hidden;">
+                                    <div style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: {{ opcao.percentual }}%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.4);"></div>
+                                </div>
+                                <span style="font-size: 0.8rem; color: #e5e7eb; margin-top: 4px; display: block;">{{ opcao.votos.count }} voto{{ opcao.votos.count|pluralize }}</span>
+                            </div>
+                            {% endfor %}
+                            <p style="margin-top: 12px; font-size: 0.85rem; color: #e5e7eb; text-align: center;">
+                                <i class="fas fa-users" style="margin-right: 6px;"></i>Total de votos: {{ enquete.total_votos }}
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
                 <!-- Tags -->
                 {% if noticia.tags.exists %}
                 <div class="artigo-tags">
@@ -322,6 +425,33 @@
                         <a href="#" class="tag">{{ tag.nome }}</a>
                     {% endfor %}
                 </div>
+                {% endif %}
+
+                <!-- Notícias Relacionadas -->
+                {% if noticias_relacionadas %}
+                <section class="noticias-relacionadas" style="margin-top: 48px; padding-top: 32px; border-top: 2px solid #e5e7eb;">
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin-bottom: 24px;">Você também pode gostar</h2>
+                    <div class="grid-noticias-relacionadas" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                        {% for noticia_rel in noticias_relacionadas %}
+                        <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="card-noticia-relacionada" style="display: block; text-decoration: none; color: inherit; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; background-color: #ffffff;">
+                            {% if noticia_rel.imagem %}
+                            <div class="imagem-relacionada" style="width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; border-radius: 12px 12px 0 0;">
+                                <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px 12px 0 0;">
+                            </div>
+                            {% endif %}
+                            <div class="conteudo-relacionada" style="padding: 16px;">
+                                {% if noticia_rel.categoria %}
+                                <span class="categoria-tag" style="font-size: 0.75rem; font-weight: 600; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia_rel.categoria.nome }}</span>
+                                {% endif %}
+                                <h3 class="titulo-relacionada" style="font-size: 1rem; font-weight: 600; color: #111827; line-height: 1.4; margin-bottom: 8px;">{{ noticia_rel.titulo|truncatewords:12 }}</h3>
+                                {% if noticia_rel.resumo %}
+                                <p class="resumo-relacionada" style="font-size: 0.875rem; color: #6b7280; line-height: 1.5;">{{ noticia_rel.resumo|truncatewords:15 }}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
                 {% endif %}
 
                 <!-- Voltar -->
@@ -336,42 +466,205 @@
 
     <!-- Navegação Inferior (Mobile) -->
     <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
-        <a href="{% url 'index' %}" class="nav-item">
-            <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
-            <span>Início</span>
-        </a>
-        <a href="{% url 'mais_lidas' %}" class="nav-item">
-            <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
-            <span>Mais Lidas</span>
-        </a>
-        <a href="#neels" class="nav-item">
-            <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
-            <span>Neels</span>
-        </a>
-        <a href="#perfil" class="nav-item">
-            <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
-            <span>Ao vivo</span>
-        </a>
+    <a href="{% url 'index' %}" class="nav-item nav-item-ativo">
+    <img src="{% static 'images/Home.png' %}" alt="Início" class="icone-home">
+    <span>Início</span>
+    </a>
+
+    <button id="botaoBusca" class="nav-item botao-busca" aria-label="Abrir busca">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <circle cx="18.3333" cy="18.3334" r="10" stroke="#33363F" stroke-width="3"/>
+    <path d="M33.3333 33.3334L28.3333 28.3334" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <span>Pesquisa</span>
+    </button>
+
+    <a href="{% url 'neels' %}" class="nav-item">
+    <img src="{% static 'images/NFC.png' %}" alt="Neels" class="icone-nfc">
+    <span>Neels</span>
+    </a>
+
+    <a href="{% url 'mais_lidas' %}" class="nav-item">
+    <img src="{% static 'images/Fire@3x.png' %}" alt="Mais Lidas" class="icone-fire">
+    <span>Mais Lidas</span>
+    </a>
+
+    <a href="#perfil" class="nav-item">
+    <img src="{% static 'images/Radio_Fill.png' %}" alt="Ao vivo" class="icone-radio">
+    <span>Ao vivo</span>
+    </a>
     </nav>
+
+    <!-- Nossos Produtos -->
+    <section class="nossos-produtos">
+        <div class="nossos-produtos-container">
+            <h2 class="nossos-produtos-titulo">Nossos Produtos</h2>
+            <div class="produtos-grid">
+                <a href="https://www.ne10.uol.com.br/interior" target="_blank" class="produto-item" title="NE10 Interior">
+                    <div class="produto-icone">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <span class="produto-nome">NE10 Interior</span>
+                </a>
+                
+                <a href="https://www.radiojornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="Rádio Jornal">
+                    <div class="produto-icone">
+                        <i class="fas fa-radio"></i>
+                    </div>
+                    <span class="produto-nome">Rádio Jornal</span>
+                </a>
+                
+                <a href="https://tvjornal.ne10.uol.com.br/" target="_blank" class="produto-item" title="TV Jornal">
+                    <div class="produto-icone">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <span class="produto-nome">TV Jornal</span>
+                </a>
+                
+                <a href="https://jc.ne10.uol.com.br/" target="_blank" class="produto-item" title="Jornal do Commercio">
+                    <div class="produto-icone">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <span class="produto-nome">Jornal do Commercio</span>
+                </a>
+                
+                <a href="https://www.blogdotorcedor.com.br/" target="_blank" class="produto-item" title="Blog do Torcedor">
+                    <div class="produto-icone">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <span class="produto-nome">Blog do Torcedor</span>
+                </a>
+                
+                <a href="https://www.social1.com.br/" target="_blank" class="produto-item" title="Social1">
+                    <div class="produto-icone">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span class="produto-nome">Social1</span>
+                </a>
+                
+                <a href="https://www.receitadaboa.com.br/" target="_blank" class="produto-item" title="Receita da Boa">
+                    <div class="produto-icone">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span class="produto-nome">Receita da Boa</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- Rodapé -->
     <footer class="rodape" id="rodape">
         <div class="rodape-conteudo">
             <div class="rodape-logo">
-                <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio">
+                <img src="https://jc.uol.com.br/img/logo.svg" alt="Jornal do Commercio">
                 <p>O jornal mais tradicional de Pernambuco</p>
+                
+                <h3 class="rodape-redes-titulo">Nossas Redes</h3>
+                <div class="rodape-redes-sociais">
+                    <a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://twitter.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
+<circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
+<path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
+</svg>
+                    </a>
+                    <a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rodape-links">
+                <div class="rodape-coluna">
+                    <h3>Canais</h3>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Últimas Notícias</a></li>
+                        <li><a href="#colunas">Colunas</a></li>
+                        <li><a href="#opiniao">Opinião</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Institucionais</h3>
+                    <ul>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="https://www.jcpm.com.br/sustentabilidade/" target="_blank">Práticas ASG JCPM</a></li>
+                        <li><a href="https://ne10.uol.com.br/privacidade/" target="_blank">Privacidade</a></li>
+                        <li><a href="#melhores-praticas">Melhores Práticas</a></li>
+                        <li><a href="#lgpd">LGPD</a></li>
+                        <li><a href="#publicacoes">Publicações</a></li>
+                        <li><a href="#expediente">Expediente</a></li>
+                        <li><a href="#fale-conosco">Fale Conosco</a></li>
+                        <li><a href="https://sjcc.gupy.io/" target="_blank">Trabalhe Conosco</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Serviços</h3>
+                    <ul>
+                        <li><a href="#noticias-whatsapp">Notícias pelo WhatsApp</a></li>
+                        <li><a href="#newsletter">Newsletter JC</a></li>
+                        <li><a href="#publicidade-legal">Publicidade Legal</a></li>
+                        <li><a href="https://ads.sjcc.com.br/?utm_source=jc_site&utm_medium=bt_anuncie_conosco&utm_campaign=anuncie_aqui_rodape&_gl=1*2yvvs*_ga*NzAwNTE0NTM1LjE3NTUyNjUzOTc.*_ga_S1QTC8L49Z*czE3NjE2NTkyMjMkbzI2JGcxJHQxNzYxNjYwNzk5JGoyOCRsMCRoMA.." target="_blank">Anuncie Conosco</a></li>
+                    </ul>
+                </div>
+
+                <div class="rodape-coluna">
+                    <h3>Aplicativos</h3>
+                    <ul>
+                        <li><a href="#app-jc">Jornal do Commercio</a></li>
+                        <li><a href="#app-radio">Rádio Jornal</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <div class="rodape-copyright">
             <p>&copy; 2025 Jornal do Commercio. Todos os direitos reservados.</p>
         </div>
+
+        <div class="rodape-grupo-jcpm">
+            <p class="rodape-grupo-texto">Jornal @ 2025 - Uma empresa do grupo JCPM</p>
+            <p class="rodape-licenciamento">PARA SOLICITAÇÃO DE LICENCIAMENTO, CONTACTAR EDITORES@NE10.COM.BR</p>
+            <img src="https://imagens.ne10.uol.com.br/jcpm/logo_jcpm_footer.svg" alt="Grupo JCPM" class="marca-grupo-jcpm">
+        </div>
     </footer>
 
     <!-- JavaScript -->
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/navegacao.js' %}"></script>
-    
+
+    <!-- Estilos para notícias relacionadas -->
+    <style>
+        .card-noticia-relacionada:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+
+        @media (max-width: 768px) {
+            .grid-noticias-relacionadas {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .grid-noticias-relacionadas {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+    </style>
+
     <script>
         // JavaScript para botão de salvar notícia
         document.addEventListener('DOMContentLoaded', function() {
@@ -474,38 +767,39 @@
                 <span>${mensagem}</span>
             `;
             
-            const styles = document.createElement('style');
-            styles.textContent = `
-                .notificacao-salvar {
-                    position: fixed;
-                    top: 80px;
-                    right: 20px;
-                    padding: 15px 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    z-index: 10000;
-                    animation: slideInRight 0.3s ease-out;
-                    font-size: 0.95rem;
-                    font-weight: 500;
-                }
-                .notificacao-success { background-color: #10b981; color: white; }
-                .notificacao-error { background-color: #ef4444; color: white; }
-                .notificacao-salvar i { font-size: 1.2rem; }
-                @keyframes slideInRight {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                .botao-acao.salvo {
-                    background-color: var(--cor-primaria, #0066cc);
-                    color: white;
-                }
-            `;
+            // Adicionar estilos apenas uma vez
             if (!document.getElementById('notificacao-styles')) {
-                styles.id = 'notificacao-styles';
-                document.head.appendChild(styles);
+                const styleElement = document.createElement('style');
+                styleElement.id = 'notificacao-styles';
+                styleElement.textContent = `
+                    .notificacao-salvar {
+                        position: fixed;
+                        top: 80px;
+                        right: 20px;
+                        padding: 15px 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        z-index: 10000;
+                        animation: slideInRight 0.3s ease-out;
+                        font-size: 0.95rem;
+                        font-weight: 500;
+                    }
+                    .notificacao-success { background-color: #10b981; color: white; }
+                    .notificacao-error { background-color: #ef4444; color: white; }
+                    .notificacao-salvar i { font-size: 1.2rem; }
+                    @keyframes slideInRight {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    .botao-acao.salvo {
+                        background-color: var(--cor-primaria, #0066cc);
+                        color: white;
+                    }
+                `;
+                document.head.appendChild(styleElement);
             }
             
             document.body.appendChild(notificacao);

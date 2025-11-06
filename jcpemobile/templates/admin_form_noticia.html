@@ -1,0 +1,711 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if noticia %}Editar{% else %}Criar nova{% endif %} notícia - Painel Administrativo</title>
+    <link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #dee2e6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #495057;
+        }
+
+        .user-avatar svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(16,185,129,0.3);
+        }
+
+        .btn-primary {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .form-container h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #495057;
+            font-size: 0.875rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="file"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            color: #495057;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group textarea.conteudo {
+            min-height: 200px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+        }
+
+        .help-text {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 0.375rem;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 0.8125rem;
+            margin-top: 0.375rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fecaca;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
+
+        .current-image {
+            max-width: 300px;
+            margin-top: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Estilos do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            animation: slideDown 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #212529;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .close {
+            font-size: 2rem;
+            color: #6c757d;
+            cursor: pointer;
+            border: none;
+            background: none;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #212529;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="{% static 'images/logo-jc.png' %}" alt="JC PE Logo" class="header-logo">
+            <h1>Painel Administrativo</h1>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Voltar ao painel</a>
+            <span class="user-info">
+                Olá, <strong>admin</strong>
+            </span>
+            <div class="user-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Criar nova notícia</h2>
+
+            {% if form.errors %}
+                <div class="alert alert-error">
+                    <strong>Erro ao salvar:</strong> Por favor, corrija os erros abaixo.
+                </div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_autor">Autor*</label>
+                        {{ form.autor }}
+                        {% if form.autor.errors %}
+                            <div class="error">{{ form.autor.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_data_publicacao">Data*</label>
+                        <input type="date" name="data_publicacao" id="id_data_publicacao" placeholder="EX: 02/12/2025" value="{{ noticia.data_publicacao|date:'Y-m-d'|default:'' }}">
+                        {% if form.data_publicacao.errors %}
+                            <div class="error">{{ form.data_publicacao.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_categoria">Categoria*</label>
+                        {{ form.categoria }}
+                        {% if form.categoria.errors %}
+                            <div class="error">{{ form.categoria.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_titulo">Título*</label>
+                    <input type="text" name="titulo" id="id_titulo" placeholder="Digite o título da notícia" value="{{ noticia.titulo|default:'' }}">
+                    {% if form.titulo.errors %}
+                        <div class="error">{{ form.titulo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_resumo">Resumo*</label>
+                    <textarea name="resumo" id="id_resumo" placeholder="Breve resumo da notícia (máx. 300 caracteres)">{{ noticia.resumo|default:'' }}</textarea>
+                    <div class="help-text">Máximo de 300 caracteres</div>
+                    {% if form.resumo.errors %}
+                        <div class="error">{{ form.resumo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_conteudo">Conteúdo*</label>
+                    <textarea name="conteudo" id="id_conteudo" class="conteudo" placeholder="Conteúdo completo da notícia">{{ noticia.conteudo|default:'' }}</textarea>
+                    {% if form.conteudo.errors %}
+                        <div class="error">{{ form.conteudo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_tags">Tags</label>
+                    {{ form.tags }}
+                    <div class="help-text">Mantenha pressionado "Control" ou "Command" para selecionar mais de uma</div>
+                    {% if form.tags.errors %}
+                        <div class="error">{{ form.tags.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_imagem">Imagem</label>
+                    {% if noticia and noticia.imagem %}
+                        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="current-image">
+                        <div class="help-text">Imagem atual. Faça upload de uma nova para substituir.</div>
+                    {% endif %}
+                    {{ form.imagem }}
+                    {% if form.imagem.errors %}
+                        <div class="error">{{ form.imagem.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Seção de Enquete -->
+                <div class="form-group" style="border-top: 1px solid #e9ecef; padding-top: 2rem; margin-top: 2rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" name="tem_enquete" id="id_tem_enquete"
+                               {% if noticia and noticia.enquete %}checked{% endif %}
+                               onchange="toggleEnquete()">
+                        <strong>Adicionar enquete a esta notícia</strong>
+                    </label>
+                    <div class="help-text">Os usuários poderão votar na enquete ao ler a notícia</div>
+                </div>
+
+                <div id="enquete-fields" style="{% if not noticia or not noticia.enquete %}display: none;{% endif %}">
+                    <div class="form-group">
+                        <label for="id_titulo_enquete">Título da Enquete</label>
+                        <input type="text" name="titulo_enquete" id="id_titulo_enquete"
+                               placeholder="Ex: O que você achou desta notícia?"
+                               value="{% if noticia and noticia.enquete %}{{ noticia.enquete.titulo }}{% endif %}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_pergunta_enquete">Pergunta da Enquete</label>
+                        <input type="text" name="pergunta_enquete" id="id_pergunta_enquete"
+                               placeholder="Ex: Qual é a sua opinião?"
+                               value="{% if noticia and noticia.enquete %}{{ noticia.enquete.pergunta }}{% endif %}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Opções de Resposta (mínimo 2)</label>
+                        <div id="opcoes-container">
+                            {% if noticia and noticia.enquete %}
+                                {% for opcao in noticia.enquete.opcoes.all %}
+                                <div class="opcao-item" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="text" name="opcao[]" placeholder="Ex: Muito bom"
+                                           value="{{ opcao.texto }}"
+                                           style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                                    <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                                            style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        Remover
+                                    </button>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="opcao-item" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="text" name="opcao[]" placeholder="Ex: Muito bom"
+                                           style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                                    <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                                            style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        Remover
+                                    </button>
+                                </div>
+                                <div class="opcao-item" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="text" name="opcao[]" placeholder="Ex: Bom"
+                                           style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                                    <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                                            style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        Remover
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="adicionarOpcao()" style="margin-top: 0.5rem;">
+                            + Adicionar Opção
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">
+                        {% if noticia %}Salvar Alterações{% else %}Criar Notícia{% endif %}
+                    </button>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Criar Novo Autor -->
+    <div id="modalAutor" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Novo Autor</h3>
+                <button class="close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nomeAutor">Nome do Autor *</label>
+                    <input type="text" id="nomeAutor" class="form-control" placeholder="Ex: João Silva" required>
+                    <div id="erroNomeAutor" class="error" style="display: none;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="bioAutor">Biografia (opcional)</label>
+                    <textarea id="bioAutor" class="form-control" rows="3" placeholder="Breve descrição sobre o autor..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnSalvarAutor">Salvar Autor</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const modal = document.getElementById('modalAutor');
+        const btnNovoAutor = document.getElementById('btnNovoAutor');
+        const closeModal = document.getElementById('closeModal');
+        const btnCancelar = document.getElementById('btnCancelar');
+        const btnSalvarAutor = document.getElementById('btnSalvarAutor');
+        const nomeAutorInput = document.getElementById('nomeAutor');
+        const bioAutorInput = document.getElementById('bioAutor');
+        const erroNomeAutor = document.getElementById('erroNomeAutor');
+        const selectAutor = document.getElementById('id_autor');
+
+        // Abrir modal
+        btnNovoAutor.addEventListener('click', () => {
+            modal.classList.add('show');
+            nomeAutorInput.value = '';
+            bioAutorInput.value = '';
+            erroNomeAutor.style.display = 'none';
+            nomeAutorInput.focus();
+        });
+
+        // Fechar modal
+        function fecharModal() {
+            modal.classList.remove('show');
+        }
+
+        closeModal.addEventListener('click', fecharModal);
+        btnCancelar.addEventListener('click', fecharModal);
+
+        // Fechar ao clicar fora do modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+
+        // Função para obter o CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Salvar novo autor
+        btnSalvarAutor.addEventListener('click', async () => {
+            const nome = nomeAutorInput.value.trim();
+            const bio = bioAutorInput.value.trim();
+
+            // Validação
+            if (!nome) {
+                erroNomeAutor.textContent = 'O nome do autor é obrigatório.';
+                erroNomeAutor.style.display = 'block';
+                nomeAutorInput.focus();
+                return;
+            }
+
+            // Desabilitar botão durante o envio
+            btnSalvarAutor.disabled = true;
+            btnSalvarAutor.textContent = 'Salvando...';
+
+            try {
+                const response = await fetch('{% url "admin_criar_autor" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ nome, bio })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Adicionar o novo autor ao select
+                    const option = new Option(data.autor.nome, data.autor.id, true, true);
+                    selectAutor.add(option);
+                    
+                    // Mostrar mensagem de sucesso
+                    const container = document.querySelector('.form-container');
+                    const alerta = document.createElement('div');
+                    alerta.className = 'alert alert-success';
+                    alerta.innerHTML = `<strong>Sucesso!</strong> ${data.message}`;
+                    container.insertBefore(alerta, container.firstChild);
+                    
+                    // Remover alerta após 5 segundos
+                    setTimeout(() => alerta.remove(), 5000);
+                    
+                    // Fechar modal
+                    fecharModal();
+                } else {
+                    erroNomeAutor.textContent = data.error;
+                    erroNomeAutor.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                erroNomeAutor.textContent = 'Erro ao criar autor. Tente novamente.';
+                erroNomeAutor.style.display = 'block';
+            } finally {
+                btnSalvarAutor.disabled = false;
+                btnSalvarAutor.textContent = 'Salvar Autor';
+            }
+        });
+
+        // Permitir Enter para salvar
+        nomeAutorInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                btnSalvarAutor.click();
+            }
+        });
+
+        // Funções para gerenciar enquete
+        function toggleEnquete() {
+            const checkbox = document.getElementById('id_tem_enquete');
+            const enqueteFields = document.getElementById('enquete-fields');
+            enqueteFields.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function adicionarOpcao() {
+            const container = document.getElementById('opcoes-container');
+            const novaOpcao = document.createElement('div');
+            novaOpcao.className = 'opcao-item';
+            novaOpcao.style.cssText = 'display: flex; gap: 0.5rem; margin-bottom: 0.5rem;';
+            novaOpcao.innerHTML = `
+                <input type="text" name="opcao[]" placeholder="Nova opção"
+                       style="flex: 1; padding: 0.625rem 0.875rem; border: 1px solid #ced4da; border-radius: 6px;">
+                <button type="button" class="btn-remover-opcao" onclick="removerOpcao(this)"
+                        style="padding: 0.625rem 1rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    Remover
+                </button>
+            `;
+            container.appendChild(novaOpcao);
+        }
+
+        function removerOpcao(btn) {
+            const container = document.getElementById('opcoes-container');
+            const opcoes = container.querySelectorAll('.opcao-item');
+
+            // Não permitir remover se houver apenas 2 opções
+            if (opcoes.length <= 2) {
+                alert('É necessário ter no mínimo 2 opções para a enquete.');
+                return;
+            }
+
+            btn.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
