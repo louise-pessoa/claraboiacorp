@@ -257,6 +257,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    border-radius: 12px; /* Bordas arredondadas nas imagens das notícias secundárias */
     display: block;
     transition: transform var(--transicao-lenta);
 }
