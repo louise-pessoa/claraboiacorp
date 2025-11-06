@@ -146,12 +146,10 @@
 .noticia-destaque-bloco .cartao-imagem {
     position: relative;
     width: 100%;
-    height: 280px;
+    height: 0;
+    padding-bottom: 50%; /* Proporção 2:1 - bem larga */
     overflow: hidden;
     background: var(--cor-fundo-secundario);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .noticia-destaque-bloco .cartao-imagem::before {
@@ -163,9 +161,14 @@
 }
 
 .noticia-destaque-bloco .cartao-imagem img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    display: block;
     transition: transform var(--transicao-lenta);
 }
 
@@ -220,6 +223,7 @@
     flex-direction: row;
     gap: var(--espaco-3);
     align-items: center;
+    min-height: 150px; /* Aumenta altura do card lateral (mobile) */
 }
 
 .noticia-secundaria:hover {
@@ -229,15 +233,12 @@
 
 .noticia-secundaria .cartao-imagem {
     position: relative;
-    width: 100px;
-    height: 100px;
-    min-width: 100px;
+    width: 200px;
+    min-width: 200px;
+    aspect-ratio: 1 / 1; /* Sempre quadrada */
     flex-shrink: 0;
     overflow: hidden;
     background: var(--cor-fundo-secundario);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: var(--borda-raio-md);
 }
 
@@ -250,18 +251,29 @@
 }
 
 .noticia-secundaria .cartao-imagem img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    border-radius: 12px; /* Bordas arredondadas nas imagens das notícias secundárias */
+    display: block;
     transition: transform var(--transicao-lenta);
 }
 
+.noticia-secundaria .cartao-imagem img {
+    transform: scale(1.60); /* Zoom padrão ainda maior */
+    transform-origin: center center;
+}
+
 .noticia-secundaria:hover .cartao-imagem img {
-    transform: scale(1.1);
+    transform: scale(1.90); /* Hover muito pronunciado */
 }
 
 .noticia-secundaria .cartao-conteudo {
-    padding: var(--espaco-3);
+    padding: var(--espaco-2);
     flex: 1;
 }
 
@@ -273,9 +285,10 @@
     margin-top: var(--espaco-2);
     margin-bottom: var(--espaco-2);
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas */
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." */
 }
 
 .noticia-secundaria .cartao-tempo {
@@ -520,4 +533,35 @@
 
 .cartao-noticia-grid:nth-child(3) {
     animation-delay: 0.3s;
+}
+
+/* ===================================================
+   ADAPTAÇÕES PARA DESKTOP
+   =================================================== */
+
+@media (min-width: 768px) {
+    /* Notícia Destaque - mantém mesma proporção em desktop */
+    .noticia-destaque-bloco .cartao-imagem {
+        padding-bottom: 50%; /* Proporção 2:1 - consistente */
+    }
+
+    /* Notícias Secundárias - imagem maior em desktop e card mais alto */
+    .noticia-secundaria {
+        min-height: 230px; /* Aumenta altura do card lateral no desktop */
+    }
+
+    .noticia-secundaria .cartao-imagem {
+        width: 200px;
+        min-width: 200px;
+    }
+
+    /* Ajusta conteúdo para melhor proporção */
+    .noticia-secundaria .cartao-conteudo {
+        padding: var(--espaco-3);
+    }
+
+    .noticia-secundaria .cartao-titulo {
+        font-size: var(--fonte-tamanho-base);
+        -webkit-line-clamp: 2; /* Mantém 2 linhas no desktop também */
+    }
 }

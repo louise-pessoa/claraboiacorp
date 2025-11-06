@@ -3,6 +3,10 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
 from django.contrib.auth.models import User
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+import os
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, unique=True)
@@ -50,7 +54,76 @@ class Noticia(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.titulo)
+        
+        # Processar imagem para proporção 5:3 se foi feito upload
+        if self.imagem:
+            self._processar_imagem()
+        
         super().save(*args, **kwargs)
+
+    def _processar_imagem(self):
+        """Redimensiona e corta a imagem para proporção 2:1"""
+        try:
+            # Abrir a imagem
+            img = Image.open(self.imagem)
+            
+            # Converter para RGB se necessário (para PNG com transparência)
+            if img.mode in ('RGBA', 'LA', 'P'):
+                background = Image.new('RGB', img.size, (255, 255, 255))
+                if img.mode == 'P':
+                    img = img.convert('RGBA')
+                background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+                img = background
+            
+            # Proporção desejada: 2:1 (largura / altura = 2.0)
+            proporcao_alvo = 2.0
+            largura_original, altura_original = img.size
+            proporcao_original = largura_original / altura_original
+            
+            # Calcular dimensões para corte centralizado
+            if proporcao_original > proporcao_alvo:
+                # Imagem mais larga - cortar largura
+                nova_largura = int(altura_original * proporcao_alvo)
+                nova_altura = altura_original
+                x_offset = (largura_original - nova_largura) // 2
+                y_offset = 0
+            else:
+                # Imagem mais alta - cortar altura
+                nova_largura = largura_original
+                nova_altura = int(largura_original / proporcao_alvo)
+                x_offset = 0
+                y_offset = (altura_original - nova_altura) // 2
+            
+            # Cortar imagem
+            img_cortada = img.crop((
+                x_offset,
+                y_offset,
+                x_offset + nova_largura,
+                y_offset + nova_altura
+            ))
+            
+            # Redimensionar para tamanho otimizado (máximo 1200px de largura)
+            largura_maxima = 1200
+            if img_cortada.width > largura_maxima:
+                altura_proporcional = int(largura_maxima / proporcao_alvo)
+                img_cortada = img_cortada.resize((largura_maxima, altura_proporcional), Image.Resampling.LANCZOS)
+            
+            # Salvar imagem processada
+            output = BytesIO()
+            img_cortada.save(output, format='JPEG', quality=90, optimize=True)
+            output.seek(0)
+            
+            # Atualizar campo de imagem
+            nome_arquivo = os.path.splitext(os.path.basename(self.imagem.name))[0]
+            self.imagem.save(
+                f"{nome_arquivo}_processada.jpg",
+                ContentFile(output.read()),
+                save=False
+            )
+        except Exception as e:
+            # Se houver erro no processamento, manter imagem original
+            print(f"Erro ao processar imagem: {e}")
+            pass
 
     def visualizacoes_do_dia(self):
         # Conta visualizações únicas (por IP) do dia atual
