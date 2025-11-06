@@ -223,6 +223,7 @@
     flex-direction: row;
     gap: var(--espaco-3);
     align-items: center;
+    min-height: 150px; /* Aumenta altura do card lateral (mobile) */
 }
 
 .noticia-secundaria:hover {
@@ -232,8 +233,8 @@
 
 .noticia-secundaria .cartao-imagem {
     position: relative;
-    width: 130px;
-    min-width: 130px;
+    width: 200px;
+    min-width: 200px;
     aspect-ratio: 1 / 1; /* Sempre quadrada */
     flex-shrink: 0;
     overflow: hidden;
@@ -262,8 +263,13 @@
     transition: transform var(--transicao-lenta);
 }
 
+.noticia-secundaria .cartao-imagem img {
+    transform: scale(1.60); /* Zoom padrão ainda maior */
+    transform-origin: center center;
+}
+
 .noticia-secundaria:hover .cartao-imagem img {
-    transform: scale(1.1);
+    transform: scale(1.90); /* Hover muito pronunciado */
 }
 
 .noticia-secundaria .cartao-conteudo {
@@ -539,10 +545,14 @@
         padding-bottom: 50%; /* Proporção 2:1 - consistente */
     }
 
-    /* Notícias Secundárias - imagem maior em desktop */
+    /* Notícias Secundárias - imagem maior em desktop e card mais alto */
+    .noticia-secundaria {
+        min-height: 230px; /* Aumenta altura do card lateral no desktop */
+    }
+
     .noticia-secundaria .cartao-imagem {
-        width: 170px;
-        min-width: 170px;
+        width: 200px;
+        min-width: 200px;
     }
 
     /* Ajusta conteúdo para melhor proporção */
