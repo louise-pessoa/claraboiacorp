@@ -101,4 +101,47 @@ describe('História 8 - Salvar Notícias para Ler Mais Tarde', () => {
     // Então o sistema deve exibir uma mensagem solicitando que ele faça login
     cy.contains(/faça login|fazer login|entre na sua conta/i, { timeout: 5000 }).should('be.visible')
   })
+
+  // Teste adicional: Verificar mudança de estado visual do botão
+  it('Deve alterar o estado visual do botão após salvar a notícia', () => {
+    cy.login()
+
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
+    cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
+
+    // Verificar estado inicial (não salvo)
+    cy.get('#botaoSalvar i').should('have.class', 'far') // ícone vazio
+
+    // Salvar a notícia
+    cy.get('#botaoSalvar').click()
+    cy.wait(1000)
+
+    // Verificar estado alterado (salvo)
+    cy.get('#botaoSalvar i').should('have.class', 'fas') // ícone preenchido
+    cy.get('#botaoSalvar').should('have.class', 'salvo')
+    cy.get('#botaoSalvar span').should('contain', 'Salvo')
+  })
+
+  // Teste adicional: Verificar persistência das notícias salvas
+  it('Deve manter as notícias salvas após recarregar a página', () => {
+    cy.login()
+
+    // Salvar uma notícia
+    cy.get('.cartao-noticia', { timeout: 10000 }).should('be.visible')
+    cy.get('.cartao-noticia').first().click()
+    cy.get('#botaoSalvar', { timeout: 10000 }).should('be.visible')
+    cy.get('#botaoSalvar').click()
+    cy.wait(1000)
+
+    // Recarregar a página
+    cy.reload()
+
+    // Acessar a seção de notícias salvas
+    cy.acessarNoticiasSalvas()
+
+    // Verificar se a notícia ainda está salva
+    cy.get('.item-salvo').should('exist')
+    cy.get('.item-salvo').should('have.length.greaterThan', 0)
+  })
 })
