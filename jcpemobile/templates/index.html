@@ -568,11 +568,22 @@ rows="4"
   line-height: 1.3;
 }
 
-.side .desc {
-  font-size: 11px;
+ .side .desc {
+  font-size: 10px; /* ainda menor para caber em uma linha */
   color: #444;
-  line-height: 1.3;
+  line-height: 1.1;
   margin: 0;
+  display: -webkit-box;      /* truncar texto */
+  -webkit-line-clamp: 1;    /* mostrar apenas 1 linha agora */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* permitir quebra para o clamp funcionar */
+}
+
+/* reduzir espaço entre título e descrição para compactar ainda mais */
+.side .title {
+  margin: 0 0 2px 0;
 }
 
 .side img {
