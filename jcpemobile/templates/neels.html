@@ -78,7 +78,7 @@
 }
 
 .neels-card-content {
-    padding: 5px 16px 16px 16px;
+    padding: 10px 16px 56px 16px; /* espaço embaixo para a data posicionada absoluta */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -121,6 +121,52 @@
     font-size: 14px;
     color: #666;
     line-height: 1.5;
+}
+
+/* Data posicionada no canto inferior esquerdo do cartão */
+.neels-card-date {
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* ícone no canto inferior direito do cartão */
+.neels-card-icon {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 34px; /* tamanho proporcional ao site */
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.neels-card-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Heart (liked) state */
+.neels-card-icon {
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 120ms ease;
+}
+.neels-card-icon:focus {
+    /* remove the container ring so only the SVG (heart) can be visually affected */
+    outline: none;
+}
+.neels-card-icon:focus svg path {
+    /* subtle focus hint applied to the heart itself (not the container) */
+    stroke: rgba(222,27,36,0.6);
+    fill: rgba(222,27,36,0.06);
+}
+.neels-card-icon.liked svg path {
+    stroke: #DE1B24 !important;
+    fill: #DE1B24 !important;
 }
 
 @media (max-width: 768px) {
@@ -315,16 +361,31 @@ Envie seu Feedback
 <span class="neels-card-tag">Esporte</span>
 <h2 class="neels-card-title">Grupo coreano, BTS anuncia turnê mundial para 2026</h2>
 <p class="neels-card-description">O BTS confirmou oficialmente sua turnê mundial para 2026, marcando o retorno do grupo completo após o fim do serviço militar dos integrantes. A nova tour deve passar por diversas cidades da Ásia, Europa e Américas, trazendo músicas inéditas e um novo conceito visual. Os fãs, que aguardavam ansiosos pelo reencontro, já consideram o anúncio um dos momentos mais marcantes da história do K-pop.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+    </svg>
 </div>
 </a>
 
 <!-- Cartão de exemplo 2 - Educação -->
 <a href="#" class="neels-card">
-<img src="https://images.unsplash.com/photo-1610736342326-b59eb016ba95?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGpvZ2Fkb3IlMjBkZSUyMGZ1dGVib2x8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=600" alt="Notícia Educação" class="neels-card-image">
+<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/08/whatsapp_image_2025_10_08_at_09_36_31-35780399.jpeg?ims=1600x1066" alt="Notícia Educação" class="neels-card-image">
 <div class="neels-card-content">
-<span class="neels-card-tag">Educação</span>
-<h2 class="neels-card-title">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas públicas de todo o país.</h2>
-<p class="neels-card-description">Programa de incentivo à leitura alcança milhares de estudantes em todo Brasil.</p>
+<span class="neels-card-tag">Segurança</span>
+<h2 class="neels-card-title">IEm dia de mudança na Polícia Civil, governo de Pernambuco divulga queda de roubos em outubro</h2>
+<p class="neels-card-description">Poucas horas após a confirmação oficial da troca de comando da chefia da Polícia Civil de Pernambuco - agora sob o comando do delegado Felipe Monteiro -, o governo estadual divulgou um novo balanço dos resultados obtidos em outubro na segurança pública. Desta vez, com destaque para os crimes contra o patrimônio.Segundo a gestão, 2.702 queixas de roubos foram registradas pela polícia em Pernambuco no mês passado. A queda é de 28,8% em comparação com o mesmo período de outubro de 2024, quando 3.796 boletins de ocorrência foram somados.Os números, porém, ainda são preliminares e devem sofrer variação até 15 de novembro. 
+
+
+</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+    </svg>
 </div>
 </a>
 
@@ -335,6 +396,12 @@ Envie seu Feedback
 <span class="neels-card-tag">Política</span>
 <h2 class="neels-card-title">Congresso Nacional aprova novas medidas de combate à corrupção e transparência pública.</h2>
 <p class="neels-card-description">Pacote de medidas visa fortalecer os mecanismos de fiscalização e controle público.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+    </svg>
 </div>
 </a>
 
@@ -345,6 +412,12 @@ Envie seu Feedback
 <span class="neels-card-tag">Economia</span>
 <h2 class="neels-card-title">Mercado financeiro reage positivamente a novos indicadores econômicos e dólar recua.</h2>
 <p class="neels-card-description">Bolsa de valores registra alta expressiva e investidores demonstram otimismo.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+    </svg>
 </div>
 </a>
 
@@ -355,6 +428,7 @@ Envie seu Feedback
 <span class="tag">Cultura</span>
 <h2 class="neels-card-title">Festival de cinema brasileiro anuncia programação com mais de 100 filmes inéditos.</h2>
 <p class="neels-card-description">Evento cultural reúne produções nacionais e promove debate sobre audiovisual brasileiro.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
 </div>
 </a>
 
@@ -544,5 +618,35 @@ do Google.
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
+<script>
+// Toggle liked state on heart icons inside neels cards.
+(function(){
+    var icons = document.querySelectorAll('.neels-card-icon');
+    if(!icons || !icons.length) return;
+    icons.forEach(function(icon){
+        // make it keyboard-focusable and expose as a button
+        icon.setAttribute('tabindex', '0');
+        icon.setAttribute('role', 'button');
+        icon.setAttribute('aria-pressed', 'false');
+
+        function toggleLiked(e){
+            // prevent parent link navigation
+            if (e && e.preventDefault) e.preventDefault();
+            if (e && e.stopPropagation) e.stopPropagation();
+            var isLiked = icon.classList.toggle('liked');
+            icon.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
+        }
+
+        icon.addEventListener('click', toggleLiked);
+        icon.addEventListener('keydown', function(e){
+            var k = e.key || e.keyCode;
+            if (k === 'Enter' || k === ' ' || k === 'Spacebar' || k === 13 || k === 32) {
+                e.preventDefault();
+                toggleLiked(e);
+            }
+        });
+    });
+})();
+</script>
 </body>
 </html>
