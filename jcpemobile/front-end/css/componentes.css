@@ -192,14 +192,15 @@
     top: var(--espaco-3);
     left: var(--espaco-3);
     padding: var(--espaco-1) var(--espaco-3);
-    background: var(--cor-primaria);
-    color: var(--cor-fundo);
+    background: transparent; /* Fundo transparente */
+    color: var(--cor-primaria); /* Texto vermelho por padrão */
     font-size: var(--fonte-tamanho-xs);
     font-weight: var(--fonte-peso-semibold);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-radius: var(--borda-raio-md);
     z-index: var(--z-base);
+    border: none; /* Sem borda */
 }
 
 /* Badge inline (acima do título) */
@@ -207,47 +208,56 @@
     display: inline-block;
     width: fit-content;
     padding: var(--espaco-1) var(--espaco-3);
-    background: var(--cor-primaria);
-    color: var(--cor-fundo);
+    background: transparent; /* Fundo transparente */
+    color: var(--cor-primaria); /* Texto vermelho por padrão */
     font-size: var(--fonte-tamanho-xxs);
     font-weight: var(--fonte-peso-bold);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     border-radius: var(--borda-raio-sm);
     margin-bottom: var(--espaco-2);
+    border: none; /* Sem borda */
 }
 
-/* Cores das Categorias */
+/* Cores das Categorias - agora aplicam cor ao texto e borda */
 .badge-pernambuco {
-    background: var(--cor-categoria-pernambuco);
+    color: var(--cor-categoria-pernambuco);
+    border-color: var(--cor-categoria-pernambuco);
 }
 
 .badge-politica {
-    background: var(--cor-categoria-politica);
+    color: var(--cor-categoria-politica);
+    border-color: var(--cor-categoria-politica);
 }
 
 .badge-economia {
-    background: var(--cor-categoria-economia);
+    color: var(--cor-categoria-economia);
+    border-color: var(--cor-categoria-economia);
 }
 
 .badge-esportes {
-    background: var(--cor-categoria-esportes);
+    color: var(--cor-categoria-esportes);
+    border-color: var(--cor-categoria-esportes);
 }
 
 .badge-cultura {
-    background: var(--cor-categoria-cultura);
+    color: var(--cor-categoria-cultura);
+    border-color: var(--cor-categoria-cultura);
 }
 
 .badge-mundo {
-    background: var(--cor-categoria-mundo);
+    color: var(--cor-categoria-mundo);
+    border-color: var(--cor-categoria-mundo);
 }
 
 .badge-educacao {
-    background: var(--cor-categoria-educacao);
+    color: var(--cor-categoria-educacao);
+    border-color: var(--cor-categoria-educacao);
 }
 
 .badge-mobilidade {
-    background: var(--cor-categoria-mobilidade);
+    color: var(--cor-categoria-mobilidade);
+    border-color: var(--cor-categoria-mobilidade);
 }
 
 /* ===================================================
@@ -318,16 +328,18 @@
 .tag {
     display: inline-block;
     padding: var(--espaco-1) var(--espaco-3);
-    background: var(--cor-fundo-terciario);
-    color: var(--cor-texto-secundario);
+    background: transparent; /* Fundo transparente */
+    color: var(--cor-primaria); /* Texto vermelho */
     font-size: var(--fonte-tamanho-sm);
     border-radius: var(--borda-raio-2xl);
     transition: var(--transicao-rapida);
+    border: none; /* Sem borda */
 }
 
 .tag:hover {
-    background: var(--cor-primaria);
-    color: var(--cor-fundo);
+    background: transparent; /* Fundo transparente no hover também */
+    color: var(--cor-primaria); /* Mantém texto vermelho */
+    border: none; /* Sem borda no hover */
 }
 
 .tag-grupo {

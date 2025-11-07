@@ -81,28 +81,13 @@
     padding: 20px 16px 16px 16px;
 }
 
-.neels-card-tag {
-    position: absolute;
-    top: 190px;
-    left: -15px;
-    display: inline-block;
-    background: #E30613;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 1px 32px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    z-index: 10;
-}
-
 .neels-card-title {
     font-size: 18px;
     font-weight: 700;
     color: #1a1a1a;
     line-height: 1.4;
     margin-bottom: 8px;
-    margin-top: 25px;
+    margin-top: 0; /* Removido margin-top para tags ficarem no topo */
 }
 
 .neels-card-description {
@@ -340,7 +325,7 @@ Envie seu Feedback
 <a href="#" class="neels-card">
 <img src="https://media.istockphoto.com/id/1222845420/pt/foto/american-and-ukrainian-flags-fly-against-the-blue-sky-and-part-of-the-building-patriotism.jpg?s=612x612&w=0&k=20&c=6o7aWej2NR30V2orl-fFT62mLJJumnE7YPOdTyNlqQw=" alt="Notícia Cultura" class="neels-card-image">
 <div class="neels-card-content">
-<span class="neels-card-tag">Cultura</span>
+<span class="tag">Cultura</span>
 <h2 class="neels-card-title">Festival de cinema brasileiro anuncia programação com mais de 100 filmes inéditos.</h2>
 <p class="neels-card-description">Evento cultural reúne produções nacionais e promove debate sobre audiovisual brasileiro.</p>
 </div>
@@ -350,7 +335,7 @@ Envie seu Feedback
 <a href="{% url 'noticia_detalhe' noticia.slug %}" class="neels-card">
 <img src="{{ noticia.imagem_destaque.url }}" alt="{{ noticia.titulo }}" class="neels-card-image">
 <div class="neels-card-content">
-<span class="neels-card-tag">{{ noticia.categoria.nome }}</span>
+<span class="tag">{{ noticia.categoria.nome }}</span>
 <h2 class="neels-card-title">{{ noticia.titulo }}</h2>
 <p class="neels-card-description">{{ noticia.resumo|truncatewords:20 }}</p>
 </div>

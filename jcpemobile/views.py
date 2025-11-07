@@ -304,11 +304,6 @@ def mais_lidas(request):
     noticias_hoje = Noticia.objects.all().annotate(
         visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=timezone.now().date()))
     ).filter(visualizacoes_dia__gt=0).order_by('-visualizacoes_dia')
-
-def painel_diario(request):
-    """View para a página Painel Diário"""
-    return render(request, 'painel_diario.html')
-    
     # Pegar notícias mais vistas da semana
     data_semana_atras = timezone.now().date() - timezone.timedelta(days=7)
     noticias_semana = Noticia.objects.all().annotate(
@@ -328,6 +323,11 @@ def painel_diario(request):
     }
     
     return render(request, 'mais_lidas.html', context)
+
+
+def painel_diario(request):
+    """View para a página Painel Diário"""
+    return render(request, 'painel_diario.html')
 
 
 @login_required

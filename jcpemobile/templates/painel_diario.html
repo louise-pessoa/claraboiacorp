@@ -2,3 +2,445 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Meta Tags Essenciais -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- SEO e Meta Informações -->
+<meta name="description" content="Jornal do Commercio - O mais tradicional veículo de comunicação de Pernambuco. Notícias, reportagens e cobertura completa.">
+<meta name="keywords" content="notícias, pernambuco, recife, jornal, commercio, jc, política, economia, esportes">
+<meta name="author" content="Jornal do Commercio">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jornal do Commercio - JC PE">
+<meta property="og:description" content="As principais notícias de Pernambuco e do Brasil">
+<meta property="og:image" content="{% static 'images/logo-jc.png' %}">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{% static 'images/jc-favicon.png' %}">
+
+<!-- Título -->
+<title>Jornal do Commercio - JC PE</title>
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- CSS - Ordem Importante -->
+<link rel="stylesheet" href="{% static 'css/reset.css' %}">
+<link rel="stylesheet" href="{% static 'css/variaveis.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/componentes.css' %}">
+<link rel="stylesheet" href="{% static 'css/layout.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/home-layout.css' %}">
+<link rel="stylesheet" href="{% static 'css/nossos-produtos.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<!-- Barra Superior UOL -->
+<div class="barra-uol">
+<div class="barra-uol-container">
+<a href="https://www.uol.com.br" target="_blank" rel="noopener noreferrer">
+<img src="https://conteudo.imguol.com.br/c/_layout/v3/logoUOL2021/logo_completo_white.svg" width="68" height="24" alt="UOL - O melhor conteúdo" title="UOL - O melhor conteúdo">
+</a>
+</div>
+</div>
+
+<div class="top-bar"></div>
+<!-- Cabeçalho -->
+<header class="cabecalho" id="cabecalho">
+<div class="cabecalho-container">
+<!-- Menu Hamburguer (Mobile) -->
+<button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="15 5 70 38" fill="none">
+<path d="M11.6667 15.1666H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 25.0045H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 34.8423H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+</button>
+
+<!-- Logo -->
+<div class="logo">
+<a href="{% url 'index' %}" title="Jornal do Commercio - Página Inicial">
+<img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+</a>
+</div>
+
+<!-- Ações do Cabeçalho -->
+<div class="cabecalho-acoes">
+<!-- (search button removed from header; search remains in bottom navigation) -->
+<!-- Perfil -->
+<button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32" fill="none">
+<path d="M20 13.3333C20 15.5425 18.2091 17.3333 16 17.3333C13.7909 17.3333 12 15.5425 12 13.3333C12 11.1242 13.7909 9.33334 16 9.33334C18.2091 9.33334 20 11.1242 20 13.3333Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+<circle cx="16" cy="16" r="12" stroke="#33363F" stroke-width="2"/>
+<path d="M23.7074 25.1019C23.8769 25.0088 23.957 24.8073 23.8854 24.6277C23.3712 23.3393 22.3808 22.2046 21.0419 21.3776C19.5955 20.4843 17.8232 20 16 20C14.1768 20 12.4046 20.4842 10.9581 21.3776C9.61925 22.2046 8.6288 23.3393 8.11464 24.6277C8.04298 24.8073 8.12314 25.0088 8.29264 25.1019C13.0929 27.7373 18.9071 27.7373 23.7074 25.1019Z" fill="#33363F"/>
+</svg>
+</button>
+</div>
+</div>
+
+<!-- Barra de Busca (Expansível) -->
+<div class="barra-busca" id="barraBusca" aria-hidden="true">
+<div class="busca-container">
+<input type="search"
+class="campo-busca"
+placeholder="Buscar notícias..."
+aria-label="Buscar notícias">
+<button class="botao-filtros" aria-label="Filtros de busca">
+<i class="fas fa-filter"></i>
+</button>
+</div>
+
+<!-- Filtros de Busca -->
+<div class="filtros-busca" id="filtrosBusca">
+<select class="filtro-data" aria-label="Filtrar por data">
+<option value="">Todas as datas</option>
+<option value="hoje">Hoje</option>
+<option value="semana">Esta semana</option>
+<option value="mes">Este mês</option>
+</select>
+
+<select class="filtro-categoria" aria-label="Filtrar por categoria">
+<option value="">Todas as categorias</option>
+<option value="pernambuco">Pernambuco</option>
+<option value="politica">Política</option>
+<option value="economia">Economia</option>
+<option value="esportes">Esportes</option>
+<option value="cultura">Cultura</option>
+</select>
+
+<select class="filtro-ordenar" aria-label="Ordenar por">
+<option value="relevancia">Mais relevantes</option>
+<option value="recentes">Mais recentes</option>
+<option value="antigas">Mais antigas</option>
+</select>
+</div>
+</div>
+</header>
+
+<!-- Menu Lateral -->
+<nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
+<div class="menu-lateral-cabecalho">
+<div class="menu-hamburguer-icone">
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="52" viewBox="0 0 56 52" fill="none">
+<path d="M11.6667 15.1667H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 25.0045H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 34.8423H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+</div>
+<button class="menu-lateral-fechar" id="menuLateralFechar" aria-label="Fechar menu">
+<i class="fas fa-times"></i>
+</button>
+</div>
+
+<div class="menu-lateral-conteudo">
+<!-- Perfil do Usuário (se logado) -->
+<div class="menu-lateral-perfil">
+<img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
+<div class="perfil-info">
+{% if user.is_authenticated %}
+<span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
+<a href="{% url 'logout_usuario' %}" class="perfil-link">Sair</a>
+{% else %}
+<span class="perfil-nome">Visitante</span>
+<a href="#" class="perfil-link" id="linkEntrarMenu">Entrar / Cadastrar</a>
+{% endif %}
+</div>
+</div>
+
+<!-- Menu Principal -->
+<ul class="menu-principal">
+<!-- Categorias -->
+<li class="menu-item menu-item-expansivel">
+<button class="menu-link" aria-expanded="false">
+<span>Categorias</span>
+<i class="fas fa-chevron-down menu-seta"></i>
+</button>
+<ul class="submenu">
+<li><a href="#pernambuco">Pernambuco</a></li>
+<li><a href="#politica">Política</a></li>
+<li><a href="#economia">Economia</a></li>
+<li><a href="#mundo">Mundo</a></li>
+<li><a href="#esportes">Esportes</a></li>
+<li><a href="#cultura">Cultura</a></li>
+<li><a href="#educacao">Educação</a></li>
+<li><a href="#mobilidade">Mobilidade</a></li>
+</ul>
+</li>
+
+<!-- Seções Especiais -->
+<li class="menu-item">
+<a href="{% url 'mais_lidas' %}" class="menu-link">
+<span>Mais Lidas</span>
+</a>
+</li>
+
+<li class="menu-item">
+<a href="{% url 'neels' %}" class="menu-link">
+<span>Neels</span>
+</a>
+</li>
+
+<li class="menu-item">
+<a href="#curtas" class="menu-link">
+<span>Curtas</span>
+</a>
+</li>
+
+<li class="menu-item">
+  <a href="{% url 'painel_diario' %}" class="menu-link">
+    <span>Linha do Tempo</span>
+  </a>
+</li>
+
+<!-- Canais -->
+<li class="menu-item menu-item-expansivel">
+<button class="menu-link" aria-expanded="false">
+<span>Canais</span>
+<i class="fas fa-chevron-down menu-seta"></i>
+</button>
+<ul class="submenu">
+<!-- TV Jornal com submenu -->
+<li class="submenu-item-expansivel">
+<button class="submenu-link" aria-expanded="false">
+<span>TV Jornal</span>
+<i class="fas fa-chevron-down submenu-seta"></i>
+</button>
+<ul class="submenu-nivel-2">
+<li><a href="#tv-jornal-recife">Recife</a></li>
+<li><a href="#tv-jornal-interior">Interior</a></li>
+</ul>
+</li>
+<!-- Rádio Jornal com submenu -->
+<li class="submenu-item-expansivel">
+<button class="submenu-link" aria-expanded="false">
+<span>Rádio Jornal</span>
+<i class="fas fa-chevron-down submenu-seta"></i>
+</button>
+<ul class="submenu-nivel-2">
+<li><a href="#radio-jornal-recife">Recife</a></li>
+<li><a href="#radio-jornal-caruaru">Caruaru</a></li>
+<li><a href="#radio-jornal-garanhuns">Garanhuns</a></li>
+<li><a href="#radio-jornal-petrolina">Petrolina</a></li>
+</ul>
+</li>
+<li><a href="#podcasts">Podcasts</a></li>
+</ul>
+</li>
+
+<!-- Outras Seções -->
+<li class="menu-item">
+<a href="#jornal-digital" class="menu-link">
+<span>Jornal Digital</span>
+</a>
+</li>
+ 
+<!-- Novo item: Painel Diário -->
+<li class="menu-item">
+  <a href="{% url 'painel_diario' %}" class="menu-link">
+    <span>Painel Diário</span>
+  </a>
+</li>
+
+<li class="menu-item">
+<a href="{% url 'salvos' %}" class="menu-link">
+<span>Notícias Salvas</span>
+</a>
+</li>
+</ul>
+
+<!-- Redes Sociais -->
+<div class="menu-redes-sociais">
+<h3>Siga JC</h3>
+<div class="redes-sociais-lista">
+<a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
+<i class="fab fa-facebook-f"></i>
+</a>
+<a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
+  <i class="fab fa-instagram"></i>
+</a>
+<a href="https://x.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
+<circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
+<path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
+</svg>
+</a>
+<a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
+<i class="fab fa-linkedin-in"></i>
+</a>
+<a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
+<i class="fab fa-youtube"></i>
+</a>
+<a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
+<i class="fab fa-tiktok"></i>
+</a>
+</div>
+</div>
+
+<!-- Links Secundários -->
+<div class="menu-lateral-rodape">
+<a href="#sobre">Sobre o JC</a>
+<a href="#fale-conosco">Fale Conosco</a>
+<a href="#anuncie">Anuncie</a>
+<a href="#privacidade">Privacidade</a>
+<button class="btn-feedback-menu" onclick="abrirModalFeedback()">
+Envie seu Feedback
+</button>
+</div>
+</div>
+</nav>
+
+<!-- Overlay do Menu -->
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- Modal de Feedback -->
+<div class="modal-feedback" id="modalFeedback">
+<div class="modal-feedback-content">
+<button class="modal-feedback-fechar" id="fecharModalFeedback" aria-label="Fechar">
+<i class="fas fa-times"></i>
+</button>
+
+<h2>Queremos saber a sua opinião</h2>
+
+<form id="formFeedback" class="form-feedback">
+<div class="feedback-pergunta">
+<label>Como você avalia sua experiência no site?</label>
+<div class="feedback-escala">
+<input type="radio" id="nivel1" name="satisfacao" value="1" required>
+<label for="nivel1" class="escala-opcao">
+<span class="escala-numero">
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 49 49" fill="none">
+    <circle cx="24.5" cy="24.5" r="19.875" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M16.4455 33.5744C17.3747 32.7697 18.622 32.1706 20.0007 31.7726C21.3913 31.3711 22.9409 31.1666 24.5 31.1666C26.0591 31.1666 27.6088 31.3711 28.9994 31.7726C30.3781 32.1706 31.6254 32.7697 32.5546 33.5744" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M34.7084 16.3333L28.5834 20.4166" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M14.2916 16.3333L20.4166 20.4166" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="16.3333" cy="20.4167" r="2.54167" fill="#33363F" stroke="#33363F" stroke-linecap="round"/>
+    <circle cx="32.6667" cy="20.4167" r="2.54167" fill="#33363F" stroke="#33363F" stroke-linecap="round"/>
+  </svg>
+</span>
+<span class="escala-texto">Muito ruim</span>
+</label>
+
+<input type="radio" id="nivel2" name="satisfacao" value="2">
+<label for="nivel2" class="escala-opcao">
+<span class="escala-numero">
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 49 49" fill="none">
+    <circle cx="24.5" cy="24.5" r="19.875" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M16.0939 27.9769C17.1691 27.7694 18.4523 27.8267 19.7833 28.0659C21.1312 28.308 22.5658 28.7434 23.9518 29.3223C25.3378 29.9012 26.6559 30.6156 27.7755 31.4041C28.8812 32.1827 29.824 33.0551 30.4321 33.9657" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <mask id="path-3-outside-1_555_623" maskUnits="userSpaceOnUse" x="15" y="18" width="7" height="5" fill="black">
+      <rect fill="white" x="15" y="18" width="7" height="5"/>
+      <path d="M19.5833 19.0417C19.8264 19.0417 19.948 19.0417 20.023 19.1378C20.0981 19.234 20.0729 19.3349 20.0224 19.5367C19.9334 19.8928 19.7492 20.2215 19.4853 20.4853C19.1025 20.8682 18.5832 21.0833 18.0417 21.0833C17.5002 21.0833 16.9809 20.8682 16.598 20.4853C16.3341 20.2215 16.1499 19.8928 16.0609 19.5367C16.0105 19.3349 15.9852 19.234 16.0603 19.1378C16.1354 19.0417 16.2569 19.0417 16.5 19.0417L18.0417 19.0417H19.5833Z"/>
+    </mask>
+    <path d="M19.5833 19.0417C19.8264 19.0417 19.948 19.0417 20.023 19.1378C20.0981 19.234 20.0729 19.3349 20.0224 19.5367C19.9334 19.8928 19.7492 20.2215 19.4853 20.4853C19.1025 20.8682 18.5832 21.0833 18.0417 21.0833C17.5002 21.0833 16.9809 20.8682 16.598 20.4853C16.3341 20.2215 16.1499 19.8928 16.0609 19.5367C16.0105 19.3349 15.9852 19.234 16.0603 19.1378C16.1354 19.0417 16.2569 19.0417 16.5 19.0417L18.0417 19.0417H19.5833Z" fill="#33363F"/>
+    <path d="M19.5833 19.0417C19.8264 19.0417 19.948 19.0417 20.023 19.1378C20.0981 19.234 20.0729 19.3349 20.0224 19.5367C19.9334 19.8928 19.7492 20.2215 19.4853 20.4853C19.1025 20.8682 18.5832 21.0833 18.0417 21.0833C17.5002 21.0833 16.9809 20.8682 16.598 20.4853C16.3341 20.2215 16.1499 19.8928 16.0609 19.5367C16.0105 19.3349 15.9852 19.234 16.0603 19.1378C16.1354 19.0417 16.2569 19.0417 16.5 19.0417L18.0417 19.0417H19.5833Z" stroke="#33363F" stroke-width="2" stroke-linecap="round" mask="url(#path-3-outside-1_555_623)"/>
+    <mask id="path-4-outside-2_555_623" maskUnits="userSpaceOnUse" x="27" y="18" width="7" height="5" fill="black">
+      <rect fill="white" x="27" y="18" width="7" height="5"/>
+      <path d="M31.5833 19.0417C31.8264 19.0417 31.948 19.0417 32.023 19.1378C32.0981 19.234 32.0729 19.3349 32.0224 19.5367C31.9334 19.8928 31.7492 20.2215 31.4853 20.4853C31.1025 20.8682 30.5832 21.0833 30.0417 21.0833C29.5002 21.0833 28.9809 20.8682 28.598 20.4853C28.3341 20.2215 28.1499 19.8928 28.0609 19.5367C28.0105 19.3349 27.9852 19.234 28.0603 19.1378C28.1354 19.0417 28.2569 19.0417 28.5 19.0417L30.0417 19.0417H31.5833Z"/>
+    </mask>
+    <path d="M31.5833 19.0417C31.8264 19.0417 31.948 19.0417 32.023 19.1378C32.0981 19.234 32.0729 19.3349 32.0224 19.5367C31.9334 19.8928 31.7492 20.2215 31.4853 20.4853C31.1025 20.8682 30.5832 21.0833 30.0417 21.0833C29.5002 21.0833 28.9809 20.8682 28.598 20.4853C28.3341 20.2215 28.1499 19.8928 28.0609 19.5367C28.0105 19.3349 27.9852 19.234 28.0603 19.1378C28.1354 19.0417 28.2569 19.0417 28.5 19.0417L30.0417 19.0417H31.5833Z" fill="#33363F"/>
+    <path d="M31.5833 19.0417C31.8264 19.0417 31.948 19.0417 32.023 19.1378C32.0981 19.234 32.0729 19.3349 32.0224 19.5367C31.9334 19.8928 31.7492 20.2215 31.4853 20.4853C31.1025 20.8682 30.5832 21.0833 30.0417 21.0833C29.5002 21.0833 28.9809 20.8682 28.598 20.4853C28.3341 20.2215 28.1499 19.8928 28.0609 19.5367C28.0105 19.3349 27.9852 19.234 28.0603 19.1378C28.1354 19.0417 28.2569 19.0417 28.5 19.0417L30.0417 19.0417H31.5833Z" stroke="#33363F" stroke-width="2" stroke-linecap="round" mask="url(#path-4-outside-2_555_623)"/>
+  </svg>
+</span>
+<span class="escala-texto">Ruim</span>
+</label>
+
+<input type="radio" id="nivel3" name="satisfacao" value="3">
+<label for="nivel3" class="escala-opcao">
+<span class="escala-numero">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 49 49" fill="none">
+        <circle cx="24.5" cy="24.5" r="19.875" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+        <path d="M16.5831 31.4626C17.4969 30.8589 18.7053 30.4189 20.0283 30.1275C21.3682 29.8325 22.8631 29.6818 24.3685 29.6818C25.8739 29.6818 27.3687 29.8325 28.7086 30.1275C30.0316 30.4189 31.2401 30.8589 32.1539 31.4626" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="18.375" cy="20.4167" r="2.54167" fill="#33363F" stroke="#33363F" stroke-linecap="round"/>
+        <circle cx="30.625" cy="20.4167" r="2.54167" fill="#33363F" stroke="#33363F" stroke-linecap="round"/>
+    </svg>
+</span>
+<span class="escala-texto">Neutro</span>
+</label>
+
+<input type="radio" id="nivel4" name="satisfacao" value="4">
+<label for="nivel4" class="escala-opcao">
+<span class="escala-numero">
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 49 49" fill="none">
+    <circle cx="24.5" cy="24.5" r="19.875" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M16.5831 28.1213C17.4969 28.725 18.7053 29.1651 20.0283 29.4565C21.3682 29.7515 22.8631 29.9022 24.3685 29.9022C25.8739 29.9022 27.3687 29.7515 28.7086 29.4565C30.0316 29.1651 31.2401 28.725 32.1539 28.1213" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <rect x="14.1666" y="16.2083" width="6.375" height="4.33333" rx="2.16667" fill="#33363F" stroke="#33363F" stroke-width="0.25" stroke-linecap="round"/>
+    <rect x="28.4584" y="16.2083" width="6.375" height="4.33333" rx="2.16667" fill="#33363F" stroke="#33363F" stroke-width="0.25" stroke-linecap="round"/>
+  </svg>
+</span>
+<span class="escala-texto">Bom</span>
+</label>
+
+<input type="radio" id="nivel5" name="satisfacao" value="5">
+<label for="nivel5" class="escala-opcao">
+<span class="escala-numero">
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 49 49" fill="none">
+    <circle cx="24.5" cy="24.5" r="19.875" stroke="#33363F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M31.9944 30.625C32.2716 30.625 32.4102 30.625 32.4853 30.7221C32.5603 30.8193 32.5272 30.9464 32.4609 31.2006C31.6321 34.3785 28.3828 36.75 24.4998 36.75C20.6168 36.7499 17.3683 34.3784 16.5396 31.2006C16.4733 30.9464 16.4402 30.8193 16.5152 30.7221C16.5903 30.625 16.7289 30.625 17.0061 30.625H31.9944Z" fill="#33363F"/>
+    <path d="M16.3343 16.0489C16.5438 15.404 17.4562 15.404 17.6657 16.0489L18.4144 18.3532C18.5082 18.6416 18.7769 18.8369 19.0802 18.8369H21.503C22.1811 18.8369 22.4631 19.7046 21.9145 20.1032L19.9543 21.5273C19.709 21.7056 19.6063 22.0215 19.7001 22.3099L20.4488 24.6142C20.6583 25.2591 19.9202 25.7954 19.3716 25.3968L17.4114 23.9727C17.1661 23.7944 16.8339 23.7944 16.5886 23.9727L14.6284 25.3968C14.0798 25.7954 13.3417 25.2591 13.5512 24.6142L14.2999 22.3099C14.3937 22.0215 14.291 21.7056 14.0457 21.5273L12.0855 20.1032C11.5369 19.7046 11.8189 18.8369 12.497 18.8369H14.9198C15.2231 18.8369 15.4918 18.6416 15.5856 18.3532L16.3343 16.0489Z" fill="#33363F"/>
+    <path d="M31.3343 16.0489C31.5438 15.404 32.4562 15.404 32.6657 16.0489L33.4144 18.3532C33.5082 18.6416 33.7769 18.8369 34.0802 18.8369H36.503C37.1811 18.8369 37.4631 19.7046 36.9145 20.1032L34.9543 21.5273C34.709 21.7056 34.6063 22.0215 34.7001 22.3099L35.4488 24.6142C35.6583 25.2591 34.9202 25.7954 34.3716 25.3968L32.4114 23.9727C32.1661 23.7944 31.8339 23.7944 31.5886 23.9727L29.6284 25.3968C29.0798 25.7954 28.3417 25.2591 28.5512 24.6142L29.2999 22.3099C29.3937 22.0215 29.291 21.7056 29.0457 21.5273L27.0855 20.1032C26.5369 19.7046 26.8189 18.8369 27.497 18.8369H29.9198C30.2231 18.8369 30.4918 18.6416 30.5856 18.3532L31.3343 16.0489Z" fill="#33363F"/>
+  </svg>
+</span>
+<span class="escala-texto">Muito bom</span>
+</label>
+</div>
+</div>
+
+<div class="feedback-comentario">
+<label for="comentario">Quer fazer um comentário? (opcional)</label>
+                    <textarea 
+                        id="comentario" 
+                        name="comentario" 
+                        maxlength="140" 
+                    <textarea
+                        id="comentario"
+                        name="comentario"
+                        maxlength="140"
+placeholder="Conte-nos mais sobre sua experiência..."
+rows="4"
+></textarea>
+<span class="contador-caracteres">0/140</span>
+</div>
+
+                <div class="feedback-imagem">
+                    <label for="imagemFeedback">
+                        <i class="fas fa-image"></i>
+                        Anexar imagem (opcional)
+                    </label>
+                    <input
+                        type="file"
+                        id="imagemFeedback"
+                        name="imagem"
+                        accept="image/*"
+                        style="display: none;"
+                    >
+                    <div class="imagem-preview-container" id="previewContainer" style="display: none;">
+                        <img id="imagemPreview" src="" alt="Preview da imagem">
+                        <button type="button" class="btn-remover-imagem" id="btnRemoverImagem">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <button type="button" class="btn-selecionar-imagem" id="btnSelecionarImagem">
+                        <i class="fas fa-paperclip"></i>
+                        Escolher arquivo
+                    </button>
+                    <span class="nome-arquivo" id="nomeArquivo"></span>
+                </div>
+
+<button type="submit" class="btn-enviar-feedback">Enviar avaliação</button>
+</form>
+</div>
+</div>
+
+<!-- Conteúdo Principal -->
+<main class="conteudo-principal" id="conteudoPrincipal">
+<div class="container">
