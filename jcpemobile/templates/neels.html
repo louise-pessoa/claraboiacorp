@@ -78,7 +78,10 @@
 }
 
 .neels-card-content {
-    padding: 20px 16px 16px 16px;
+    padding: 5px 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .neels-card-title {
@@ -88,6 +91,10 @@
     line-height: 1.4;
     margin-bottom: 8px;
     margin-top: 0; /* Removido margin-top para tags ficarem no topo */
+}
+
+.tag {
+    padding: var(--espaco-1) 0 var(--espaco-1) 0; /* Remove padding lateral para alinhar com título */
 }
 
 .neels-card-description {
