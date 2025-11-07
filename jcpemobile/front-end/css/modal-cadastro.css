@@ -98,7 +98,7 @@
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter';
     box-sizing: border-box;
 }
 

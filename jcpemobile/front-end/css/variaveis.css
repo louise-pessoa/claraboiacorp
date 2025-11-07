@@ -57,8 +57,10 @@
        =================================================== */
 
     /* Famílias de Fonte */
-    --fonte-principal: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --fonte-titulo: 'Inter', Georgia, serif;
+    --fonte-principal: 'Inter';
+    --fonte-titulo: 'Inter';
+    --fonte-titulos: 'Inter';
+    --fonte-corpo: 'Inter';
     --fonte-mono: 'Courier New', monospace;
 
     /* Tamanhos de Fonte - Mobile */
