@@ -476,11 +476,10 @@ rows="4"
   width: 100%;
 }
 
-/* PRIMEIRA NOTÍCIA (imagem em cima) */
 .card.top img {
   width: 100%;
-  max-height: 200px;
-  object-fit: contain;
+  max-height: 240px; /* aumentar proporção para preencher mais o cartão */
+  object-fit: cover; /* preencher totalmente e cortar onde necessário */
   display: block;
   margin: 0 auto;
 }
@@ -612,7 +611,7 @@ rows="4"
   }
   
   .card.top img {
-    max-height: 180px;
+    max-height: 210px;
   }
 
   .side img {
