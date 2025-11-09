@@ -76,15 +76,29 @@
                 </a>
             </div>
 
+            <!-- Menu Hamburguer (Mobile) -->
+            <button class="menu-hamburguer" id="menuHamburguer" aria-label="Abrir menu">
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="15 5 70 38" fill="none">
+<path d="M11.6667 15.1666H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 25.0045H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M11.6667 34.8423H44.3334" stroke="#33363F" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+</button>
+
+            <!-- Logo -->
+            <div class="logo">
+                <a href="{% url 'index' %}" title="Jornal do Commercio - Página Inicial">
+                    <img src="{% static 'images/logo-jc.png' %}" alt="Jornal do Commercio" class="logo-imagem">
+                </a>
+            </div>
+
             <!-- Ações do Cabeçalho -->
             <div class="cabecalho-acoes">
-                <!-- (search button removed from header; search remains in bottom navigation) -->
-                <!-- Perfil -->
                 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32" fill="none">
-                        <circle cx="16" cy="13.3334" r="4" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-                        <circle cx="16" cy="16" r="12" stroke="#33363F" stroke-width="2"/>
-                        <path d="M23.7074 25.1019C23.8769 25.0088 23.957 24.8073 23.8854 24.6277C23.3712 23.3393 22.3808 22.2046 21.0419 21.3776C19.5955 20.4843 17.8232 20 16 20C14.1768 20 12.4046 20.4842 10.9581 21.3776C9.61925 22.2046 8.6288 23.3393 8.11464 24.6277C8.04298 24.8073 8.12314 25.0088 8.29264 25.1019C13.0929 27.7373 18.9071 27.7373 23.7074 25.1019Z" fill="#33363F"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+                        <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
                     </svg>
                 </button>
             </div>
@@ -133,6 +147,7 @@
     <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
         <div class="menu-lateral-cabecalho">
             <div class="menu-hamburguer-icone">
+                <!-- ícone grande -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="56" height="52" viewBox="0 0 56 52" fill="none">
                     <path d="M11.6667 15.1667H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
                     <path d="M11.6667 25.0045H44.3334" stroke="#000000ff" stroke-width="3.5" stroke-linecap="round"/>
@@ -147,7 +162,11 @@
         <div class="menu-lateral-conteudo">
             <!-- Perfil do Usuário (se logado) -->
             <div class="menu-lateral-perfil">
-                <img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
+                <svg class="icone-perfil" role="img" aria-label="Perfil" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+                    <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
+                </svg>
                 <div class="perfil-info">
                     {% if user.is_authenticated %}
                         <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
@@ -199,7 +218,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="#linha-tempo" class="menu-link">
+                    <a href="{% url 'painel_diario' %}" class="menu-link">
                         <span>Linha do Tempo</span>
                     </a>
                 </li>
@@ -245,6 +264,13 @@
                         <span>Jornal Digital</span>
                     </a>
                 </li>
+ 
+                <!-- Novo item: Painel Diário -->
+                <li class="menu-item">
+                    <a href="{% url 'painel_diario' %}" class="menu-link">
+                        <span>Painel Diário</span>
+                    </a>
+                </li>
 
                 <li class="menu-item">
                     <a href="{% url 'salvos' %}" class="menu-link">
@@ -257,22 +283,25 @@
             <div class="menu-redes-sociais">
                 <h3>Siga JC</h3>
                 <div class="redes-sociais-lista">
-                    <a href="https://www.facebook.com/jornaldocommercioPE/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                    <a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.instagram.com/jc_pe" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                    <a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="https://x.com/jc_pe" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X">
-                        <i class="fa-brands fa-x-twitter"></i>
+                    <a href="https://x.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
+                            <circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
+                            <path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
+                        </svg>
                     </a>
-                    <a href="https://www.linkedin.com/company/sistema-jornal-do-commercio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                    <a href="https://www.linkedin.com/company/jornal-do-commercio" target="_blank" class="icone-social icone-linkedin" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a href="https://www.youtube.com/@JCPlayOficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+                    <a href="https://www.youtube.com/@jornaldocommercio" target="_blank" class="icone-social icone-youtube" aria-label="YouTube">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@jc_pe" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+                    <a href="https://www.tiktok.com/@jornaldocommercio" target="_blank" class="icone-social icone-tiktok" aria-label="TikTok">
                         <i class="fab fa-tiktok"></i>
                     </a>
                 </div>
@@ -284,36 +313,13 @@
                 <a href="#fale-conosco">Fale Conosco</a>
                 <a href="#anuncie">Anuncie</a>
                 <a href="#privacidade">Privacidade</a>
-                <button class="btn-feedback-menu" onclick="abrirModalFeedback()">
-                    Envie seu Feedback
-                </button>
+                <button class="btn-feedback-menu" onclick="abrirModalFeedback()">Envie seu Feedback</button>
             </div>
         </div>
     </nav>
 
     <!-- Overlay do Menu -->
     <div class="menu-overlay" id="menuOverlay"></div>
-
-    <!-- Conteúdo Principal -->
-    <main class="conteudo-principal" id="conteudoPrincipal">
-        <div class="container">
-            <!-- Breadcrumb -->
-            <nav class="breadcrumb" aria-label="Navegação por breadcrumb">
-                <a href="{% url 'index' %}">Início</a>
-                <span class="breadcrumb-separador">/</span>
-                <a href="#">{{ noticia.categoria.nome|default:'Notícias' }}</a>
-                <span class="breadcrumb-separador">/</span>
-                <span class="breadcrumb-atual">{{ noticia.titulo|truncatewords:5 }}</span>
-            </nav>
-
-            <!-- Artigo da Notícia -->
-            <article class="artigo-noticia">
-                <!-- Cabeçalho da Notícia -->
-                <header class="artigo-cabecalho">
-                    <div class="artigo-meta">
-                        <span style="font-size: 0.75rem; font-weight: 500; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">{{ noticia.categoria.nome|default:'Notícias' }}</span>
-                        <time class="artigo-data" datetime="{{ noticia.data_publicacao|date:'Y-m-d' }}">
-                            {{ noticia.data_publicacao|date:"d/m/Y" }} - {{ noticia.data_publicacao|timesince }} atrás
                         </time>
                     </div>
 

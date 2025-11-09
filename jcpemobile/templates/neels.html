@@ -259,19 +259,20 @@
 
 <!-- Ações do Cabeçalho -->
 <div class="cabecalho-acoes">
+<!-- (search button removed from header; search remains in bottom navigation) -->
 <!-- Perfil -->
 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32" fill="none">
-<path d="M20 13.3333C20 15.5425 18.2091 17.3333 16 17.3333C13.7909 17.3333 12 15.5425 12 13.3333C12 11.1242 13.7909 9.33334 16 9.33334C18.2091 9.33334 20 11.1242 20 13.3333Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-<circle cx="16" cy="16" r="12" stroke="#33363F" stroke-width="2"/>
-<path d="M23.7074 25.1019C23.8769 25.0088 23.957 24.8073 23.8854 24.6277C23.3712 23.3393 22.3808 22.2046 21.0419 21.3776C19.5955 20.4843 17.8232 20 16 20C14.1768 20 12.4046 20.4842 10.9581 21.3776C9.61925 22.2046 8.6288 23.3393 8.11464 24.6277C8.04298 24.8073 8.12314 25.0088 8.29264 25.1019C13.0929 27.7373 18.9071 27.7373 23.7074 25.1019Z" fill="#33363F"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+<path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+<circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+<path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
 </svg>
 </button>
 </div>
 </div>
 </header>
 
-<!-- Menu Lateral (copiar do index.html) -->
+<!-- Menu Lateral -->
 <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
 <div class="menu-lateral-cabecalho">
 <div class="menu-hamburguer-icone">
@@ -289,7 +290,11 @@
 <div class="menu-lateral-conteudo">
 <!-- Perfil do Usuário (se logado) -->
 <div class="menu-lateral-perfil">
-<img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
+<svg class="icone-perfil" role="img" aria-label="Perfil" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+    <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
+</svg>
 <div class="perfil-info">
 {% if user.is_authenticated %}
 <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
@@ -303,62 +308,109 @@
 
 <!-- Menu Principal -->
 <ul class="menu-principal">
-<!-- Categorias -->
-<li class="menu-item menu-item-expansivel">
-<button class="menu-link" aria-expanded="false">
-<span>Categorias</span>
-<i class="fas fa-chevron-down menu-seta"></i>
-</button>
-<ul class="submenu">
-<li><a href="#pernambuco">Pernambuco</a></li>
-<li><a href="#politica">Política</a></li>
-<li><a href="#economia">Economia</a></li>
-<li><a href="#mundo">Mundo</a></li>
-<li><a href="#esportes">Esportes</a></li>
-<li><a href="#cultura">Cultura</a></li>
-<li><a href="#educacao">Educação</a></li>
-<li><a href="#mobilidade">Mobilidade</a></li>
-</ul>
-</li>
+    <!-- Categorias -->
+    <li class="menu-item menu-item-expansivel">
+        <button class="menu-link" aria-expanded="false">
+            <span>Categorias</span>
+            <i class="fas fa-chevron-down menu-seta"></i>
+        </button>
+        <ul class="submenu">
+            <li><a href="#pernambuco">Pernambuco</a></li>
+            <li><a href="#politica">Política</a></li>
+            <li><a href="#economia">Economia</a></li>
+            <li><a href="#mundo">Mundo</a></li>
+            <li><a href="#esportes">Esportes</a></li>
+            <li><a href="#cultura">Cultura</a></li>
+            <li><a href="#educacao">Educação</a></li>
+            <li><a href="#mobilidade">Mobilidade</a></li>
+        </ul>
+    </li>
 
-<!-- Seções Especiais -->
-<li class="menu-item">
-<a href="{% url 'mais_lidas' %}" class="menu-link">
-<span>Mais Lidas</span>
-</a>
-</li>
+    <!-- Seções Especiais -->
+    <li class="menu-item">
+        <a href="{% url 'mais_lidas' %}" class="menu-link">
+            <span>Mais Lidas</span>
+        </a>
+    </li>
 
-<li class="menu-item">
-<a href="{% url 'neels' %}" class="menu-link">
-<span>Neels</span>
-</a>
-</li>
+    <li class="menu-item">
+        <a href="{% url 'neels' %}" class="menu-link">
+            <span>Neels</span>
+        </a>
+    </li>
 
-<li class="menu-item">
-<a href="{% url 'salvos' %}" class="menu-link">
-<span>Salvos</span>
-</a>
-</li>
+    <li class="menu-item">
+        <a href="#curtas" class="menu-link">
+            <span>Curtas</span>
+        </a>
+    </li>
 
-<li class="menu-item">
-<a href="#ao-vivo" class="menu-link">
-<span>Ao Vivo</span>
-</a>
-</li>
+    <!-- Painel / Linha do Tempo -->
+    <li class="menu-item">
+        <a href="{% url 'painel_diario' %}" class="menu-link">
+            <span>Linha do Tempo</span>
+        </a>
+    </li>
+
+    <!-- Canais (expansível) -->
+    <li class="menu-item menu-item-expansivel">
+        <button class="menu-link" aria-expanded="false">
+            <span>Canais</span>
+            <i class="fas fa-chevron-down menu-seta"></i>
+        </button>
+        <ul class="submenu">
+            <li class="submenu-item-expansivel">
+                <button class="submenu-link" aria-expanded="false">
+                    <span>TV Jornal</span>
+                    <i class="fas fa-chevron-down submenu-seta"></i>
+                </button>
+                <ul class="submenu-nivel-2">
+                    <li><a href="#tv-jornal-recife">Recife</a></li>
+                    <li><a href="#tv-jornal-interior">Interior</a></li>
+                </ul>
+            </li>
+            <li class="submenu-item-expansivel">
+                <button class="submenu-link" aria-expanded="false">
+                    <span>Rádio Jornal</span>
+                    <i class="fas fa-chevron-down submenu-seta"></i>
+                </button>
+                <ul class="submenu-nivel-2">
+                    <li><a href="#radio-jornal-recife">Recife</a></li>
+                    <li><a href="#radio-jornal-caruaru">Caruaru</a></li>
+                    <li><a href="#radio-jornal-garanhuns">Garanhuns</a></li>
+                    <li><a href="#radio-jornal-petrolina">Petrolina</a></li>
+                </ul>
+            </li>
+            <li><a href="#podcasts">Podcasts</a></li>
+        </ul>
+    </li>
+
+    <!-- Outras Seções -->
+    <li class="menu-item">
+        <a href="#jornal-digital" class="menu-link">
+            <span>Jornal Digital</span>
+        </a>
+    </li>
+
+    <li class="menu-item">
+        <a href="{% url 'salvos' %}" class="menu-link">
+            <span>Notícias Salvas</span>
+        </a>
+    </li>
 </ul>
 
 <!-- Redes Sociais -->
 <div class="menu-redes-sociais">
-<p>Siga o JC nas redes:</p>
-<div class="redes-icons">
+<h3>Siga JC</h3>
+<div class="redes-sociais-lista">
 <a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
 <i class="fab fa-facebook-f"></i>
 </a>
 <a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
 <i class="fab fa-instagram"></i>
 </a>
-<a href="https://twitter.com/jc_pe" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
-<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+<a href="https://x.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
 <circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
 <path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
 </svg>
@@ -381,9 +433,7 @@
 <a href="#fale-conosco">Fale Conosco</a>
 <a href="#anuncie">Anuncie</a>
 <a href="#privacidade">Privacidade</a>
-<button class="btn-feedback-menu" onclick="abrirModalFeedback()">
-Envie seu Feedback
-</button>
+<button class="btn-feedback-menu" onclick="abrirModalFeedback()">Envie seu Feedback</button>
 </div>
 </div>
 </nav>

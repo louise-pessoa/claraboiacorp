@@ -61,19 +61,21 @@
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
-            background: #dee2e6;
+            width: 40px;
+            height: 40px;
+            background: transparent;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #495057;
+            overflow: hidden;
         }
 
         .user-avatar svg {
-            width: 20px;
-            height: 20px;
+            width: 40px;
+            height: 40px;
+            display: block;
         }
 
         .btn {
@@ -130,7 +132,7 @@
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: #33363F;
             color: white;
         }
 
@@ -168,7 +170,7 @@
         }
 
         .stat-card h3 {
-            color: #6c757d;
+            color: #33363F;
             font-size: 0.875rem;
             font-weight: 500;
             margin-bottom: 0.75rem;
@@ -242,7 +244,50 @@
 
         .action-buttons {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.08rem; /* icons even closer together */
+        }
+
+        /* Make edit/delete action buttons icon-only: remove heavy backgrounds and keep colored icons */
+        .action-buttons .btn-warning,
+        .action-buttons .btn-danger {
+            background: transparent;
+            border: none;
+            padding: 0.06rem; /* reduce internal padding */
+            min-width: 0; /* allow buttons to shrink to icon width */
+            width: auto;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            /* make SVG use the button color via currentColor */
+        }
+
+        /* nudge the edit icon slightly to the right */
+        .action-buttons .btn-warning {
+            margin-left: 6px;
+        }
+
+        /* Make icons black and slightly larger */
+        .action-buttons .btn-warning,
+        .action-buttons .btn-danger {
+            color: #000; /* icon color set to black */
+        }
+
+        .action-buttons .btn-warning svg,
+        .action-buttons .btn-danger svg {
+            margin: 0; /* remove extra spacing around the icon */
+            vertical-align: middle;
+            width: 24px; /* unified larger size */
+            height: 24px;
+        }
+
+        .action-buttons .btn-warning:hover {
+            background: rgba(245,158,11,0.12);
+        }
+
+        .action-buttons .btn-danger:hover {
+            background: rgba(239,68,68,0.12);
         }
 
         .action-buttons .btn {
@@ -286,7 +331,7 @@
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            color: #6c757d;
+            color: #33363F;
         }
 
         .empty-state p {
@@ -334,9 +379,11 @@
             <span class="user-info">
                 Olá, <strong>admin</strong>
             </span>
-            <div class="user-avatar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            <div class="user-avatar" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+                    <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
                 </svg>
             </div>
         </div>
@@ -403,19 +450,20 @@
                             <td>{{ noticia.data_publicacao|date:"d/m/Y" }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{% url 'admin_editar_noticia' noticia.id %}" class="btn btn-warning">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    <a href="{% url 'admin_editar_noticia' noticia.id %}" class="btn btn-warning" aria-label="Editar notícia">
+                                        <!-- Custom edit icon adapted to site: inherits button color via currentColor -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 30 30" fill="currentColor" aria-hidden="true">
+                                            <path d="M14.8412 10.1587C16.1167 12.168 17.8319 13.8723 19.8646 15.1353L10.8568 24.144C10.4318 24.5691 10.2185 24.7817 9.9574 24.9214C9.69645 25.0609 9.40177 25.12 8.81287 25.2378L4.48572 26.103C4.15311 26.1695 3.98658 26.2025 3.89197 26.1079C3.79748 26.0133 3.83035 25.8467 3.89685 25.5142L4.76208 21.188C4.87998 20.5985 4.93973 20.3036 5.07947 20.0425C5.2192 19.7814 5.4318 19.5691 5.85681 19.144L14.8412 10.1587ZM20.8871 4.61182C21.1269 4.56759 21.3729 4.56759 21.6127 4.61182C22.2243 4.72463 22.7333 5.23344 23.7504 6.25049C24.7671 7.2672 25.2752 7.77571 25.3881 8.38721C25.4323 8.62703 25.4323 8.87297 25.3881 9.11279C25.2752 9.72444 24.7674 10.2334 23.7504 11.2505L21.3226 13.6772C19.239 12.4786 17.5092 10.7614 16.2953 8.70459L18.7504 6.25049C19.7673 5.23352 20.2755 4.72469 20.8871 4.61182Z"/>
                                         </svg>
                                     </a>
                                     <form method="POST" action="{% url 'admin_deletar_noticia' noticia.id %}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar esta notícia?');">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
-                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                            </svg>
+                                        <button type="submit" class="btn btn-danger" aria-label="Deletar notícia">
+                                                <!-- Custom delete icon adapted: uses currentColor so it inherits .btn-danger color (set to black via CSS) -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 30 30" fill="currentColor" aria-hidden="true">
+                                                    <path d="M26.25 11.4771C25.7853 11.4771 25.5526 11.4767 25.3594 11.5151C24.5663 11.673 23.946 12.2933 23.7881 13.0864C23.7497 13.2796 23.75 13.5124 23.75 13.9771V20.4771C23.75 23.3055 23.7498 24.7195 22.8711 25.5981C21.9924 26.4768 20.5784 26.4771 17.75 26.4771H12.25C9.42157 26.4771 8.00759 26.4768 7.12891 25.5981C6.25023 24.7195 6.25 23.3055 6.25 20.4771V13.9771C6.25 13.5124 6.25034 13.2796 6.21191 13.0864C6.05401 12.2933 5.43371 11.673 4.64062 11.5151C4.44743 11.4767 4.21466 11.4771 3.75 11.4771V7.72705H26.25V11.4771ZM11.875 12.9771C11.3227 12.9771 10.875 13.4248 10.875 13.9771V20.2271C10.875 20.7793 11.3227 21.2271 11.875 21.2271C12.4273 21.2271 12.875 20.7793 12.875 20.2271V13.9771C12.875 13.4248 12.4273 12.9771 11.875 12.9771ZM18.125 12.9771C17.5727 12.9771 17.125 13.4248 17.125 13.9771V20.2271C17.125 20.7793 17.5727 21.2271 18.125 21.2271C18.6773 21.2271 19.125 20.7793 19.125 20.2271V13.9771C19.125 13.4248 18.6773 12.9771 18.125 12.9771Z"/>
+                                                    <path d="M12.5852 4.21324C12.7276 4.08034 13.0415 3.96291 13.4781 3.87915C13.9147 3.7954 14.4497 3.75 15 3.75C15.5503 3.75 16.0853 3.7954 16.5219 3.87915C16.9585 3.96291 17.2724 4.08034 17.4148 4.21324" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                                                </svg>
                                         </button>
                                     </form>
                                     <a href="{% url 'noticia_detalhe' noticia.slug %}" class="btn btn-primary" target="_blank">Ver</a>
