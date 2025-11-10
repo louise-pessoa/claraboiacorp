@@ -10,22 +10,34 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
+# ==========================================================
+# 🔧 Ambiente
 TARGET_ENV = os.getenv('TARGET_ENV', 'Dev').lower()
 NOT_PROD = not TARGET_ENV.startswith('prod')
 
+# ==========================================================
+# 🔒 Configurações principais
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', '1', 't']
+
+# Hosts permitidos
+ALLOWED_HOSTS = os.getenv(
+    'ALLOWED_HOSTS',
+    'jcpe-fmhxhfgya5fxb5b0.brazilsouth-01.azurewebsites.net'
+).split(' ')
+
+# CSRF Trusted Origins
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{host}" for host in ALLOWED_HOSTS if host != '*'
+]
+
+# ==========================================================
+# 🗄️ Banco de dados
 if NOT_PROD:
-    # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = 'django-insecure-u1ow$&^@kb%@9seb@3+h+h@231o@a8z^((jmc#nhh3p$3-h!g2'
-    ALLOWED_HOSTS = []
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -33,17 +45,6 @@ if NOT_PROD:
         }
     }
 else:
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
-    CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(' ')
-
-    SECURE_SSL_REDIRECT = \
-        os.getenv('SECURE_SSL_REDIRECT', '0').lower() in ['true', 't', '1']
-
-    if SECURE_SSL_REDIRECT:
-        SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -54,10 +55,15 @@ else:
             'OPTIONS': {'sslmode': 'require'},
         }
     }
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# Application definition
+# ==========================================================
+# 🌐 HTTPS / Segurança
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', '0').lower() in ['true', '1', 't']
+if SECURE_SSL_REDIRECT:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# ==========================================================
+# 🧩 Aplicações
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,6 +75,8 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
 ]
 
+# ==========================================================
+# ⚙️ Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,6 +88,8 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+# ==========================================================
+# 🌍 URLs e Templates
 ROOT_URLCONF = 'claraboiacorp.urls'
 
 TEMPLATES = [
@@ -103,9 +113,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'claraboiacorp.wsgi.application'
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# ==========================================================
+# 🔑 Validação de senha
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -121,30 +130,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
+# ==========================================================
+# 🌎 Internacionalização
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = os.environ.get('DJANGO_STATIC_URL', "/static/")
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
+# ==========================================================
+# 🧱 Arquivos estáticos e mídia
+STATIC_URL = os.getenv('DJANGO_STATIC_URL', '/static/')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'jcpemobile' / 'front-end',
 ]
 
-# Media files (Uploaded files)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
+# ==========================================================
+# 🔢 Configuração padrão de chave primária
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
