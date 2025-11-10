@@ -558,8 +558,9 @@ rows="4"
   font-size: 12px;
   color: #666;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row; /* show dates inline */
+  gap: 8px;
+  align-items: center;
   margin: 0;
 }
 
@@ -578,8 +579,8 @@ rows="4"
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
-  width: 40px;
-  height: 40px;
+  width: 34px; /* slightly smaller */
+  height: 34px; /* slightly smaller */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -592,8 +593,8 @@ rows="4"
 }
 
 .compartilhar-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 16px; /* smaller icon size */
+  height: 16px;
 }
 
 .noticia-imagem {
@@ -730,12 +731,13 @@ rows="4"
     <div class="noticia-autor"><span class="por-text">Por</span><span class="autor-nome">{{ noticia.autor }}</span></div>
     {% endif %}
     
-    <div class="noticia-datas">
-      <span>Publicado em {{ noticia.data_publicacao|date:"d/m/Y 'às' H:i" }}</span>
-      {% if noticia.data_atualizacao %}
-      <span>Atualizado em {{ noticia.data_atualizacao|date:"d/m/Y 'às' H:i" }}</span>
-      {% endif %}
-    </div>
+      <div class="noticia-datas">
+        <span>Publicado em {{ noticia.data_publicacao|date:"d/m/Y 'às' H:i" }}</span>
+        {% if noticia.data_atualizacao %}
+        <span class="separador">|</span>
+        <span>Atualizado em {{ noticia.data_atualizacao|date:"d/m/Y 'às' H:i" }}</span>
+        {% endif %}
+      </div>
   </div>
   
   <!-- Botões de compartilhamento -->
