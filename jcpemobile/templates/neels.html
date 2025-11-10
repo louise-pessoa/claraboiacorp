@@ -72,28 +72,16 @@
 
 .neels-card-image {
     width: 100%;
-    height: 200px;
+    height: 240px; /* increased so image fills more of the card */
     object-fit: cover;
     display: block;
 }
 
 .neels-card-content {
-    padding: 20px 16px 16px 16px;
-}
-
-.neels-card-tag {
-    position: absolute;
-    top: 190px;
-    left: -15px;
-    display: inline-block;
-    background: #E30613;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 1px 32px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    z-index: 10;
+    padding: 10px 16px 56px 16px; /* espaço embaixo para a data posicionada absoluta */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .neels-card-title {
@@ -102,7 +90,31 @@
     color: #1a1a1a;
     line-height: 1.4;
     margin-bottom: 8px;
-    margin-top: 25px;
+    margin-top: 0; /* Removido margin-top para tags ficarem no topo */
+}
+
+.tag {
+    font-size: 14px; /* reduzido ligeiramente conforme pedido */
+    font-weight: 700;
+    padding: 3px 10px;
+    margin-bottom: 4px;
+    margin-left: -12px;
+    align-self: flex-start;
+    display: inline-block;
+    color: #DE1B24;
+    border-radius: 6px;
+}
+
+.neels-card-tag {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 3px 10px;
+    margin-bottom: 4px;
+    margin-left: -12px;
+    align-self: flex-start;
+    display: inline-block;
+    color: #DE1B24;
+    border-radius: 6px;
 }
 
 .neels-card-description {
@@ -111,9 +123,98 @@
     line-height: 1.5;
 }
 
+/* Data posicionada no canto inferior esquerdo do cartão */
+.neels-card-date {
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* ícone do cartão (agora os posicionamentos são gerenciados por .neels-card-actions) */
+.neels-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.neels-card-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Heart (liked) state */
+.neels-card-icon {
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 120ms ease;
+}
+.neels-card-icon:focus {
+    /* remove the container ring so only the SVG (heart) can be visually affected */
+    outline: none;
+}
+.neels-card-icon:focus svg path {
+    /* subtle focus hint applied to the heart itself (not the container) */
+    stroke: rgba(222,27,36,0.6);
+    fill: rgba(222,27,36,0.06);
+}
+
+/* Actions group: heart + bell + share */
+.neels-card-actions {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.neels-card-actions > div {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.neels-card-actions svg {
+    width: 100%;
+    height: 100%;
+}
+.neels-card-action:focus {
+    outline: none;
+}
+.neels-card-action.favorited svg path,
+.neels-card-action.favorited svg {
+    stroke: #000 !important;
+    fill: #000 !important;
+}
+.neels-card-icon.liked svg path {
+    stroke: #DE1B24 !important;
+    fill: #DE1B24 !important;
+}
+
+/* toast pequeno para feedback de compartilhamento */
+.share-toast {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 88px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+}
+.share-toast.show { opacity: 1; }
+
 @media (max-width: 768px) {
     .neels-card-image {
-        height: 180px;
+        height: 210px; /* slightly larger on mobile to maintain balance */
     }
     
     .neels-card-title {
@@ -158,19 +259,20 @@
 
 <!-- Ações do Cabeçalho -->
 <div class="cabecalho-acoes">
+<!-- (search button removed from header; search remains in bottom navigation) -->
 <!-- Perfil -->
 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32" fill="none">
-<path d="M20 13.3333C20 15.5425 18.2091 17.3333 16 17.3333C13.7909 17.3333 12 15.5425 12 13.3333C12 11.1242 13.7909 9.33334 16 9.33334C18.2091 9.33334 20 11.1242 20 13.3333Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-<circle cx="16" cy="16" r="12" stroke="#33363F" stroke-width="2"/>
-<path d="M23.7074 25.1019C23.8769 25.0088 23.957 24.8073 23.8854 24.6277C23.3712 23.3393 22.3808 22.2046 21.0419 21.3776C19.5955 20.4843 17.8232 20 16 20C14.1768 20 12.4046 20.4842 10.9581 21.3776C9.61925 22.2046 8.6288 23.3393 8.11464 24.6277C8.04298 24.8073 8.12314 25.0088 8.29264 25.1019C13.0929 27.7373 18.9071 27.7373 23.7074 25.1019Z" fill="#33363F"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+<path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+<circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+<path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
 </svg>
 </button>
 </div>
 </div>
 </header>
 
-<!-- Menu Lateral (copiar do index.html) -->
+<!-- Menu Lateral -->
 <nav class="menu-lateral" id="menuLateral" aria-label="Menu principal">
 <div class="menu-lateral-cabecalho">
 <div class="menu-hamburguer-icone">
@@ -188,7 +290,11 @@
 <div class="menu-lateral-conteudo">
 <!-- Perfil do Usuário (se logado) -->
 <div class="menu-lateral-perfil">
-<img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
+<svg class="icone-perfil" role="img" aria-label="Perfil" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+    <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
+</svg>
 <div class="perfil-info">
 {% if user.is_authenticated %}
 <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
@@ -202,62 +308,109 @@
 
 <!-- Menu Principal -->
 <ul class="menu-principal">
-<!-- Categorias -->
-<li class="menu-item menu-item-expansivel">
-<button class="menu-link" aria-expanded="false">
-<span>Categorias</span>
-<i class="fas fa-chevron-down menu-seta"></i>
-</button>
-<ul class="submenu">
-<li><a href="#pernambuco">Pernambuco</a></li>
-<li><a href="#politica">Política</a></li>
-<li><a href="#economia">Economia</a></li>
-<li><a href="#mundo">Mundo</a></li>
-<li><a href="#esportes">Esportes</a></li>
-<li><a href="#cultura">Cultura</a></li>
-<li><a href="#educacao">Educação</a></li>
-<li><a href="#mobilidade">Mobilidade</a></li>
-</ul>
-</li>
+    <!-- Categorias -->
+    <li class="menu-item menu-item-expansivel">
+        <button class="menu-link" aria-expanded="false">
+            <span>Categorias</span>
+            <i class="fas fa-chevron-down menu-seta"></i>
+        </button>
+        <ul class="submenu">
+            <li><a href="#pernambuco">Pernambuco</a></li>
+            <li><a href="#politica">Política</a></li>
+            <li><a href="#economia">Economia</a></li>
+            <li><a href="#mundo">Mundo</a></li>
+            <li><a href="#esportes">Esportes</a></li>
+            <li><a href="#cultura">Cultura</a></li>
+            <li><a href="#educacao">Educação</a></li>
+            <li><a href="#mobilidade">Mobilidade</a></li>
+        </ul>
+    </li>
 
-<!-- Seções Especiais -->
-<li class="menu-item">
-<a href="{% url 'mais_lidas' %}" class="menu-link">
-<span>Mais Lidas</span>
-</a>
-</li>
+    <!-- Seções Especiais -->
+    <li class="menu-item">
+        <a href="{% url 'mais_lidas' %}" class="menu-link">
+            <span>Mais Lidas</span>
+        </a>
+    </li>
 
-<li class="menu-item">
-<a href="{% url 'neels' %}" class="menu-link">
-<span>Neels</span>
-</a>
-</li>
+    <li class="menu-item">
+        <a href="{% url 'neels' %}" class="menu-link">
+            <span>Neels</span>
+        </a>
+    </li>
 
-<li class="menu-item">
-<a href="{% url 'salvos' %}" class="menu-link">
-<span>Salvos</span>
-</a>
-</li>
+    <li class="menu-item">
+        <a href="#curtas" class="menu-link">
+            <span>Curtas</span>
+        </a>
+    </li>
 
-<li class="menu-item">
-<a href="#ao-vivo" class="menu-link">
-<span>Ao Vivo</span>
-</a>
-</li>
+    <!-- Painel / Linha do Tempo -->
+    <li class="menu-item">
+        <a href="{% url 'painel_diario' %}" class="menu-link">
+            <span>Linha do Tempo</span>
+        </a>
+    </li>
+
+    <!-- Canais (expansível) -->
+    <li class="menu-item menu-item-expansivel">
+        <button class="menu-link" aria-expanded="false">
+            <span>Canais</span>
+            <i class="fas fa-chevron-down menu-seta"></i>
+        </button>
+        <ul class="submenu">
+            <li class="submenu-item-expansivel">
+                <button class="submenu-link" aria-expanded="false">
+                    <span>TV Jornal</span>
+                    <i class="fas fa-chevron-down submenu-seta"></i>
+                </button>
+                <ul class="submenu-nivel-2">
+                    <li><a href="#tv-jornal-recife">Recife</a></li>
+                    <li><a href="#tv-jornal-interior">Interior</a></li>
+                </ul>
+            </li>
+            <li class="submenu-item-expansivel">
+                <button class="submenu-link" aria-expanded="false">
+                    <span>Rádio Jornal</span>
+                    <i class="fas fa-chevron-down submenu-seta"></i>
+                </button>
+                <ul class="submenu-nivel-2">
+                    <li><a href="#radio-jornal-recife">Recife</a></li>
+                    <li><a href="#radio-jornal-caruaru">Caruaru</a></li>
+                    <li><a href="#radio-jornal-garanhuns">Garanhuns</a></li>
+                    <li><a href="#radio-jornal-petrolina">Petrolina</a></li>
+                </ul>
+            </li>
+            <li><a href="#podcasts">Podcasts</a></li>
+        </ul>
+    </li>
+
+    <!-- Outras Seções -->
+    <li class="menu-item">
+        <a href="#jornal-digital" class="menu-link">
+            <span>Jornal Digital</span>
+        </a>
+    </li>
+
+    <li class="menu-item">
+        <a href="{% url 'salvos' %}" class="menu-link">
+            <span>Notícias Salvas</span>
+        </a>
+    </li>
 </ul>
 
 <!-- Redes Sociais -->
 <div class="menu-redes-sociais">
-<p>Siga o JC nas redes:</p>
-<div class="redes-icons">
+<h3>Siga JC</h3>
+<div class="redes-sociais-lista">
 <a href="https://www.facebook.com/jornaldocommercio" target="_blank" class="icone-social icone-facebook" aria-label="Facebook">
 <i class="fab fa-facebook-f"></i>
 </a>
 <a href="https://www.instagram.com/jornaldocommercio" target="_blank" class="icone-social icone-instagram" aria-label="Instagram">
 <i class="fab fa-instagram"></i>
 </a>
-<a href="https://twitter.com/jc_pe" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
-<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+<a href="https://x.com/jornalcommercio" target="_blank" class="icone-social icone-twitter" aria-label="Twitter">
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="35" viewBox="0 0 34 35" fill="none">
 <circle cx="14.5946" cy="15.4054" r="14.5946" fill="#D9D9D9"/>
 <path d="M11.1514 7.90039L11.1807 7.9375L15.4121 13.2725L20.6582 7.92969L20.6875 7.90039H22.4531L22.2861 8.07031L16.2012 14.2676L23.0781 22.9375L23.207 23.0996H17.8936L17.8633 23.0625L13.2607 17.2607L7.55859 23.0703L7.5293 23.0996H5.76172L5.92871 22.9297L12.4717 16.2666L5.96289 8.0625L5.83496 7.90039H11.1514ZM18.5391 21.8662H20.6084L10.5049 9.13086H8.43555L18.5391 21.8662Z" fill="#33363F" stroke="#33363F" stroke-width="0.2"/>
 </svg>
@@ -280,9 +433,7 @@
 <a href="#fale-conosco">Fale Conosco</a>
 <a href="#anuncie">Anuncie</a>
 <a href="#privacidade">Privacidade</a>
-<button class="btn-feedback-menu" onclick="abrirModalFeedback()">
-Envie seu Feedback
-</button>
+<button class="btn-feedback-menu" onclick="abrirModalFeedback()">Envie seu Feedback</button>
 </div>
 </div>
 </nav>
@@ -298,21 +449,60 @@ Envie seu Feedback
 <div class="neels-grid">
 <!-- Cartão de exemplo 1 - Esporte -->
 <a href="#" class="neels-card">
-<img src="https://media.istockphoto.com/id/2149936871/pt/foto/raised-hand-holding-a-gold-medal-against-blue-sky-victory-and-achievement-concept.jpg?s=612x612&w=0&k=20&c=zCKAAJIPUtPYi1J7w9ESZ-C38jLvK2QP16fV1PqJzOU=" alt="Notícia Esporte" class="neels-card-image">
+<img src="https://portalpopline.com.br/wp-content/uploads/2025/10/bts-show.jpg" alt="Notícia Esporte" class="neels-card-image">
 <div class="neels-card-content">
 <span class="neels-card-tag">Esporte</span>
-<h2 class="neels-card-title">Com gols de Gustavo Coutinho e Jorginho, o Sport venceu no sábado (04) na ilha do Retiro e segue no G-4 da Série B.</h2>
-<p class="neels-card-description">O Sport conquistou mais uma vitória importante na Série B do Campeonato Brasileiro.</p>
+<h2 class="neels-card-title">Grupo coreano, BTS anuncia turnê mundial para 2026</h2>
+<p class="neels-card-description">O BTS confirmou oficialmente sua turnê mundial para 2026, marcando o retorno do grupo completo após o fim do serviço militar dos integrantes. A nova tour deve passar por diversas cidades da Ásia, Europa e Américas, trazendo músicas inéditas e um novo conceito visual. Os fãs, que aguardavam ansiosos pelo reencontro, já consideram o anúncio um dos momentos mais marcantes da história do K-pop.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-actions" aria-hidden="true">
+    <div class="neels-card-icon" role="button" tabindex="0" aria-pressed="false" aria-label="Salvar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+            <path d="M4.83337 10.875C4.83337 7.45732 4.83337 5.74848 5.89511 4.68674C6.95685 3.625 8.66569 3.625 12.0834 3.625H16.9167C20.3344 3.625 22.0432 3.625 23.105 4.68674C24.1667 5.74848 24.1667 7.45732 24.1667 10.875V19.125C24.1667 22.3673 24.1667 23.9885 23.1465 24.4843C22.1263 24.9802 20.8516 23.9786 18.3021 21.9754L17.4862 21.3343C16.0526 20.208 15.3359 19.6448 14.5 19.6448C13.6642 19.6448 12.9474 20.208 11.5139 21.3343L10.698 21.9754C8.14849 23.9786 6.87375 24.9802 5.85356 24.4843C4.83337 23.9885 4.83337 22.3673 4.83337 19.125V10.875Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Compartilhar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M18.4166 23.8334C17.5138 23.8334 16.7465 23.5174 16.1145 22.8854C15.4826 22.2535 15.1666 21.4861 15.1666 20.5834C15.1666 20.475 15.1937 20.2222 15.2479 19.825L7.63746 15.3834C7.34857 15.6542 7.01454 15.8663 6.63538 16.0198C6.25621 16.1733 5.84996 16.25 5.41663 16.25C4.51385 16.25 3.74649 15.934 3.11454 15.3021C2.4826 14.6702 2.16663 13.9028 2.16663 13C2.16663 12.0972 2.4826 11.3299 3.11454 10.6979C3.74649 10.066 4.51385 9.75002 5.41663 9.75002C5.84996 9.75002 6.25621 9.82676 6.63538 9.98023C7.01454 10.1337 7.34857 10.3459 7.63746 10.6167L15.2479 6.17502C15.2118 6.04863 15.1892 5.92676 15.1802 5.8094C15.1711 5.69203 15.1666 5.56113 15.1666 5.41669C15.1666 4.51391 15.4826 3.74655 16.1145 3.1146C16.7465 2.48266 17.5138 2.16669 18.4166 2.16669C19.3194 2.16669 20.0868 2.48266 20.7187 3.1146C21.3507 3.74655 21.6666 4.51391 21.6666 5.41669C21.6666 6.31946 21.3507 7.08683 20.7187 7.71877C20.0868 8.35072 19.3194 8.66669 18.4166 8.66669C17.9833 8.66669 17.577 8.58995 17.1979 8.43648C16.8187 8.28301 16.4847 8.07085 16.1958 7.80002L8.58538 12.2417C8.62149 12.3681 8.64406 12.49 8.65308 12.6073C8.66211 12.7247 8.66663 12.8556 8.66663 13C8.66663 13.1445 8.66211 13.2754 8.65308 13.3927C8.64406 13.5101 8.62149 13.632 8.58538 13.7584L16.1958 18.2C16.4847 17.9292 16.8187 17.717 17.1979 17.5636C17.577 17.4101 17.9833 17.3334 18.4166 17.3334C19.3194 17.3334 20.0868 17.6493 20.7187 18.2813C21.3507 18.9132 21.6666 19.6806 21.6666 20.5834C21.6666 21.4861 21.3507 22.2535 20.7187 22.8854C20.0868 23.5174 19.3194 23.8334 18.4166 23.8334Z" fill="#33363F"/>
+        </svg>
+    </div>
 </div>
 </a>
 
 <!-- Cartão de exemplo 2 - Educação -->
 <a href="#" class="neels-card">
-<img src="https://images.unsplash.com/photo-1610736342326-b59eb016ba95?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGpvZ2Fkb3IlMjBkZSUyMGZ1dGVib2x8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=600" alt="Notícia Educação" class="neels-card-image">
+<img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/08/whatsapp_image_2025_10_08_at_09_36_31-35780399.jpeg?ims=1600x1066" alt="Notícia Educação" class="neels-card-image">
 <div class="neels-card-content">
-<span class="neels-card-tag">Educação</span>
-<h2 class="neels-card-title">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas públicas de todo o país.</h2>
-<p class="neels-card-description">Programa de incentivo à leitura alcança milhares de estudantes em todo Brasil.</p>
+<span class="neels-card-tag">Segurança</span>
+<h2 class="neels-card-title">IEm dia de mudança na Polícia Civil, governo de Pernambuco divulga queda de roubos em outubro</h2>
+<p class="neels-card-description">Poucas horas após a confirmação oficial da troca de comando da chefia da Polícia Civil de Pernambuco - agora sob o comando do delegado Felipe Monteiro -, o governo estadual divulgou um novo balanço dos resultados obtidos em outubro na segurança pública. Desta vez, com destaque para os crimes contra o patrimônio.Segundo a gestão, 2.702 queixas de roubos foram registradas pela polícia em Pernambuco no mês passado. A queda é de 28,8% em comparação com o mesmo período de outubro de 2024, quando 3.796 boletins de ocorrência foram somados.Os números, porém, ainda são preliminares e devem sofrer variação até 15 de novembro. 
+
+
+</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-actions" aria-hidden="true">
+    <div class="neels-card-icon" role="button" tabindex="0" aria-pressed="false" aria-label="Salvar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+            <path d="M4.83337 10.875C4.83337 7.45732 4.83337 5.74848 5.89511 4.68674C6.95685 3.625 8.66569 3.625 12.0834 3.625H16.9167C20.3344 3.625 22.0432 3.625 23.105 4.68674C24.1667 5.74848 24.1667 7.45732 24.1667 10.875V19.125C24.1667 22.3673 24.1667 23.9885 23.1465 24.4843C22.1263 24.9802 20.8516 23.9786 18.3021 21.9754L17.4862 21.3343C16.0526 20.208 15.3359 19.6448 14.5 19.6448C13.6642 19.6448 12.9474 20.208 11.5139 21.3343L10.698 21.9754C8.14849 23.9786 6.87375 24.9802 5.85356 24.4843C4.83337 23.9885 4.83337 22.3673 4.83337 19.125V10.875Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Compartilhar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M18.4166 23.8334C17.5138 23.8334 16.7465 23.5174 16.1145 22.8854C15.4826 22.2535 15.1666 21.4861 15.1666 20.5834C15.1666 20.475 15.1937 20.2222 15.2479 19.825L7.63746 15.3834C7.34857 15.6542 7.01454 15.8663 6.63538 16.0198C6.25621 16.1733 5.84996 16.25 5.41663 16.25C4.51385 16.25 3.74649 15.934 3.11454 15.3021C2.4826 14.6702 2.16663 13.9028 2.16663 13C2.16663 12.0972 2.4826 11.3299 3.11454 10.6979C3.74649 10.066 4.51385 9.75002 5.41663 9.75002C5.84996 9.75002 6.25621 9.82676 6.63538 9.98023C7.01454 10.1337 7.34857 10.3459 7.63746 10.6167L15.2479 6.17502C15.2118 6.04863 15.1892 5.92676 15.1802 5.8094C15.1711 5.69203 15.1666 5.56113 15.1666 5.41669C15.1666 4.51391 15.4826 3.74655 16.1145 3.1146C16.7465 2.48266 17.5138 2.16669 18.4166 2.16669C19.3194 2.16669 20.0868 2.48266 20.7187 3.1146C21.3507 3.74655 21.6666 4.51391 21.6666 5.41669C21.6666 6.31946 21.3507 7.08683 20.7187 7.71877C20.0868 8.35072 19.3194 8.66669 18.4166 8.66669C17.9833 8.66669 17.577 8.58995 17.1979 8.43648C16.8187 8.28301 16.4847 8.07085 16.1958 7.80002L8.58538 12.2417C8.62149 12.3681 8.64406 12.49 8.65308 12.6073C8.66211 12.7247 8.66663 12.8556 8.66663 13C8.66663 13.1445 8.66211 13.2754 8.65308 13.3927C8.64406 13.5101 8.62149 13.632 8.58538 13.7584L16.1958 18.2C16.4847 17.9292 16.8187 17.717 17.1979 17.5636C17.577 17.4101 17.9833 17.3334 18.4166 17.3334C19.3194 17.3334 20.0868 17.6493 20.7187 18.2813C21.3507 18.9132 21.6666 19.6806 21.6666 20.5834C21.6666 21.4861 21.3507 22.2535 20.7187 22.8854C20.0868 23.5174 19.3194 23.8334 18.4166 23.8334Z" fill="#33363F"/>
+        </svg>
+    </div>
 </div>
 </a>
 
@@ -323,6 +513,24 @@ Envie seu Feedback
 <span class="neels-card-tag">Política</span>
 <h2 class="neels-card-title">Congresso Nacional aprova novas medidas de combate à corrupção e transparência pública.</h2>
 <p class="neels-card-description">Pacote de medidas visa fortalecer os mecanismos de fiscalização e controle público.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-actions" aria-hidden="true">
+    <div class="neels-card-icon" role="button" tabindex="0" aria-pressed="false" aria-label="Salvar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+            <path d="M4.83337 10.875C4.83337 7.45732 4.83337 5.74848 5.89511 4.68674C6.95685 3.625 8.66569 3.625 12.0834 3.625H16.9167C20.3344 3.625 22.0432 3.625 23.105 4.68674C24.1667 5.74848 24.1667 7.45732 24.1667 10.875V19.125C24.1667 22.3673 24.1667 23.9885 23.1465 24.4843C22.1263 24.9802 20.8516 23.9786 18.3021 21.9754L17.4862 21.3343C16.0526 20.208 15.3359 19.6448 14.5 19.6448C13.6642 19.6448 12.9474 20.208 11.5139 21.3343L10.698 21.9754C8.14849 23.9786 6.87375 24.9802 5.85356 24.4843C4.83337 23.9885 4.83337 22.3673 4.83337 19.125V10.875Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Compartilhar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M18.4166 23.8334C17.5138 23.8334 16.7465 23.5174 16.1145 22.8854C15.4826 22.2535 15.1666 21.4861 15.1666 20.5834C15.1666 20.475 15.1937 20.2222 15.2479 19.825L7.63746 15.3834C7.34857 15.6542 7.01454 15.8663 6.63538 16.0198C6.25621 16.1733 5.84996 16.25 5.41663 16.25C4.51385 16.25 3.74649 15.934 3.11454 15.3021C2.4826 14.6702 2.16663 13.9028 2.16663 13C2.16663 12.0972 2.4826 11.3299 3.11454 10.6979C3.74649 10.066 4.51385 9.75002 5.41663 9.75002C5.84996 9.75002 6.25621 9.82676 6.63538 9.98023C7.01454 10.1337 7.34857 10.3459 7.63746 10.6167L15.2479 6.17502C15.2118 6.04863 15.1892 5.92676 15.1802 5.8094C15.1711 5.69203 15.1666 5.56113 15.1666 5.41669C15.1666 4.51391 15.4826 3.74655 16.1145 3.1146C16.7465 2.48266 17.5138 2.16669 18.4166 2.16669C19.3194 2.16669 20.0868 2.48266 20.7187 3.1146C21.3507 3.74655 21.6666 4.51391 21.6666 5.41669C21.6666 6.31946 21.3507 7.08683 20.7187 7.71877C20.0868 8.35072 19.3194 8.66669 18.4166 8.66669C17.9833 8.66669 17.577 8.58995 17.1979 8.43648C16.8187 8.28301 16.4847 8.07085 16.1958 7.80002L8.58538 12.2417C8.62149 12.3681 8.64406 12.49 8.65308 12.6073C8.66211 12.7247 8.66663 12.8556 8.66663 13C8.66663 13.1445 8.66211 13.2754 8.65308 13.3927C8.64406 13.5101 8.62149 13.632 8.58538 13.7584L16.1958 18.2C16.4847 17.9292 16.8187 17.717 17.1979 17.5636C17.577 17.4101 17.9833 17.3334 18.4166 17.3334C19.3194 17.3334 20.0868 17.6493 20.7187 18.2813C21.3507 18.9132 21.6666 19.6806 21.6666 20.5834C21.6666 21.4861 21.3507 22.2535 20.7187 22.8854C20.0868 23.5174 19.3194 23.8334 18.4166 23.8334Z" fill="#33363F"/>
+        </svg>
+    </div>
 </div>
 </a>
 
@@ -333,6 +541,24 @@ Envie seu Feedback
 <span class="neels-card-tag">Economia</span>
 <h2 class="neels-card-title">Mercado financeiro reage positivamente a novos indicadores econômicos e dólar recua.</h2>
 <p class="neels-card-description">Bolsa de valores registra alta expressiva e investidores demonstram otimismo.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-actions" aria-hidden="true">
+    <div class="neels-card-icon" role="button" tabindex="0" aria-pressed="false" aria-label="Salvar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+            <path d="M4.83337 10.875C4.83337 7.45732 4.83337 5.74848 5.89511 4.68674C6.95685 3.625 8.66569 3.625 12.0834 3.625H16.9167C20.3344 3.625 22.0432 3.625 23.105 4.68674C24.1667 5.74848 24.1667 7.45732 24.1667 10.875V19.125C24.1667 22.3673 24.1667 23.9885 23.1465 24.4843C22.1263 24.9802 20.8516 23.9786 18.3021 21.9754L17.4862 21.3343C16.0526 20.208 15.3359 19.6448 14.5 19.6448C13.6642 19.6448 12.9474 20.208 11.5139 21.3343L10.698 21.9754C8.14849 23.9786 6.87375 24.9802 5.85356 24.4843C4.83337 23.9885 4.83337 22.3673 4.83337 19.125V10.875Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Compartilhar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M18.4166 23.8334C17.5138 23.8334 16.7465 23.5174 16.1145 22.8854C15.4826 22.2535 15.1666 21.4861 15.1666 20.5834C15.1666 20.475 15.1937 20.2222 15.2479 19.825L7.63746 15.3834C7.34857 15.6542 7.01454 15.8663 6.63538 16.0198C6.25621 16.1733 5.84996 16.25 5.41663 16.25C4.51385 16.25 3.74649 15.934 3.11454 15.3021C2.4826 14.6702 2.16663 13.9028 2.16663 13C2.16663 12.0972 2.4826 11.3299 3.11454 10.6979C3.74649 10.066 4.51385 9.75002 5.41663 9.75002C5.84996 9.75002 6.25621 9.82676 6.63538 9.98023C7.01454 10.1337 7.34857 10.3459 7.63746 10.6167L15.2479 6.17502C15.2118 6.04863 15.1892 5.92676 15.1802 5.8094C15.1711 5.69203 15.1666 5.56113 15.1666 5.41669C15.1666 4.51391 15.4826 3.74655 16.1145 3.1146C16.7465 2.48266 17.5138 2.16669 18.4166 2.16669C19.3194 2.16669 20.0868 2.48266 20.7187 3.1146C21.3507 3.74655 21.6666 4.51391 21.6666 5.41669C21.6666 6.31946 21.3507 7.08683 20.7187 7.71877C20.0868 8.35072 19.3194 8.66669 18.4166 8.66669C17.9833 8.66669 17.577 8.58995 17.1979 8.43648C16.8187 8.28301 16.4847 8.07085 16.1958 7.80002L8.58538 12.2417C8.62149 12.3681 8.64406 12.49 8.65308 12.6073C8.66211 12.7247 8.66663 12.8556 8.66663 13C8.66663 13.1445 8.66211 13.2754 8.65308 13.3927C8.64406 13.5101 8.62149 13.632 8.58538 13.7584L16.1958 18.2C16.4847 17.9292 16.8187 17.717 17.1979 17.5636C17.577 17.4101 17.9833 17.3334 18.4166 17.3334C19.3194 17.3334 20.0868 17.6493 20.7187 18.2813C21.3507 18.9132 21.6666 19.6806 21.6666 20.5834C21.6666 21.4861 21.3507 22.2535 20.7187 22.8854C20.0868 23.5174 19.3194 23.8334 18.4166 23.8334Z" fill="#33363F"/>
+        </svg>
+    </div>
 </div>
 </a>
 
@@ -340,9 +566,27 @@ Envie seu Feedback
 <a href="#" class="neels-card">
 <img src="https://media.istockphoto.com/id/1222845420/pt/foto/american-and-ukrainian-flags-fly-against-the-blue-sky-and-part-of-the-building-patriotism.jpg?s=612x612&w=0&k=20&c=6o7aWej2NR30V2orl-fFT62mLJJumnE7YPOdTyNlqQw=" alt="Notícia Cultura" class="neels-card-image">
 <div class="neels-card-content">
-<span class="neels-card-tag">Cultura</span>
+<span class="tag">Cultura</span>
 <h2 class="neels-card-title">Festival de cinema brasileiro anuncia programação com mais de 100 filmes inéditos.</h2>
 <p class="neels-card-description">Evento cultural reúne produções nacionais e promove debate sobre audiovisual brasileiro.</p>
+<time class="neels-card-date">7 de novembro de 2025</time>
+</div>
+<div class="neels-card-actions" aria-hidden="true">
+    <div class="neels-card-icon" role="button" tabindex="0" aria-pressed="false" aria-label="Salvar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+            <path d="M4.83337 10.875C4.83337 7.45732 4.83337 5.74848 5.89511 4.68674C6.95685 3.625 8.66569 3.625 12.0834 3.625H16.9167C20.3344 3.625 22.0432 3.625 23.105 4.68674C24.1667 5.74848 24.1667 7.45732 24.1667 10.875V19.125C24.1667 22.3673 24.1667 23.9885 23.1465 24.4843C22.1263 24.9802 20.8516 23.9786 18.3021 21.9754L17.4862 21.3343C16.0526 20.208 15.3359 19.6448 14.5 19.6448C13.6642 19.6448 12.9474 20.208 11.5139 21.3343L10.698 21.9754C8.14849 23.9786 6.87375 24.9802 5.85356 24.4843C4.83337 23.9885 4.83337 22.3673 4.83337 19.125V10.875Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Compartilhar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M18.4166 23.8334C17.5138 23.8334 16.7465 23.5174 16.1145 22.8854C15.4826 22.2535 15.1666 21.4861 15.1666 20.5834C15.1666 20.475 15.1937 20.2222 15.2479 19.825L7.63746 15.3834C7.34857 15.6542 7.01454 15.8663 6.63538 16.0198C6.25621 16.1733 5.84996 16.25 5.41663 16.25C4.51385 16.25 3.74649 15.934 3.11454 15.3021C2.4826 14.6702 2.16663 13.9028 2.16663 13C2.16663 12.0972 2.4826 11.3299 3.11454 10.6979C3.74649 10.066 4.51385 9.75002 5.41663 9.75002C5.84996 9.75002 6.25621 9.82676 6.63538 9.98023C7.01454 10.1337 7.34857 10.3459 7.63746 10.6167L15.2479 6.17502C15.2118 6.04863 15.1892 5.92676 15.1802 5.8094C15.1711 5.69203 15.1666 5.56113 15.1666 5.41669C15.1666 4.51391 15.4826 3.74655 16.1145 3.1146C16.7465 2.48266 17.5138 2.16669 18.4166 2.16669C19.3194 2.16669 20.0868 2.48266 20.7187 3.1146C21.3507 3.74655 21.6666 4.51391 21.6666 5.41669C21.6666 6.31946 21.3507 7.08683 20.7187 7.71877C20.0868 8.35072 19.3194 8.66669 18.4166 8.66669C17.9833 8.66669 17.577 8.58995 17.1979 8.43648C16.8187 8.28301 16.4847 8.07085 16.1958 7.80002L8.58538 12.2417C8.62149 12.3681 8.64406 12.49 8.65308 12.6073C8.66211 12.7247 8.66663 12.8556 8.66663 13C8.66663 13.1445 8.66211 13.2754 8.65308 13.3927C8.64406 13.5101 8.62149 13.632 8.58538 13.7584L16.1958 18.2C16.4847 17.9292 16.8187 17.717 17.1979 17.5636C17.577 17.4101 17.9833 17.3334 18.4166 17.3334C19.3194 17.3334 20.0868 17.6493 20.7187 18.2813C21.3507 18.9132 21.6666 19.6806 21.6666 20.5834C21.6666 21.4861 21.3507 22.2535 20.7187 22.8854C20.0868 23.5174 19.3194 23.8334 18.4166 23.8334Z" fill="#33363F"/>
+        </svg>
+    </div>
 </div>
 </a>
 
@@ -350,9 +594,27 @@ Envie seu Feedback
 <a href="{% url 'noticia_detalhe' noticia.slug %}" class="neels-card">
 <img src="{{ noticia.imagem_destaque.url }}" alt="{{ noticia.titulo }}" class="neels-card-image">
 <div class="neels-card-content">
-<span class="neels-card-tag">{{ noticia.categoria.nome }}</span>
+<span class="tag">{{ noticia.categoria.nome }}</span>
 <h2 class="neels-card-title">{{ noticia.titulo }}</h2>
 <p class="neels-card-description">{{ noticia.resumo|truncatewords:20 }}</p>
+<time class="neels-card-date">{{ noticia.data_publicacao|date:"j 'de' F 'de' Y" }}</time>
+</div>
+<div class="neels-card-actions" aria-hidden="true">
+    <div class="neels-card-icon" role="button" tabindex="0" aria-pressed="false" aria-label="Salvar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M5.56335 17.3853L14.3153 25.6068C14.6398 25.9116 14.802 26.064 15 26.064C15.198 26.064 15.3602 25.9116 15.6847 25.6068L15.6847 25.6068L24.4367 17.3853C26.8819 15.0882 27.1788 11.3082 25.1223 8.65758L24.7356 8.15918C22.2753 4.98822 17.337 5.52002 15.6083 9.14206C15.3641 9.6537 14.6359 9.6537 14.3917 9.14206C12.663 5.52002 7.72465 4.98823 5.26443 8.15918L4.87773 8.65759C2.82118 11.3083 3.11813 15.0882 5.56335 17.3853Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="none" aria-hidden="true">
+            <path d="M4.83337 10.875C4.83337 7.45732 4.83337 5.74848 5.89511 4.68674C6.95685 3.625 8.66569 3.625 12.0834 3.625H16.9167C20.3344 3.625 22.0432 3.625 23.105 4.68674C24.1667 5.74848 24.1667 7.45732 24.1667 10.875V19.125C24.1667 22.3673 24.1667 23.9885 23.1465 24.4843C22.1263 24.9802 20.8516 23.9786 18.3021 21.9754L17.4862 21.3343C16.0526 20.208 15.3359 19.6448 14.5 19.6448C13.6642 19.6448 12.9474 20.208 11.5139 21.3343L10.698 21.9754C8.14849 23.9786 6.87375 24.9802 5.85356 24.4843C4.83337 23.9885 4.83337 22.3673 4.83337 19.125V10.875Z" stroke="#33363F" stroke-width="2"/>
+        </svg>
+    </div>
+    <div class="neels-card-action" role="button" tabindex="0" aria-label="Compartilhar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <path d="M18.4166 23.8334C17.5138 23.8334 16.7465 23.5174 16.1145 22.8854C15.4826 22.2535 15.1666 21.4861 15.1666 20.5834C15.1666 20.475 15.1937 20.2222 15.2479 19.825L7.63746 15.3834C7.34857 15.6542 7.01454 15.8663 6.63538 16.0198C6.25621 16.1733 5.84996 16.25 5.41663 16.25C4.51385 16.25 3.74649 15.934 3.11454 15.3021C2.4826 14.6702 2.16663 13.9028 2.16663 13C2.16663 12.0972 2.4826 11.3299 3.11454 10.6979C3.74649 10.066 4.51385 9.75002 5.41663 9.75002C5.84996 9.75002 6.25621 9.82676 6.63538 9.98023C7.01454 10.1337 7.34857 10.3459 7.63746 10.6167L15.2479 6.17502C15.2118 6.04863 15.1892 5.92676 15.1802 5.8094C15.1711 5.69203 15.1666 5.56113 15.1666 5.41669C15.1666 4.51391 15.4826 3.74655 16.1145 3.1146C16.7465 2.48266 17.5138 2.16669 18.4166 2.16669C19.3194 2.16669 20.0868 2.48266 20.7187 3.1146C21.3507 3.74655 21.6666 4.51391 21.6666 5.41669C21.6666 6.31946 21.3507 7.08683 20.7187 7.71877C20.0868 8.35072 19.3194 8.66669 18.4166 8.66669C17.9833 8.66669 17.577 8.58995 17.1979 8.43648C16.8187 8.28301 16.4847 8.07085 16.1958 7.80002L8.58538 12.2417C8.62149 12.3681 8.64406 12.49 8.65308 12.6073C8.66211 12.7247 8.66663 12.8556 8.66663 13C8.66663 13.1445 8.66211 13.2754 8.65308 13.3927C8.64406 13.5101 8.62149 13.632 8.58538 13.7584L16.1958 18.2C16.4847 17.9292 16.8187 17.717 17.1979 17.5636C17.577 17.4101 17.9833 17.3334 18.4166 17.3334C19.3194 17.3334 20.0868 17.6493 20.7187 18.2813C21.3507 18.9132 21.6666 19.6806 21.6666 20.5834C21.6666 21.4861 21.3507 22.2535 20.7187 22.8854C20.0868 23.5174 19.3194 23.8334 18.4166 23.8334Z" fill="#33363F"/>
+        </svg>
+    </div>
 </div>
 </a>
 {% endfor %}
@@ -532,5 +794,161 @@ do Google.
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
+<script>
+// Toggle liked state on heart icons inside neels cards.
+(function(){
+    var icons = document.querySelectorAll('.neels-card-icon');
+    if(!icons || !icons.length) return;
+    icons.forEach(function(icon){
+        // make it keyboard-focusable and expose as a button
+        icon.setAttribute('tabindex', '0');
+        icon.setAttribute('role', 'button');
+        icon.setAttribute('aria-pressed', 'false');
+
+        function toggleLiked(e){
+            // prevent parent link navigation
+            if (e && e.preventDefault) e.preventDefault();
+            if (e && e.stopPropagation) e.stopPropagation();
+            var isLiked = icon.classList.toggle('liked');
+            icon.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
+        }
+
+        icon.addEventListener('click', toggleLiked);
+        icon.addEventListener('keydown', function(e){
+            var k = e.key || e.keyCode;
+            if (k === 'Enter' || k === ' ' || k === 'Spacebar' || k === 13 || k === 32) {
+                e.preventDefault();
+                toggleLiked(e);
+            }
+        });
+    });
+})();
+
+// Toggle favoritos (turn icon black)
+(function(){
+    var favs = document.querySelectorAll('.neels-card-action[aria-label="Favoritos"]');
+    if(!favs || !favs.length) return;
+    favs.forEach(function(btn){
+        btn.setAttribute('role','button');
+        btn.setAttribute('tabindex', btn.getAttribute('tabindex') || '0');
+        btn.setAttribute('aria-pressed', 'false');
+
+        function toggleFav(e){
+            if (e && e.preventDefault) e.preventDefault();
+            if (e && e.stopPropagation) e.stopPropagation();
+            var isFav = btn.classList.toggle('favorited');
+            btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+        }
+
+        btn.addEventListener('click', toggleFav);
+        btn.addEventListener('keydown', function(e){
+            var k = e.key || e.keyCode;
+            if (k === 'Enter' || k === ' ' || k === 'Spacebar' || k === 13 || k === 32) {
+                e.preventDefault();
+                toggleFav(e);
+            }
+        });
+    });
+})();
+
+    // Compartilhar: usa Web Share API quando disponível, senão copia URL para clipboard
+    (function(){
+        var shares = document.querySelectorAll('.neels-card-action[aria-label="Compartilhar"]');
+        if(!shares || !shares.length) return;
+
+        function showToast(message){
+            var toast = document.querySelector('.share-toast');
+            if(!toast){
+                toast = document.createElement('div');
+                toast.className = 'share-toast';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(function(){
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function fallbackCopyText(text){
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try{
+                document.execCommand('copy');
+                showToast('Link copiado para a área de transferência');
+            }catch(err){
+                // último recurso
+                window.prompt('Copie o link abaixo:', text);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        shares.forEach(function(btn){
+            btn.setAttribute('role','button');
+            btn.setAttribute('tabindex', btn.getAttribute('tabindex') || '0');
+
+            function activateShare(e){
+                if(e && e.preventDefault) e.preventDefault();
+                if(e && e.stopPropagation) e.stopPropagation();
+
+                // descobrir o link do cartão: buscar o <a class="neels-card"> pai
+                var card = btn.closest('.neels-card');
+                var href = null;
+                if(card){
+                    // se o botão está dentro do <a>, recuperar o atributo href do elemento <a>
+                    if(card.tagName.toLowerCase() === 'a'){
+                        href = card.href;
+                    } else {
+                        // se o botão está dentro de um filho do <a>, procurar o ancestor <a.neels-card>
+                        var ancestorLink = card.closest('a.neels-card');
+                        if(ancestorLink) href = ancestorLink.href;
+                    }
+                }
+                // fallback para URL atual
+                if(!href || href === '#' || href.indexOf('javascript:') === 0) href = window.location.href;
+
+                var titleEl = card ? card.querySelector('.neels-card-title') : null;
+                var title = titleEl ? titleEl.textContent.trim() : document.title;
+
+                if(navigator.share){
+                    navigator.share({
+                        title: title,
+                        text: title,
+                        url: href
+                    }).catch(function(err){
+                        // se o usuário cancelou ou houve erro, apenas logar
+                        console.log('Share failed:', err);
+                    });
+                    return;
+                }
+
+                // fallback: copiar para clipboard quando disponível
+                if(navigator.clipboard && navigator.clipboard.writeText){
+                    navigator.clipboard.writeText(href).then(function(){
+                        showToast('Link copiado para a área de transferência');
+                    }, function(){
+                        fallbackCopyText(href);
+                    });
+                } else {
+                    fallbackCopyText(href);
+                }
+            }
+
+            btn.addEventListener('click', activateShare);
+            btn.addEventListener('keydown', function(e){
+                var k = e.key || e.keyCode;
+                if (k === 'Enter' || k === ' ' || k === 'Spacebar' || k === 13 || k === 32) {
+                    e.preventDefault();
+                    activateShare(e);
+                }
+            });
+        });
+    })();
+</script>
 </body>
 </html>

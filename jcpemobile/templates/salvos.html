@@ -250,10 +250,10 @@
 <!-- (search button removed from header; search remains in bottom navigation) -->
 <!-- Perfil -->
 <button class="botao-perfil" id="botaoPerfil" aria-label="Meu perfil">
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 32 32" fill="none">
-<path d="M20 13.3333C20 15.5425 18.2091 17.3333 16 17.3333C13.7909 17.3333 12 15.5425 12 13.3333C12 11.1242 13.7909 9.33334 16 9.33334C18.2091 9.33334 20 11.1242 20 13.3333Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
-<circle cx="16" cy="16" r="12" stroke="#33363F" stroke-width="2"/>
-<path d="M23.7074 25.1019C23.8769 25.0088 23.957 24.8073 23.8854 24.6277C23.3712 23.3393 22.3808 22.2046 21.0419 21.3776C19.5955 20.4843 17.8232 20 16 20C14.1768 20 12.4046 20.4842 10.9581 21.3776C9.61925 22.2046 8.6288 23.3393 8.11464 24.6277C8.04298 24.8073 8.12314 25.0088 8.29264 25.1019C13.0929 27.7373 18.9071 27.7373 23.7074 25.1019Z" fill="#33363F"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+<path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+<circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+<path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
 </svg>
 </button>
 </div>
@@ -316,7 +316,11 @@ aria-label="Buscar notícias">
 <div class="menu-lateral-conteudo">
 <!-- Perfil do Usuário (se logado) -->
 <div class="menu-lateral-perfil">
-<img src="{% static 'images/user.png' %}" alt="Perfil" class="icone-perfil">
+<svg class="icone-perfil" role="img" aria-label="Perfil" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <path d="M25 16.6667C25 19.4281 22.7614 21.6667 20 21.6667C17.2386 21.6667 15 19.4281 15 16.6667C15 13.9053 17.2386 11.6667 20 11.6667C22.7614 11.6667 25 13.9053 25 16.6667Z" fill="#33363F" stroke="#33363F" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="20" cy="20" r="15" stroke="#33363F" stroke-width="3"/>
+    <path d="M29.6342 31.3773C29.8461 31.261 29.9463 31.0092 29.8567 30.7847C29.214 29.1741 27.9759 27.7557 26.3024 26.7221C24.4943 25.6053 22.279 25 20 25C17.721 25 15.5057 25.6053 13.6976 26.7221C12.0241 27.7557 10.786 29.1741 10.1433 30.7847C10.0537 31.0092 10.1539 31.261 10.3658 31.3773C16.3662 34.6716 23.6338 34.6716 29.6342 31.3773Z" fill="#33363F"/>
+</svg>
 <div class="perfil-info">
 {% if user.is_authenticated %}
 <span class="perfil-nome">{{ user.first_name|default:user.username }}</span>
@@ -742,16 +746,16 @@ Envie seu Feedback
             const icon = event.currentTarget;
             const svg = icon.querySelector('svg');
             
-            if (svg.getAttribute('fill') === 'none') {
-                svg.setAttribute('fill', '#c41e3a');
-                icon.style.opacity = '1';
-            } else {
-                svg.setAttribute('fill', 'none');
-                icon.style.opacity = '0.4';
+            if (svg && svg.getAttribute) {
+                const currentFill = svg.getAttribute('fill');
+                if (!currentFill || currentFill === 'none') {
+                    svg.setAttribute('fill', '#DE1B24');
+                    icon.style.opacity = '1';
+                } else {
+                    svg.setAttribute('fill', 'none');
+                    icon.style.opacity = '0.4';
+                }
             }
-<<<<<<< HEAD
-=======
-            return cookieValue;
         }
 
         function mostrarNotificacao(mensagem, tipo) {
@@ -759,14 +763,14 @@ Envie seu Feedback
             if (notificacaoExistente) {
                 notificacaoExistente.remove();
             }
-            
+
             const notificacao = document.createElement('div');
             notificacao.className = `notificacao-feedback notificacao-${tipo}`;
             notificacao.innerHTML = `
                 <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
                 <span>${mensagem}</span>
             `;
-            
+
             // Adicionar estilos apenas uma vez
             if (!document.getElementById('notificacao-feedback-styles')) {
                 const styleElement = document.createElement('style');
@@ -794,17 +798,20 @@ Envie seu Feedback
                         from { transform: translateX(100%); opacity: 0; }
                         to { transform: translateX(0); opacity: 1; }
                     }
+                    @keyframes slideOutRight {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
                 `;
                 document.head.appendChild(styleElement);
             }
-            
+
             document.body.appendChild(notificacao);
-            
+
             setTimeout(() => {
                 notificacao.style.animation = 'slideOutRight 0.3s ease-out';
                 setTimeout(() => notificacao.remove(), 300);
             }, 3000);
->>>>>>> e63c120e7f3cc7584d0d15ec1223c53686533d47
         }
     </script>
 </body>
