@@ -30,6 +30,10 @@ ALLOWED_HOSTS = os.getenv(
     'jcpe-fmhxhfgya5fxb5b0.brazilsouth-01.azurewebsites.net'
 ).split(' ')
 
+# Adicionar localhost para desenvolvimento
+if NOT_PROD:
+    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
+
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
     f"https://{host}" for host in ALLOWED_HOSTS if host != '*'
