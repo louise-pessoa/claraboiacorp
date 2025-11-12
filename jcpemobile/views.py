@@ -32,12 +32,8 @@ def get_client_ip(request):
 def index(request):
     """View para a página inicial"""
     hoje = timezone.now().date()
-    # Busca as notícias mais vistas do dia, com ordenamento secundário por data de publicação
-    noticias_mais_vistas = Noticia.objects.all().annotate(
-        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
-    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 10 notícias do dia
 
-    # Verificar se há preferências de categorias
+    # Verificar se há preferências de categorias ANTES de buscar notícias
     categorias_preferidas = None
 
     # Se usuário está logado, buscar preferências do perfil
@@ -46,21 +42,54 @@ def index(request):
         if perfil:
             categorias_preferidas = list(perfil.categorias_preferidas.values_list('slug', flat=True))
 
-    # Se não está logado ou não tem preferências no perfil, tentar localStorage via cookie/session
+    # Se não está logado ou não tem preferências no perfil, tentar ler do cookie
     if not categorias_preferidas:
-        # O JavaScript vai enviar as categorias via GET param ou cookie
-        categorias_param = request.GET.get('categorias', '')
-        if categorias_param:
-            categorias_preferidas = [c.strip() for c in categorias_param.split(',') if c.strip()]
+        # Tentar ler do cookie (para visitantes)
+        categorias_cookie = request.COOKIES.get('categorias_preferidas', '')
+        print(f"[DEBUG] Cookie raw recebido: {repr(categorias_cookie)}")
+        if categorias_cookie:
+            try:
+                # O cookie pode estar URL encoded, então precisamos decodificar
+                from urllib.parse import unquote
+                categorias_cookie_decoded = unquote(categorias_cookie)
+                print(f"[DEBUG] Cookie decodificado: {repr(categorias_cookie_decoded)}")
 
-    # Filtrar notícias por categorias preferidas se existirem
+                categorias_preferidas = json.loads(categorias_cookie_decoded)
+                if not isinstance(categorias_preferidas, list):
+                    categorias_preferidas = None
+                else:
+                    print(f"[DEBUG] Categorias do cookie: {categorias_preferidas}")
+            except (json.JSONDecodeError, ValueError) as e:
+                print(f"[DEBUG] Erro ao parsear cookie: {e}")
+                categorias_preferidas = None
+
+        # Fallback: tentar GET param
+        if not categorias_preferidas:
+            categorias_param = request.GET.get('categorias', '')
+            if categorias_param:
+                categorias_preferidas = [c.strip() for c in categorias_param.split(',') if c.strip()]
+
+    # Buscar notícias mais vistas do dia (aplicando filtro de categorias se houver)
+    noticias_query = Noticia.objects.all()
+
+    if categorias_preferidas:
+        print(f"[DEBUG] Filtrando por categorias: {categorias_preferidas}")
+        noticias_query = noticias_query.filter(categoria__slug__in=categorias_preferidas)
+
+    noticias_mais_vistas = noticias_query.annotate(
+        visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
+    ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]
+
+    # Filtrar todas as notícias por categorias preferidas se existirem
     if categorias_preferidas:
         todas_noticias = Noticia.objects.filter(
             categoria__slug__in=categorias_preferidas
         ).select_related('categoria', 'autor').order_by('-data_publicacao')
+        print(f"[DEBUG] Total de notícias filtradas: {todas_noticias.count()}")
     else:
         # Pegar todas as notícias se não houver preferências
         todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+        print(f"[DEBUG] Sem filtro - Total de notícias: {todas_noticias.count()}")
 
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
