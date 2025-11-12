@@ -20,7 +20,7 @@
             
             <!-- Botões de social login -->
             <div class="social-login-buttons">
-                <button type="button" class="btn-social btn-google">
+                <button type="button" class="btn-social btn-google" onclick="window.location.href='https://accounts.google.com'">
                     <svg class="svg-google" width="30" height="30" viewBox="0 0 24 24" fill="none">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -38,7 +38,7 @@
                 </button>
                 
                 <button type="button" class="btn-social btn-facebook">
-                    <svg class="svg-facebook" width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+                    <svg class="svg-facebook" width="30" height="30" viewBox="0 0 24 24" fill="#1877F2">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
                     Continuar com Facebook
@@ -120,7 +120,7 @@
     
     .modal-container {
         background: white;
-        border-radius: 24px;
+    border-radius: 30px;
         width: 90%;
         max-width: 420px;
         max-height: 90vh;
@@ -143,7 +143,7 @@
         height: 32px;
         border: none;
         background: transparent;
-        border-radius: 50%;
+    border-radius: 50%;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -207,19 +207,19 @@
     
     .btn-social {
         width: 100%;
-        padding: 14px 20px;
+        padding: 10px 16px;
         border: 1px solid #E5E5E5;
         background: white;
-        border-radius: 12px;
-        font-size: 16px; /* levemente maior */
+    border-radius: 18px;
+        font-size: 15px; /* levemente menor para reduzir altura */
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center; /* keep label centered */
-        gap: 12px;
-        padding-left: 64px; /* space for left-positioned icons */
+        gap: 8px;
+        padding-left: 56px; /* slightly less left-space to shrink container */
         color: #000;
         position: relative; /* allow absolute-positioned icon */
     }
@@ -236,15 +236,15 @@
         top: 50%;
         transform: translateY(-50%);
         margin-right: 0;
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
     }
     /* Make Apple icon slightly larger while keeping its visual center aligned with other icons */
     .btn-social.btn-apple svg,
     .btn-social.btn-apple svg.svg-apple {
-        width: 42px;
-        height: 42px;
-        left: 8px; /* adjust to keep center aligned */
+        width: 40px;
+        height: 40px;
+        left: 7px; /* adjust to keep center aligned */
     }
     /* Per-provider overrides removed to keep all icons centered and aligned. */
     
@@ -438,7 +438,7 @@
             width: 95%;
             max-height: 95vh;
             border-radius: 20px;
-        }
+        border-radius: 20px;
         
         .modal-header {
             padding: 32px 24px 16px;
@@ -453,8 +453,8 @@
         }
         
         .btn-social {
-            font-size: 15px;
-            padding: 12px 16px;
+            font-size: 14px;
+            padding: 10px 14px;
         }
     }
 </style>
