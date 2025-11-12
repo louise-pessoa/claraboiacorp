@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao, Tag, PerfilUsuario
 from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
@@ -37,8 +37,30 @@ def index(request):
         visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
     ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 10 notícias do dia
 
-    # Pegar todas as notícias para exibir na página
-    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+    # Verificar se há preferências de categorias
+    categorias_preferidas = None
+
+    # Se usuário está logado, buscar preferências do perfil
+    if request.user.is_authenticated:
+        perfil = getattr(request.user, 'perfil', None)
+        if perfil:
+            categorias_preferidas = list(perfil.categorias_preferidas.values_list('slug', flat=True))
+
+    # Se não está logado ou não tem preferências no perfil, tentar localStorage via cookie/session
+    if not categorias_preferidas:
+        # O JavaScript vai enviar as categorias via GET param ou cookie
+        categorias_param = request.GET.get('categorias', '')
+        if categorias_param:
+            categorias_preferidas = [c.strip() for c in categorias_param.split(',') if c.strip()]
+
+    # Filtrar notícias por categorias preferidas se existirem
+    if categorias_preferidas:
+        todas_noticias = Noticia.objects.filter(
+            categoria__slug__in=categorias_preferidas
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')
+    else:
+        # Pegar todas as notícias se não houver preferências
+        todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
 
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
@@ -597,4 +619,187 @@ def admin_criar_autor(request):
             'success': False,
             'error': str(e)
         }, status=500)
+
+
+# ========== API PARA TAGS, FILTROS E PREFERÊNCIAS ==========
+def listar_tags(request):
+    """Retorna lista de tags e contagem de notícias por tag (JSON)."""
+    tags = Tag.objects.all().annotate(noticias_count=Count('noticias'))
+    data = [{'id': t.id, 'nome': t.nome, 'noticias_count': t.noticias_count} for t in tags]
+    return JsonResponse({'tags': data})
+
+
+def noticias_por_tags(request):
+    """Lista notícias filtradas por tags.
+
+    Query params:
+      - tags: lista separada por vírgula de ids ou nomes (ex: tags=1,2 ou tags=politica,esporte)
+      - match: 'any' (default) ou 'all' — 'all' tenta exigir todas as tags (apenas para ids)
+    """
+    tags_param = request.GET.get('tags', '')
+    match = request.GET.get('match', 'any')
+
+    if not tags_param:
+        noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')[:50]
+    else:
+        tag_list = [x.strip() for x in tags_param.split(',') if x.strip()]
+        tag_ids = [int(x) for x in tag_list if x.isdigit()]
+        tag_names = [x for x in tag_list if not x.isdigit()]
+
+        if match == 'all' and tag_ids:
+            # Filtrar notícias que tenham todas as tags informadas (por id)
+            noticias = Noticia.objects.all()
+            for tid in tag_ids:
+                noticias = noticias.filter(tags__id=tid)
+            noticias = noticias.select_related('categoria', 'autor').distinct().order_by('-data_publicacao')[:200]
+        else:
+            q = Q()
+            if tag_ids:
+                q |= Q(tags__id__in=tag_ids)
+            if tag_names:
+                q |= Q(tags__nome__in=tag_names)
+            noticias = Noticia.objects.filter(q).select_related('categoria', 'autor').distinct().order_by('-data_publicacao')[:200]
+
+    def serialize(n):
+        return {
+            'id': n.id,
+            'titulo': n.titulo,
+            'slug': n.slug,
+            'resumo': n.resumo,
+            'data_publicacao': n.data_publicacao.isoformat() if n.data_publicacao else None,
+            'categoria': n.categoria.nome if n.categoria else None,
+            'autor': n.autor.nome if n.autor else None,
+            'tags': [t.nome for t in n.tags.all()]
+        }
+
+    data = [serialize(n) for n in noticias]
+    return JsonResponse({'noticias': data})
+
+
+@login_required
+def atualizar_preferencias(request):
+    """Atualiza as tags preferidas do usuário.
+
+    Requisição: POST JSON {"tags": [1,2,3]} - ids de tags.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'message': 'Use POST'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+    except Exception:
+        return JsonResponse({'success': False, 'message': 'JSON inválido'}, status=400)
+
+    tag_ids = data.get('tags', [])
+    if not isinstance(tag_ids, (list, tuple)):
+        return JsonResponse({'success': False, 'message': 'tags deve ser uma lista de ids'}, status=400)
+
+    tags = Tag.objects.filter(id__in=tag_ids)
+    perfil = getattr(request.user, 'perfil', None)
+    if perfil is None:
+        # Criar perfil se por algum motivo não existir
+        from .models import PerfilUsuario
+        perfil = PerfilUsuario.objects.create(usuario=request.user)
+
+    perfil.tags_preferidas.set(tags)
+    return JsonResponse({'success': True, 'tags_count': tags.count()})
+
+
+@login_required
+def noticias_personalizadas(request):
+    """Retorna notícias personalizadas com base nas tags preferidas do usuário."""
+    perfil = getattr(request.user, 'perfil', None)
+    if not perfil:
+        return JsonResponse({'noticias': []})
+
+    tags = list(perfil.tags_preferidas.all())
+    if not tags:
+        # Se usuário não tem preferência, retornar últimas notícias
+        noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')[:50]
+        data = [{'id': n.id, 'titulo': n.titulo, 'slug': n.slug, 'resumo': n.resumo} for n in noticias]
+        return JsonResponse({'noticias': data})
+
+    noticias = Noticia.objects.filter(tags__in=tags).annotate(
+        match_count=Count('tags', filter=Q(tags__in=tags))
+    ).order_by('-match_count', '-data_publicacao').distinct()[:200]
+
+    data = []
+    for n in noticias:
+        data.append({
+            'id': n.id,
+            'titulo': n.titulo,
+            'slug': n.slug,
+            'resumo': n.resumo,
+            'match_count': getattr(n, 'match_count', 0)
+        })
+
+    return JsonResponse({'noticias': data})
+
+
+# ========== API PARA PREFERÊNCIAS DE CATEGORIAS ==========
+@require_http_methods(["GET", "POST"])
+def api_preferencias(request):
+    """API para gerenciar preferências de categorias do usuário."""
+
+    if request.method == 'GET':
+        # Retornar preferências salvas
+        if request.user.is_authenticated:
+            perfil = getattr(request.user, 'perfil', None)
+            if perfil:
+                categorias = list(perfil.categorias_preferidas.values_list('slug', flat=True))
+                return JsonResponse({
+                    'success': True,
+                    'categorias': categorias
+                })
+
+        return JsonResponse({
+            'success': True,
+            'categorias': []
+        })
+
+    elif request.method == 'POST':
+        # Salvar preferências
+        try:
+            data = json.loads(request.body)
+            categorias_slugs = data.get('categorias', [])
+
+            if not isinstance(categorias_slugs, list):
+                return JsonResponse({
+                    'success': False,
+                    'message': 'categorias deve ser uma lista'
+                }, status=400)
+
+            # Se usuário está logado, salvar no perfil
+            if request.user.is_authenticated:
+                perfil = getattr(request.user, 'perfil', None)
+                if not perfil:
+                    perfil = PerfilUsuario.objects.create(usuario=request.user)
+
+                # Buscar categorias pelos slugs
+                categorias = Categoria.objects.filter(slug__in=categorias_slugs)
+                perfil.categorias_preferidas.set(categorias)
+
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Preferências salvas com sucesso!',
+                    'categorias': list(categorias.values_list('slug', flat=True))
+                })
+            else:
+                # Visitante - retornar sucesso (será salvo no localStorage pelo JS)
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Preferências salvas localmente!',
+                    'categorias': categorias_slugs
+                })
+
+        except json.JSONDecodeError:
+            return JsonResponse({
+                'success': False,
+                'message': 'JSON inválido'
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': f'Erro ao salvar preferências: {str(e)}'
+            }, status=500)
 

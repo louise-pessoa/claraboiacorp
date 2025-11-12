@@ -4,6 +4,8 @@ from .views import (
     salvos, salvar_noticia, remover_noticia_salva, mais_lidas, enviar_feedback,
     admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia,
     admin_criar_autor, neels, detalhe_enquete, lista_enquetes, painel_diario
+    , listar_tags, noticias_por_tags, atualizar_preferencias, noticias_personalizadas,
+    api_preferencias
 )
 
 urlpatterns = [
@@ -17,6 +19,12 @@ urlpatterns = [
     path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
     path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),
+    # API para tags, filtros e preferências
+    path('api/tags/', listar_tags, name='api_listar_tags'),
+    path('api/noticias/', noticias_por_tags, name='api_noticias_por_tags'),
+    path('api/preferencias/', api_preferencias, name='api_preferencias'),
+    path('api/preferencias/tags/', atualizar_preferencias, name='api_atualizar_preferencias'),
+    path('api/noticias/personalizadas/', noticias_personalizadas, name='api_noticias_personalizadas'),
     
     
     # Rotas de Admin (Painel Customizado)
