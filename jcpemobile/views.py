@@ -803,3 +803,56 @@ def api_preferencias(request):
                 'message': f'Erro ao salvar preferências: {str(e)}'
             }, status=500)
 
+
+# ========== LINHA DO TEMPO ==========
+def linha_do_tempo(request):
+    """View para página de linha do tempo - agrupa notícias cronologicamente."""
+    from collections import defaultdict
+    from datetime import datetime
+
+    # Buscar todas as notícias ordenadas da mais recente para a mais antiga
+    todas_noticias = Noticia.objects.select_related('categoria', 'autor').prefetch_related('tags').order_by('-data_publicacao')
+
+    # Agrupar notícias por ano e mês
+    timeline_data = defaultdict(lambda: defaultdict(list))
+
+    for noticia in todas_noticias:
+        ano = noticia.data_publicacao.year
+        mes = noticia.data_publicacao.month
+        timeline_data[ano][mes].append(noticia)
+
+    # Converter para lista ordenada para o template
+    timeline_list = []
+    for ano in sorted(timeline_data.keys(), reverse=True):
+        meses_data = []
+        for mes in sorted(timeline_data[ano].keys(), reverse=True):
+            # Nome do mês em português
+            meses_pt = {
+                1: 'Janeiro', 2: 'Fevereiro', 3: 'Março', 4: 'Abril',
+                5: 'Maio', 6: 'Junho', 7: 'Julho', 8: 'Agosto',
+                9: 'Setembro', 10: 'Outubro', 11: 'Novembro', 12: 'Dezembro'
+            }
+
+            meses_data.append({
+                'numero': mes,
+                'nome': meses_pt[mes],
+                'noticias': timeline_data[ano][mes]
+            })
+
+        timeline_list.append({
+            'ano': ano,
+            'meses': meses_data
+        })
+
+    # Buscar todas as categorias e tags para filtros
+    categorias = Categoria.objects.all()
+    tags = Tag.objects.all()
+
+    context = {
+        'timeline': timeline_list,
+        'categorias': categorias,
+        'tags': tags,
+    }
+
+    return render(request, 'linha_do_tempo.html', context)
+
