@@ -4,6 +4,40 @@
    =================================================== */
 
 // ===================================================
+// UTILITÁRIOS DE COOKIES
+// ===================================================
+
+/**
+ * Define um cookie
+ * @param {string} name - Nome do cookie
+ * @param {string} value - Valor do cookie
+ * @param {number} days - Dias até expirar (padrão: 365)
+ */
+function setCookie(name, value, days = 365) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+}
+
+/**
+ * Deleta um cookie
+ * @param {string} name - Nome do cookie
+ */
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+/**
+ * Verifica de forma robusta se o usuário está autenticado
+ * @returns {boolean} true se o usuário está logado, false caso contrário
+ */
+function verificarUsuarioLogado() {
+    const authAttr = document.body.dataset.userAuthenticated;
+    return authAttr === 'true';
+}
+
+// ===================================================
 // INICIALIZAÇÃO
 // ===================================================
 
@@ -114,7 +148,7 @@ function carregarPreferencias() {
     console.log('Carregando preferências...');
 
     // Verificar se usuário está logado
-    const usuarioLogado = document.body.dataset.userAuthenticated === 'true';
+    const usuarioLogado = verificarUsuarioLogado();
 
     let categoriasSelecionadas = [];
 
@@ -147,6 +181,21 @@ function carregarPreferencias() {
 }
 
 function carregarPreferenciasLocal() {
+    // Tentar carregar do cookie primeiro
+    const preferenciasCookie = getCookie('categorias_preferidas');
+
+    if (preferenciasCookie) {
+        try {
+            const categoriasSelecionadas = JSON.parse(preferenciasCookie);
+            aplicarPreferenciasNoModal(categoriasSelecionadas);
+            console.log('Preferências carregadas do cookie:', categoriasSelecionadas);
+            return;
+        } catch (e) {
+            console.error('Erro ao parsear preferências do cookie:', e);
+        }
+    }
+
+    // Fallback para localStorage
     const preferencias = localStorage.getItem('categorias_preferidas');
 
     if (preferencias) {
@@ -154,6 +203,9 @@ function carregarPreferenciasLocal() {
             const categoriasSelecionadas = JSON.parse(preferencias);
             aplicarPreferenciasNoModal(categoriasSelecionadas);
             console.log('Preferências carregadas do localStorage:', categoriasSelecionadas);
+
+            // Migrar para cookie
+            setCookie('categorias_preferidas', preferencias);
         } catch (e) {
             console.error('Erro ao parsear preferências do localStorage:', e);
         }
@@ -182,7 +234,7 @@ function salvarPreferencias() {
     console.log('Categorias selecionadas:', categoriasSelecionadas);
 
     // Verificar se usuário está logado
-    const usuarioLogado = document.body.dataset.userAuthenticated === 'true';
+    const usuarioLogado = verificarUsuarioLogado();
 
     if (usuarioLogado) {
         // Salvar no servidor
@@ -231,10 +283,23 @@ function salvarPreferenciasServidor(categorias) {
 
 function salvarPreferenciasLocal(categorias) {
     try {
-        localStorage.setItem('categorias_preferidas', JSON.stringify(categorias));
-        console.log('Preferências salvas no localStorage');
+        const categoriasJSON = JSON.stringify(categorias);
+
+        // Salvar em cookie (principal)
+        setCookie('categorias_preferidas', categoriasJSON);
+        console.log('Preferências salvas no cookie');
+        console.log('Valor do cookie:', categoriasJSON);
+        console.log('Categorias:', categorias);
+
+        // Verificar se foi salvo corretamente
+        const cookieVerificacao = getCookie('categorias_preferidas');
+        console.log('Cookie verificado:', cookieVerificacao);
+
+        // Também salvar no localStorage como backup
+        localStorage.setItem('categorias_preferidas', categoriasJSON);
+        console.log('Preferências salvas no localStorage (backup)');
     } catch (e) {
-        console.error('Erro ao salvar no localStorage:', e);
+        console.error('Erro ao salvar preferências:', e);
     }
 }
 
@@ -259,7 +324,7 @@ function limparPreferencias() {
 // ===================================================
 
 function verificarPreferenciasAtivas() {
-    const usuarioLogado = document.body.dataset.userAuthenticated === 'true';
+    const usuarioLogado = verificarUsuarioLogado();
     let temPreferencias = false;
 
     if (usuarioLogado) {
@@ -287,6 +352,22 @@ function verificarPreferenciasAtivas() {
 }
 
 function verificarPreferenciasLocal() {
+    // Verificar cookie primeiro
+    const preferenciasCookie = getCookie('categorias_preferidas');
+
+    if (preferenciasCookie) {
+        try {
+            const categorias = JSON.parse(preferenciasCookie);
+            if (categorias && categorias.length > 0) {
+                mostrarBarraPreferencias();
+                return;
+            }
+        } catch (e) {
+            console.error('Erro ao verificar preferências do cookie:', e);
+        }
+    }
+
+    // Fallback para localStorage
     const preferencias = localStorage.getItem('categorias_preferidas');
     if (preferencias) {
         try {
@@ -321,7 +402,11 @@ function limparTodasPreferencias() {
         return;
     }
 
-    const usuarioLogado = document.body.dataset.userAuthenticated === 'true';
+    const usuarioLogado = verificarUsuarioLogado();
+
+    // Limpar cookie
+    deleteCookie('categorias_preferidas');
+    console.log('Cookie de preferências removido');
 
     // Limpar localStorage
     localStorage.removeItem('categorias_preferidas');
