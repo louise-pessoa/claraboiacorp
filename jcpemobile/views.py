@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao
+from .models import Noticia, Visualizacao, NoticaSalva, Categoria, Autor, Feedback, Enquete, Voto, Opcao, Tag, PerfilUsuario
 from .forms import CadastroUsuarioForm, NoticiaForm, FeedbackForm
 from django.db import IntegrityError
 import json
@@ -597,4 +597,119 @@ def admin_criar_autor(request):
             'success': False,
             'error': str(e)
         }, status=500)
+
+
+# ========== API PARA TAGS, FILTROS E PREFERÊNCIAS ==========
+def listar_tags(request):
+    """Retorna lista de tags e contagem de notícias por tag (JSON)."""
+    tags = Tag.objects.all().annotate(noticias_count=Count('noticias'))
+    data = [{'id': t.id, 'nome': t.nome, 'noticias_count': t.noticias_count} for t in tags]
+    return JsonResponse({'tags': data})
+
+
+def noticias_por_tags(request):
+    """Lista notícias filtradas por tags.
+
+    Query params:
+      - tags: lista separada por vírgula de ids ou nomes (ex: tags=1,2 ou tags=politica,esporte)
+      - match: 'any' (default) ou 'all' — 'all' tenta exigir todas as tags (apenas para ids)
+    """
+    tags_param = request.GET.get('tags', '')
+    match = request.GET.get('match', 'any')
+
+    if not tags_param:
+        noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')[:50]
+    else:
+        tag_list = [x.strip() for x in tags_param.split(',') if x.strip()]
+        tag_ids = [int(x) for x in tag_list if x.isdigit()]
+        tag_names = [x for x in tag_list if not x.isdigit()]
+
+        if match == 'all' and tag_ids:
+            # Filtrar notícias que tenham todas as tags informadas (por id)
+            noticias = Noticia.objects.all()
+            for tid in tag_ids:
+                noticias = noticias.filter(tags__id=tid)
+            noticias = noticias.select_related('categoria', 'autor').distinct().order_by('-data_publicacao')[:200]
+        else:
+            q = Q()
+            if tag_ids:
+                q |= Q(tags__id__in=tag_ids)
+            if tag_names:
+                q |= Q(tags__nome__in=tag_names)
+            noticias = Noticia.objects.filter(q).select_related('categoria', 'autor').distinct().order_by('-data_publicacao')[:200]
+
+    def serialize(n):
+        return {
+            'id': n.id,
+            'titulo': n.titulo,
+            'slug': n.slug,
+            'resumo': n.resumo,
+            'data_publicacao': n.data_publicacao.isoformat() if n.data_publicacao else None,
+            'categoria': n.categoria.nome if n.categoria else None,
+            'autor': n.autor.nome if n.autor else None,
+            'tags': [t.nome for t in n.tags.all()]
+        }
+
+    data = [serialize(n) for n in noticias]
+    return JsonResponse({'noticias': data})
+
+
+@login_required
+def atualizar_preferencias(request):
+    """Atualiza as tags preferidas do usuário.
+
+    Requisição: POST JSON {"tags": [1,2,3]} - ids de tags.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'message': 'Use POST'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+    except Exception:
+        return JsonResponse({'success': False, 'message': 'JSON inválido'}, status=400)
+
+    tag_ids = data.get('tags', [])
+    if not isinstance(tag_ids, (list, tuple)):
+        return JsonResponse({'success': False, 'message': 'tags deve ser uma lista de ids'}, status=400)
+
+    tags = Tag.objects.filter(id__in=tag_ids)
+    perfil = getattr(request.user, 'perfil', None)
+    if perfil is None:
+        # Criar perfil se por algum motivo não existir
+        from .models import PerfilUsuario
+        perfil = PerfilUsuario.objects.create(usuario=request.user)
+
+    perfil.tags_preferidas.set(tags)
+    return JsonResponse({'success': True, 'tags_count': tags.count()})
+
+
+@login_required
+def noticias_personalizadas(request):
+    """Retorna notícias personalizadas com base nas tags preferidas do usuário."""
+    perfil = getattr(request.user, 'perfil', None)
+    if not perfil:
+        return JsonResponse({'noticias': []})
+
+    tags = list(perfil.tags_preferidas.all())
+    if not tags:
+        # Se usuário não tem preferência, retornar últimas notícias
+        noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')[:50]
+        data = [{'id': n.id, 'titulo': n.titulo, 'slug': n.slug, 'resumo': n.resumo} for n in noticias]
+        return JsonResponse({'noticias': data})
+
+    noticias = Noticia.objects.filter(tags__in=tags).annotate(
+        match_count=Count('tags', filter=Q(tags__in=tags))
+    ).order_by('-match_count', '-data_publicacao').distinct()[:200]
+
+    data = []
+    for n in noticias:
+        data.append({
+            'id': n.id,
+            'titulo': n.titulo,
+            'slug': n.slug,
+            'resumo': n.resumo,
+            'match_count': getattr(n, 'match_count', 0)
+        })
+
+    return JsonResponse({'noticias': data})
 
