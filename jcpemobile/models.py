@@ -187,9 +187,10 @@ class NoticaSalva(models.Model):
 
 
 class PerfilUsuario(models.Model):
-    """Perfil simples para guardar tags preferidas do usuário."""
+    """Perfil simples para guardar tags e categorias preferidas do usuário."""
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     tags_preferidas = models.ManyToManyField(Tag, blank=True, related_name='usuarios_preferidos')
+    categorias_preferidas = models.ManyToManyField(Categoria, blank=True, related_name='usuarios_interessados')
 
     def __str__(self):
         return f"Perfil de {self.usuario.username}"

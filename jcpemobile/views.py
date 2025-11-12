@@ -37,8 +37,30 @@ def index(request):
         visualizacoes_dia=Count('visualizacoes', filter=Q(visualizacoes__data=hoje))
     ).order_by('-visualizacoes_dia', '-data_publicacao')[:9]  # Top 10 notícias do dia
 
-    # Pegar todas as notícias para exibir na página
-    todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
+    # Verificar se há preferências de categorias
+    categorias_preferidas = None
+
+    # Se usuário está logado, buscar preferências do perfil
+    if request.user.is_authenticated:
+        perfil = getattr(request.user, 'perfil', None)
+        if perfil:
+            categorias_preferidas = list(perfil.categorias_preferidas.values_list('slug', flat=True))
+
+    # Se não está logado ou não tem preferências no perfil, tentar localStorage via cookie/session
+    if not categorias_preferidas:
+        # O JavaScript vai enviar as categorias via GET param ou cookie
+        categorias_param = request.GET.get('categorias', '')
+        if categorias_param:
+            categorias_preferidas = [c.strip() for c in categorias_param.split(',') if c.strip()]
+
+    # Filtrar notícias por categorias preferidas se existirem
+    if categorias_preferidas:
+        todas_noticias = Noticia.objects.filter(
+            categoria__slug__in=categorias_preferidas
+        ).select_related('categoria', 'autor').order_by('-data_publicacao')
+    else:
+        # Pegar todas as notícias se não houver preferências
+        todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
 
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
@@ -712,4 +734,72 @@ def noticias_personalizadas(request):
         })
 
     return JsonResponse({'noticias': data})
+
+
+# ========== API PARA PREFERÊNCIAS DE CATEGORIAS ==========
+@require_http_methods(["GET", "POST"])
+def api_preferencias(request):
+    """API para gerenciar preferências de categorias do usuário."""
+
+    if request.method == 'GET':
+        # Retornar preferências salvas
+        if request.user.is_authenticated:
+            perfil = getattr(request.user, 'perfil', None)
+            if perfil:
+                categorias = list(perfil.categorias_preferidas.values_list('slug', flat=True))
+                return JsonResponse({
+                    'success': True,
+                    'categorias': categorias
+                })
+
+        return JsonResponse({
+            'success': True,
+            'categorias': []
+        })
+
+    elif request.method == 'POST':
+        # Salvar preferências
+        try:
+            data = json.loads(request.body)
+            categorias_slugs = data.get('categorias', [])
+
+            if not isinstance(categorias_slugs, list):
+                return JsonResponse({
+                    'success': False,
+                    'message': 'categorias deve ser uma lista'
+                }, status=400)
+
+            # Se usuário está logado, salvar no perfil
+            if request.user.is_authenticated:
+                perfil = getattr(request.user, 'perfil', None)
+                if not perfil:
+                    perfil = PerfilUsuario.objects.create(usuario=request.user)
+
+                # Buscar categorias pelos slugs
+                categorias = Categoria.objects.filter(slug__in=categorias_slugs)
+                perfil.categorias_preferidas.set(categorias)
+
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Preferências salvas com sucesso!',
+                    'categorias': list(categorias.values_list('slug', flat=True))
+                })
+            else:
+                # Visitante - retornar sucesso (será salvo no localStorage pelo JS)
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Preferências salvas localmente!',
+                    'categorias': categorias_slugs
+                })
+
+        except json.JSONDecodeError:
+            return JsonResponse({
+                'success': False,
+                'message': 'JSON inválido'
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': f'Erro ao salvar preferências: {str(e)}'
+            }, status=500)
 

@@ -41,11 +41,12 @@
 <link rel="stylesheet" href="{% static 'css/responsivo.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-cadastro.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal-feedback.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal-preferencias.css' %}">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
 <!-- Barra Superior UOL -->
 <div class="barra-uol">
 <div class="barra-uol-container">
@@ -56,6 +57,17 @@
 </div>
 
 <div class="top-bar"></div>
+
+<!-- Barra de Preferências Ativas -->
+<div class="barra-preferencias-ativas" id="barraPreferenciasAtivas" style="display: none;">
+<div class="barra-preferencias-conteudo">
+<span>Preferências ativadas</span>
+<button class="btn-limpar-filtro" id="btnLimparFiltro" title="Remover filtro">
+<i class="fas fa-times"></i>
+</button>
+</div>
+</div>
+
 <!-- Cabeçalho -->
 <header class="cabecalho" id="cabecalho">
 <div class="cabecalho-container">
@@ -164,6 +176,13 @@ aria-label="Buscar notícias">
 
 <!-- Menu Principal -->
 <ul class="menu-principal">
+<!-- Preferências - DEVE SER O PRIMEIRO -->
+<li class="menu-item">
+<button class="menu-link" id="btnAbrirPreferencias">
+<span>Preferências</span>
+</button>
+</li>
+
 <!-- Categorias -->
 <li class="menu-item menu-item-expansivel">
 <button class="menu-link" aria-expanded="false">
@@ -306,6 +325,63 @@ Envie seu Feedback
 
 <!-- Overlay do Menu -->
 <div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- Modal de Preferências -->
+<div class="modal-preferencias" id="modalPreferencias">
+<div class="modal-preferencias-content">
+<button class="modal-preferencias-fechar" id="fecharModalPreferencias" aria-label="Fechar">
+<i class="fas fa-times"></i>
+</button>
+
+<h2>Suas Preferências de Conteúdo</h2>
+<p class="modal-preferencias-descricao">Escolha as categorias de notícias que você quer ver na página inicial</p>
+
+<div class="preferencias-categorias" id="preferenciasCategorias">
+<!-- Categorias serão carregadas dinamicamente -->
+<label class="categoria-checkbox">
+<input type="checkbox" value="pernambuco" name="categoria">
+<span class="categoria-nome">Pernambuco</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="politica" name="categoria">
+<span class="categoria-nome">Política</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="economia" name="categoria">
+<span class="categoria-nome">Economia</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="mundo" name="categoria">
+<span class="categoria-nome">Mundo</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="esportes" name="categoria">
+<span class="categoria-nome">Esportes</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="cultura" name="categoria">
+<span class="categoria-nome">Cultura</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="educacao" name="categoria">
+<span class="categoria-nome">Educação</span>
+</label>
+<label class="categoria-checkbox">
+<input type="checkbox" value="mobilidade" name="categoria">
+<span class="categoria-nome">Mobilidade</span>
+</label>
+</div>
+
+<div class="preferencias-acoes">
+<button class="btn-limpar-preferencias" id="btnLimparPreferencias">
+Limpar Seleção
+</button>
+<button class="btn-salvar-preferencias" id="btnSalvarPreferencias">
+Salvar Preferências
+</button>
+</div>
+</div>
+</div>
 
 <!-- Modal de Feedback -->
 <div class="modal-feedback" id="modalFeedback">
@@ -1107,4 +1183,5 @@ document.head.appendChild(style);
 <script src="{% static 'js/cadastro.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
+<script src="{% static 'js/preferencias.js' %}"></script>
 </body>

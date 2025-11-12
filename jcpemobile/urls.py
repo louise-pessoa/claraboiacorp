@@ -4,7 +4,8 @@ from .views import (
     salvos, salvar_noticia, remover_noticia_salva, mais_lidas, enviar_feedback,
     admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia,
     admin_criar_autor, neels, detalhe_enquete, lista_enquetes, painel_diario
-    , listar_tags, noticias_por_tags, atualizar_preferencias, noticias_personalizadas
+    , listar_tags, noticias_por_tags, atualizar_preferencias, noticias_personalizadas,
+    api_preferencias
 )
 
 urlpatterns = [
@@ -21,7 +22,8 @@ urlpatterns = [
     # API para tags, filtros e preferências
     path('api/tags/', listar_tags, name='api_listar_tags'),
     path('api/noticias/', noticias_por_tags, name='api_noticias_por_tags'),
-    path('api/preferencias/', atualizar_preferencias, name='api_atualizar_preferencias'),
+    path('api/preferencias/', api_preferencias, name='api_preferencias'),
+    path('api/preferencias/tags/', atualizar_preferencias, name='api_atualizar_preferencias'),
     path('api/noticias/personalizadas/', noticias_personalizadas, name='api_noticias_personalizadas'),
     
     
