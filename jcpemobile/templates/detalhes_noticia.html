@@ -732,10 +732,10 @@ rows="4"
     {% endif %}
     
       <div class="noticia-datas">
-        <span>Publicado em {{ noticia.data_publicacao|date:"d/m/Y 'às' H:i" }}</span>
+        <span>Publicado em {{ noticia.data_publicacao|date:"d/m/Y \\á\\s H:i" }}</span>
         {% if noticia.data_atualizacao %}
         <span class="separador">|</span>
-        <span>Atualizado em {{ noticia.data_atualizacao|date:"d/m/Y 'às' H:i" }}</span>
+        <span>Atualizado em {{ noticia.data_atualizacao|date:"d/m/Y \\á\\s H:i" }}</span>
         {% endif %}
       </div>
   </div>
