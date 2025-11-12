@@ -5,7 +5,7 @@ from .views import (
     admin_dashboard, admin_criar_noticia, admin_editar_noticia, admin_deletar_noticia,
     admin_criar_autor, neels, detalhe_enquete, lista_enquetes, painel_diario
     , listar_tags, noticias_por_tags, atualizar_preferencias, noticias_personalizadas,
-    api_preferencias
+    api_preferencias, linha_do_tempo
 )
 
 urlpatterns = [
@@ -16,6 +16,7 @@ urlpatterns = [
     path('salvos/', salvos, name='salvos'),
     path('mais-lidas/', mais_lidas, name='mais_lidas'),
     path('neels/', neels, name='neels'),
+    path('linha-do-tempo/', linha_do_tempo, name='linha_do_tempo'),
     path('noticia/<int:noticia_id>/salvar/', salvar_noticia, name='salvar_noticia'),
     path('noticia/<int:noticia_id>/remover/', remover_noticia_salva, name='remover_noticia_salva'),
     path('feedback/enviar/', enviar_feedback, name='enviar_feedback'),

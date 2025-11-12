@@ -883,7 +883,9 @@ rows="4"
       <h2 class="title">{{ noticia.titulo }}</h2>
       <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
     </div>
+    {% if noticia.imagem %}
     <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" style="border-radius: 12px;">
+    {% endif %}
   </a>
   {% endfor %}
 {% else %}
@@ -1166,15 +1168,15 @@ async function shareArticle() {
 }
 
 // Animação de pulsar
-const style = document.createElement('style');
-style.textContent = `
+const animacaoStyle = document.createElement('style');
+animacaoStyle.textContent = `
   @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
     100% { transform: scale(1); }
   }
 `;
-document.head.appendChild(style);
+document.head.appendChild(animacaoStyle);
 </script>
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/navegacao.js' %}"></script>
