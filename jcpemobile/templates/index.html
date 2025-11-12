@@ -948,6 +948,385 @@ rows="4"
     font-size: 15px;
   }
 }
+
+/* Banner da revista JC (colocado abaixo da seção de vídeo) */
+.banner-revista-section {
+  /* Full-bleed banner: faz a seção ocupar toda a largura da viewport */
+  margin: 18px 0 28px;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: transparent;
+}
+.banner-revista {
+  width: 100%;
+  /* Diminui um pouco a largura: limita a imagem e centraliza dentro do full-bleed */
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+.banner-revista img {
+  width: 100%;
+  display: block;
+  /* altura automática conforme solicitado */
+  height: auto;
+  object-fit: cover;
+  /* remover bordas arredondadas para deixar reta */
+  border-radius: 0;
+}
+
+/* Seção de Ranking (logo abaixo do banner da revista) */
+.ranking-section {
+  margin: 32px auto;
+  max-width: 500px;
+  padding: 0 20px;
+}
+
+.ranking-section h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.ranking-underline {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  margin-bottom: 30px;
+  border-radius: 2px;
+}
+
+.ranking-header {
+  /* Empilha o título e a barra (barra embaixo do título) */
+  display: block;
+  /* move o título e a barra um pouco para a esquerda, ficando alinhado com a coluna principal */
+  margin-left: -20px;
+}
+
+.ranking-list {
+  position: relative;
+  overflow: visible;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  margin-top: 30px;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  overflow: visible;
+  text-decoration: none;
+  color: inherit;
+  min-height: 80px;
+}
+
+.ranking-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.ranking-badge {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: white;
+  flex-shrink: 0;
+  background: #DE1B24;
+  position: absolute;
+  top: -22px;
+  left: -10px;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.ranking-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ranking-content .tag {
+  display: none;
+}
+
+.ranking-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .ranking-section {
+    padding: 0 16px;
+  }
+
+  .ranking-header {
+    margin-left: -12px;
+  }
+
+  .ranking-item {
+    padding: 16px;
+    min-height: 70px;
+  }
+
+  .ranking-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    top: -20px;
+  }
+
+  .ranking-title {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .ranking-section {
+    max-width: 550px;
+  }
+  
+  .ranking-title {
+    font-size: 17px;
+  }
+}
+
+/* Seção Painel Diário (logo abaixo do segundo banner) */
+.painel-diario-section {
+  margin: 32px auto;
+  max-width: 500px;
+  padding: 0 20px;
+}
+
+.painel-diario-section h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.painel-diario-underline {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.painel-diario-header {
+  display: block;
+  margin-left: -20px;
+}
+
+.painel-diario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.painel-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.painel-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.painel-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.painel-card-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: #666;
+}
+
+.painel-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.painel-card-content {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.painel-mare-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.painel-mare-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.painel-mare-time {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.painel-mare-time.baixa {
+  color: #DE1B24;
+}
+
+.painel-tempo-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.painel-tempo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.painel-temp-atual {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.painel-temp-range {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.painel-temp-max {
+  color: #DE1B24;
+  font-weight: 600;
+}
+
+.painel-temp-min {
+  color: #2196F3;
+  font-weight: 600;
+}
+
+.painel-cotacao-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.painel-cotacao-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.painel-cotacao-valor {
+  font-weight: 600;
+  color: #DE1B24;
+  font-size: 14px;
+}
+
+.painel-cotacao-seta {
+  color: #DE1B24;
+  margin-right: 4px;
+}
+
+.painel-megasena-header {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.painel-megasena-numeros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.painel-megasena-numero {
+  background: #1a1a1a;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .painel-diario-section {
+    padding: 0 16px;
+  }
+
+  .painel-diario-header {
+    margin-left: -12px;
+  }
+
+  .painel-diario-grid {
+    gap: 12px;
+  }
+
+  .painel-card {
+    padding: 14px;
+  }
+
+  .painel-card-title {
+    font-size: 13px;
+  }
+
+  .painel-card-content {
+    font-size: 12px;
+  }
+
+  .painel-temp-atual {
+    font-size: 28px;
+  }
+
+  .painel-megasena-numero {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .painel-diario-section {
+    max-width: 550px;
+  }
+}
 </style>
 
 <!-- Notícias dinâmicas -->
@@ -1000,6 +1379,151 @@ rows="4"
       <span class="video-destaque-categoria">Educação</span>
       <h3 class="video-destaque-titulo">Ação itinerante vai auxiliar municípios pernambucanos</h3>
       <p class="video-destaque-desc">Proposta visa modernizar as casas de infraestrutura urbana.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Banner da Revista JC: colocar a imagem anexa aqui -->
+<section class="banner-revista-section" aria-label="Banner Revista JC Recall de Marcas 2025">
+  <div class="banner-revista">
+    <!-- Substitua o src abaixo pelo caminho estático correto para o arquivo de imagem no projeto (ex: /static/images/banner_recall_2025.jpg) -->
+  <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Confira aqui a Revista JC Recall de Marcas 2025">
+  </div>
+</section>
+
+<!-- Seção de Ranking (logo abaixo do banner da revista) -->
+<section class="ranking-section">
+  <div class="ranking-header">
+    <h2># Ranking</h2>
+    <div class="ranking-underline"></div>
+  </div>
+  
+  <div class="ranking-list">
+    <!-- Item 1 -->
+    <a href="#" class="ranking-item">
+      <div class="ranking-badge">1</div>
+      <div class="ranking-content">
+        <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
+      </div>
+    </a>
+    
+    <!-- Item 2 -->
+    <a href="#" class="ranking-item">
+      <div class="ranking-badge">2</div>
+      <div class="ranking-content">
+        <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
+      </div>
+    </a>
+    
+    <!-- Item 3 -->
+    <a href="#" class="ranking-item">
+      <div class="ranking-badge">3</div>
+      <div class="ranking-content">
+        <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Banner da Revista JC (duplicado abaixo do Ranking) -->
+<section class="banner-revista-section" aria-label="Banner Revista JC Recall de Marcas 2025">
+  <div class="banner-revista">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Confira aqui a Revista JC Recall de Marcas 2025">
+  </div>
+</section>
+
+<!-- Seção Painel Diário -->
+<section class="painel-diario-section">
+  <div class="painel-diario-header">
+    <h2>Painel Diário</h2>
+    <div class="painel-diario-underline"></div>
+  </div>
+  
+  <div class="painel-diario-grid">
+    <!-- Card 1: Tábua de Marés -->
+    <div class="painel-card">
+      <div class="painel-card-header">
+        <svg class="painel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+        </svg>
+        <h3 class="painel-card-title">Tábua de marés</h3>
+      </div>
+      <div class="painel-card-content">
+        <div class="painel-mare-item">
+          <span class="painel-mare-label">Maré Alta</span>
+          <span class="painel-mare-time">04:32 16:47</span>
+        </div>
+        <div class="painel-mare-item">
+          <span class="painel-mare-label">Maré Baixa</span>
+          <span class="painel-mare-time baixa">10:39 22:56</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Tempo -->
+    <div class="painel-card">
+      <div class="painel-card-header">
+        <svg class="painel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 15h18M3 9h18m-9-6v18"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <h3 class="painel-card-title">Tempo | Recife</h3>
+      </div>
+      <div class="painel-card-content">
+        <div class="painel-tempo-main">
+          <span class="painel-temp-atual">28°C</span>
+        </div>
+        <div class="painel-temp-range">
+          <span class="painel-temp-max">Máx: 31°C</span><br>
+          <span class="painel-temp-min">Mín: 23°C</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Cotação -->
+    <div class="painel-card">
+      <div class="painel-card-header">
+        <svg class="painel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M7 15h0M12 9.5a2.5 2.5 0 1 1 0 5"/>
+        </svg>
+        <h3 class="painel-card-title">Cotação</h3>
+      </div>
+      <div class="painel-card-content">
+        <div class="painel-cotacao-item">
+          <span class="painel-cotacao-label">Dólar</span>
+          <span class="painel-cotacao-valor">
+            <span class="painel-cotacao-seta">↓</span>5.3782
+          </span>
+        </div>
+        <div class="painel-cotacao-item">
+          <span class="painel-cotacao-label">Euro</span>
+          <span class="painel-cotacao-valor">
+            <span class="painel-cotacao-seta">↓</span>6.1998
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Mega Sena -->
+    <div class="painel-card">
+      <div class="painel-card-header">
+        <svg class="painel-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+        <h3 class="painel-card-title">Mega Sena | Nº 0212</h3>
+      </div>
+      <div class="painel-card-content">
+        <div class="painel-megasena-numeros">
+          <div class="painel-megasena-numero">12</div>
+          <div class="painel-megasena-numero">29</div>
+          <div class="painel-megasena-numero">07</div>
+          <div class="painel-megasena-numero">06</div>
+          <div class="painel-megasena-numero">03</div>
+          <div class="painel-megasena-numero">02</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
