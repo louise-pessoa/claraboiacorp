@@ -710,6 +710,188 @@ rows="4"
     font-size: 18px;
   }
 }
+
+/* ===================================================
+   LINHA DO TEMPO - NOTÍCIAS RELACIONADAS
+   =================================================== */
+
+.linha-tempo-secao {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.linha-tempo-titulo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.linha-tempo-grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #DE1B24 #E8E8E8;
+}
+
+/* Linha horizontal conectando as notícias - no meio vertical dos cards */
+.linha-tempo-grid::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #DE1B24 0%, #DE1B24 100%);
+  z-index: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.linha-tempo-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.linha-tempo-grid::-webkit-scrollbar-track {
+  background: #E8E8E8;
+  border-radius: 3px;
+}
+
+.linha-tempo-grid::-webkit-scrollbar-thumb {
+  background: #DE1B24;
+  border-radius: 3px;
+}
+
+.linha-tempo-grid::-webkit-scrollbar-thumb:hover {
+  background: #B01519;
+}
+
+.linha-tempo-card {
+  flex: 0 0 180px;
+  display: block;
+  text-decoration: none;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.linha-tempo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.linha-tempo-imagem-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* Aspect ratio 16:9 */
+  background: #E8E8E8;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+
+.linha-tempo-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.linha-tempo-img-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #DE1B24 0%, #FF6B6B 100%);
+}
+
+.linha-tempo-info {
+  padding: 12px;
+}
+
+.linha-tempo-texto {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  line-height: 1.3;
+  margin: 0 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.linha-tempo-data {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .linha-tempo-titulo {
+    font-size: 18px;
+  }
+
+  .linha-tempo-card {
+    flex: 0 0 160px;
+  }
+
+  .linha-tempo-grid {
+    gap: 12px;
+  }
+
+  .linha-tempo-grid::before {
+    height: 2px;
+  }
+
+  .linha-tempo-texto {
+    font-size: 13px;
+  }
+
+  .linha-tempo-data {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 768px) {
+  .linha-tempo-titulo {
+    font-size: 24px;
+  }
+
+  .linha-tempo-card {
+    flex: 0 0 220px;
+  }
+
+  .linha-tempo-grid {
+    gap: 20px;
+  }
+
+  .linha-tempo-grid::before {
+    height: 4px;
+  }
+
+  .linha-tempo-texto {
+    font-size: 15px;
+  }
+
+  .linha-tempo-data {
+    font-size: 13px;
+  }
+}
 </style>
 
 <article class="noticia-detalhes">
@@ -786,6 +968,30 @@ rows="4"
   <div class="noticia-conteudo" id="conteudoNoticia">
     {{ noticia.conteudo|safe }}
   </div>
+
+  <!-- Linha do Tempo - Notícias Relacionadas -->
+  {% if noticias_relacionadas %}
+  <div class="linha-tempo-secao">
+    <h2 class="linha-tempo-titulo">Acesse a Linha do Tempo</h2>
+    <div class="linha-tempo-grid">
+      {% for noticia_rel in noticias_relacionadas %}
+      <a href="{% url 'noticia_detalhe' noticia_rel.slug %}" class="linha-tempo-card" data-icone="relogio">
+        <div class="linha-tempo-imagem-wrapper">
+          {% if noticia_rel.imagem %}
+          <img src="{{ noticia_rel.imagem.url }}" alt="{{ noticia_rel.titulo }}" class="linha-tempo-img">
+          {% else %}
+          <div class="linha-tempo-img-placeholder"></div>
+          {% endif %}
+        </div>
+        <div class="linha-tempo-info">
+          <p class="linha-tempo-texto">{{ noticia_rel.titulo }}</p>
+          <p class="linha-tempo-data">{{ noticia_rel.data_publicacao|date:"d M, Y" }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 </article>
 
 <script>

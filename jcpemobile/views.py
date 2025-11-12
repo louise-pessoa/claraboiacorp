@@ -196,27 +196,30 @@ def noticia_detalhe(request, slug):
         elif request.method == 'POST' and ja_votou_enquete:
             messages.warning(request, 'Você já votou nesta enquete.')
 
-    # Buscar notícias relacionadas
+    # Buscar notícias relacionadas para a linha do tempo
+    # Critério: mesma categoria E compartilham tags
     noticias_relacionadas = []
+    
     if noticia.categoria:
-        # Buscar notícias da mesma categoria, excluindo a notícia atual
-        noticias_relacionadas = Noticia.objects.filter(
-            categoria=noticia.categoria
-        ).exclude(
-            id=noticia.id
-        ).select_related('categoria', 'autor').order_by('-data_publicacao')[:4]
-
-    # Se não houver notícias relacionadas suficientes, buscar notícias gerais
-    if len(noticias_relacionadas) < 4:
-        noticias_gerais = Noticia.objects.exclude(
-            id=noticia.id
-        ).select_related('categoria', 'autor').order_by('-data_publicacao')[:4]
-
-        # Combinar notícias relacionadas com gerais, evitando duplicatas
-        ids_existentes = [n.id for n in noticias_relacionadas]
-        for noticia_geral in noticias_gerais:
-            if noticia_geral.id not in ids_existentes and len(noticias_relacionadas) < 4:
-                noticias_relacionadas = list(noticias_relacionadas) + [noticia_geral]
+        # Obter IDs das tags da notícia atual
+        tags_ids = noticia.tags.values_list('id', flat=True)
+        
+        if tags_ids:
+            # Buscar notícias da mesma categoria que compartilham pelo menos uma tag
+            noticias_relacionadas = Noticia.objects.filter(
+                categoria=noticia.categoria,
+                tags__id__in=tags_ids
+            ).exclude(
+                id=noticia.id
+            ).distinct().select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
+        
+        # Se não encontrou notícias com tags em comum, buscar apenas da mesma categoria
+        if len(noticias_relacionadas) == 0:
+            noticias_relacionadas = Noticia.objects.filter(
+                categoria=noticia.categoria
+            ).exclude(
+                id=noticia.id
+            ).select_related('categoria', 'autor').order_by('-data_publicacao')[:6]
 
     return render(request, 'detalhes_noticia.html', {
         'noticia': noticia,
