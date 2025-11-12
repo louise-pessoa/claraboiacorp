@@ -857,6 +857,97 @@ rows="4"
     font-size: 14px;
   }
 }
+
+/* Seção de Vídeo em Destaque */
+.video-destaque-section {
+  margin: 32px 0;
+  width: 100%;
+}
+
+.video-destaque-card {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.video-destaque-thumbnail {
+  position: relative;
+  width: 100%;
+  /* Aumentada a altura da thumbnail para destacar o vídeo */
+  height: 380px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.video-destaque-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.video-play-button:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-destaque-content {
+  padding: 16px 20px 20px;
+}
+
+.video-destaque-categoria {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #DE1B24;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.video-destaque-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.3;
+  margin: 0 0 8px 0;
+}
+
+.video-destaque-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .video-destaque-card {
+    max-width: 450px;
+  }
+  
+  .video-destaque-thumbnail {
+    /* Aumentada a altura em telas maiores */
+    height: 420px;
+  }
+  
+  .video-destaque-titulo {
+    font-size: 20px;
+  }
+  
+  .video-destaque-desc {
+    font-size: 15px;
+  }
+}
 </style>
 
 <!-- Notícias dinâmicas -->
@@ -891,6 +982,27 @@ rows="4"
 {% else %}
   <p>Nenhuma notícia disponível no momento.</p>
 {% endif %}
+
+<!-- Seção de Vídeo em Destaque -->
+<section class="video-destaque-section">
+  <div class="video-destaque-card">
+    <div class="video-destaque-thumbnail">
+      <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600" alt="Vídeo em destaque">
+      <div class="video-play-button">
+        <!-- Ícone de play aumentado para se ajustar à nova altura da thumbnail -->
+        <svg width="80" height="80" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="32" fill="white" fill-opacity="0.9"/>
+          <path d="M26 20L44 32L26 44V20Z" fill="#DE1B24"/>
+        </svg>
+      </div>
+    </div>
+    <div class="video-destaque-content">
+      <span class="video-destaque-categoria">Educação</span>
+      <h3 class="video-destaque-titulo">Ação itinerante vai auxiliar municípios pernambucanos</h3>
+      <p class="video-destaque-desc">Proposta visa modernizar as casas de infraestrutura urbana.</p>
+    </div>
+  </div>
+</section>
 
 <!-- Carrossel de Vídeos -->
 <section class="video-carousel-section">
