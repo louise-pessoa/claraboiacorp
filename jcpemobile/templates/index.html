@@ -1758,6 +1758,56 @@ rows="4"
 {% if todas_noticias %}
   <!-- Notícia principal (primeira notícia) -->
   {% with todas_noticias|first as noticia_principal %}
+
+<style>
+/* CSS Singular para a Seção Social1 - Cor #e50069 */
+.social1-section .pernambuco-underline {
+  background: #e50069 !important;
+}
+
+.social1-section .tag {
+  color: #e50069 !important;
+  background: transparent !important;
+}
+
+.social1-section .card.top .tag,
+.social1-section .card.side .tag {
+  color: #e50069 !important;
+  background: transparent !important;
+}
+
+.social1-section .saude,
+.social1-section .educacao,
+.social1-section .esporte {
+  background-color: #e50069 !important;
+  color: #ffffff !important;
+}
+</style>
+ 
+<style>
+/* CSS Singular para a Seção Receita da boa - Cor #ff8200 */
+.receita-section .pernambuco-underline {
+  background: #ff8200 !important;
+}
+
+.receita-section .tag {
+  color: #ff8200 !important;
+  background: transparent !important;
+}
+
+.receita-section .card.top .tag,
+.receita-section .card.side .tag {
+  color: #ff8200 !important;
+  background: transparent !important;
+}
+
+.receita-section .saude,
+.receita-section .educacao,
+.receita-section .esporte {
+  background-color: #ff8200 !important;
+  color: #ffffff !important;
+}
+</style>
   {% if noticia_principal %}
   <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
     <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
@@ -2256,6 +2306,102 @@ rows="4"
 
 <section class="banner-revista-section">
   <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Revista Recall" class="banner-revista">
+</section>
+
+<!-- Seção Social1 (duplicada a partir de Blog Do Torcedor, cores em #e50069) -->
+<section class="pernambuco-section jc360-variant social1-section">
+  <div class="pernambuco-inner">
+  <div class="pernambuco-header">
+    <h2>Social1</h2>
+    <div class="pernambuco-underline"></div>
+  </div>
+  
+  <div class="pernambuco-cards">
+    <!-- Card principal (grande) -->
+    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
+      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Social1" style="border-radius: 12px;">
+      <div class="content">
+        <span class="tag">Esporte</span>
+        <h2 class="title">Destaque Social1: principais novidades</h2>
+        <p class="desc">Resumo da matéria de destaque do Social1</p>
+      </div>
+    </a>
+
+    <!-- Card lateral 1 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Educação</span>
+        <h2 class="title">Coluna Social1: eventos locais</h2>
+        <p class="desc">Cobertura de eventos e cultura</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+    </a>
+
+    <!-- Card lateral 2 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Saúde</span>
+        <h2 class="title">Tendências e bem-estar</h2>
+        <p class="desc">Conteúdo sobre saúde e estilo de vida</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+    </a>
+  </div>
+  </div>
+</section>
+
+<section class="banner-revista-section" aria-label="Banner Revista JC - após Social1">
+  <div class="banner-revista">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Revista JC Recall" />
+  </div>
+</section>
+
+<!-- Seção Receita da boa (duplicada a partir de Blog Do Torcedor, cores em #ff8200) -->
+<section class="pernambuco-section jc360-variant receita-section">
+  <div class="pernambuco-inner">
+  <div class="pernambuco-header">
+    <h2>Receita da boa</h2>
+    <div class="pernambuco-underline"></div>
+  </div>
+  
+  <div class="pernambuco-cards">
+    <!-- Card principal (grande) -->
+    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
+      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Receita da boa" style="border-radius: 12px;">
+      <div class="content">
+        <span class="tag">Culinária</span>
+        <h2 class="title">Receita destaque: bolo de fubá tradicional</h2>
+        <p class="desc">Passo a passo fácil e dicas para deixar a receita perfeita</p>
+      </div>
+    </a>
+
+    <!-- Card lateral 1 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Dicas</span>
+        <h2 class="title">Segredos de cozinha: economize sem perder sabor</h2>
+        <p class="desc">Pequenas trocas que fazem grande diferença</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Dicas" style="border-radius: 12px;">
+    </a>
+
+    <!-- Card lateral 2 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Saúde</span>
+        <h2 class="title">Alimentação saudável sem perder o prazer</h2>
+        <p class="desc">Opções nutritivas para o dia a dia</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+    </a>
+  </div>
+  </div>
+</section>
+
+<section class="banner-revista-section" aria-label="Banner Revista JC - após Social1">
+  <div class="banner-revista">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Revista JC Recall" />
+  </div>
 </section>
 
 <!-- Navegação Inferior (Mobile) -->
