@@ -1398,6 +1398,63 @@ rows="4"
   }
 }
 
+/* Variante JC360 baseada na seção Pernambuco: altera apenas a cor da barra e das tags */
+.jc360-variant .pernambuco-underline {
+  background: #6c3e96 !important;
+}
+.jc360-variant .tag {
+  /* manter espaçamento/forma padrão do .tag, apenas trocar a cor e remover o fundo claro */
+  color: #6c3e96 !important;
+  background: transparent !important;
+  padding: 1px 6px !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+  font-weight: 700 !important;
+}
+
+/* Ajuste de alinhamento para o título e a barra da variante JC360 */
+.jc360-variant .pernambuco-header {
+  /* reduzir deslocamento à esquerda para alinhar com o restante do site */
+  margin-left: -20px;
+}
+
+@media (max-width: 480px) {
+  .jc360-variant .pernambuco-header {
+    /* móvel: alinhar com .colunistas-header mobile */
+    margin-left: -12px;
+  }
+}
+
+/* Dentro da variante JC360 usamos um inner igual ao das colunistas para alinhamento consistente */
+.jc360-variant .pernambuco-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Alinhamento do cartão principal dentro da variante JC360 (igual aos primeiros cartões) */
+.jc360-variant .card.top .content {
+  padding: 8px 20px 20px 12px; /* mesmo padding dos .card.top gerais */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.jc360-variant .card.top .tag {
+  position: static;
+  top: auto;
+  left: auto;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 7px;
+  margin-bottom: 0;
+  margin-left: -10px; /* alinha a tag com os outros cartões topo */
+  align-self: flex-start;
+  color: #6c3e96 !important;
+  background: transparent !important;
+  border-radius: 6px !important;
+}
+
 /* Seção Charge */
 .charge-section {
   margin: 32px auto;
@@ -1660,167 +1717,7 @@ rows="4"
     height: 130px; /* mantém altura para evitar aumentar a altura do cartão */
   }
 }
-
-/* Seção JC 360 */
-.jc360-section {
-  margin: 40px auto;
-  max-width: 1200px;
-  padding: 0 16px;
-  display: grid;
-  gap: 16px;
-}
-
-.jc360-header {
-  margin-bottom: 20px;
-}
-
-.jc360-header h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #000;
-  margin: 0 0 8px 0;
-}
-
-.jc360-underline {
-  width: 50px;
-  height: 4px;
-  background: #6B46C1;
-  border-radius: 2px;
-}
-
-.jc360-card {
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.jc360-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.jc360-card-top {
-  flex-direction: column;
-}
-
-.jc360-card-top img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.jc360-card-side {
-  flex-direction: row;
-}
-
-.jc360-card-side img {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.jc360-card-content {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-}
-
-.jc360-card-side .jc360-card-content {
-  flex: 1;
-}
-
-.jc360-tag {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  color: #6B46C1;
-  text-transform: capitalize;
-  margin-bottom: 8px;
-}
-
-/* Make tags inside JC360 purple to match design */
-.jc360-section .tag {
-  color: #6B46C1 !important;
-  background: transparent !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-}
-
-.jc360-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #000;
-  line-height: 1.3;
-  margin: 0 0 8px 0;
-}
-
-.jc360-desc {
-  font-size: 13px;
-  color: #666;
-  line-height: 1.4;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.jc360-card-side .jc360-title {
-  font-size: 14px;
-}
-
-.jc360-card-side .jc360-desc {
-  font-size: 12px;
-  -webkit-line-clamp: 1;
-}
-
-@media (min-width: 768px) {
-  .jc360-header h2 {
-    font-size: 28px;
-  }
-  
-  .jc360-underline {
-    width: 60px;
-  }
-  
-  .jc360-card-top img {
-    height: 240px;
-  }
-  
-  .jc360-card-side img {
-    width: 160px;
-    height: 160px;
-  }
-  
-  .jc360-title {
-    font-size: 18px;
-  }
-  
-  .jc360-card-side .jc360-title {
-    font-size: 15px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .jc360-section {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-  }
-  
-  .jc360-header {
-    grid-column: 1 / -1;
-  }
-  
-  .jc360-card-top {
-    grid-column: 1 / -1;
-  }
-}
+ 
 
 </style>
 
@@ -1878,11 +1775,10 @@ rows="4"
   </div>
 </section>
 
-<!-- Banner da Revista JC: colocar a imagem anexa aqui -->
-<section class="banner-revista-section" aria-label="Banner Revista JC Recall de Marcas 2025">
+<!-- Banner da Revista JC (após JC360) -->
+<section class="banner-revista-section" aria-label="Banner Revista JC - após JC360">
   <div class="banner-revista">
-    <!-- Substitua o src abaixo pelo caminho estático correto para o arquivo de imagem no projeto (ex: /static/images/banner_recall_2025.jpg) -->
-  <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Confira aqui a Revista JC Recall de Marcas 2025">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Revista JC Recall">
   </div>
 </section>
 
@@ -2234,41 +2130,46 @@ rows="4"
   </div>
 </section>
 
-<!-- Seção JC 360 -->
-<section class="jc360-section">
-  <div class="jc360-header">
-    <h2>JC 360</h2>
-    <div class="jc360-underline"></div>
+<!-- Seção JC360 (variante da seção Pernambuco com cor roxa das tags e da barra) -->
+<section class="pernambuco-section jc360-variant">
+  <div class="pernambuco-inner">
+  <div class="pernambuco-header">
+    <h2>JC360</h2>
+    <div class="pernambuco-underline"></div>
   </div>
+  
+  <div class="pernambuco-cards">
+    <!-- Card principal (grande) -->
+    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
+      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque JC360" style="border-radius: 12px;">
+      <div class="content">
+        <span class="tag">Esporte</span>
+        <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
+        <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
+      </div>
+    </a>
 
-  <!-- Card principal (usando mesmo modelo dos primeiros cartões) -->
-  <a href="#" class="card top" style="text-decoration: none; color: inherit;">
-    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800" alt="9 pontos sobre os casos de intoxicação por metanol" style="border-radius: 12px;">
-    <div class="content">
-      <span class="tag">Esporte</span>
-      <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
-      <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
-    </div>
-  </a>
+    <!-- Card lateral 1 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Educação</span>
+        <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
+        <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+    </a>
 
-  <!-- Cards laterais (mesmo modelo dos cards laterais iniciais) -->
-  <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-    <div class="content">
-      <span class="tag">Educação</span>
-      <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
-      <p class="desc">Stray Kids vem ao Brasil e leva fãs à loucura</p>
-    </div>
-    <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=300" alt="Jovens viajam para assistir show da banda Sul-coreana" style="border-radius: 12px;">
-  </a>
-
-  <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-    <div class="content">
-      <span class="tag">Saúde</span>
-      <h2 class="title">Política: novo projeto de lei em votação</h2>
-      <p class="desc">Proposta visa modernizar as casas infraestrutura urbana</p>
-    </div>
-    <img src="https://images.unsplash.com/photo-1551958219-acbc608c6377?w=300" alt="Política: novo projeto de lei em votação" style="border-radius: 12px;">
-  </a>
+    <!-- Card lateral 2 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Saúde</span>
+        <h2 class="title">Política: novo projeto de lei em votação</h2>
+        <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
+      </div>
+  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+    </a>
+  </div>
+  </div>
 </section>
 
 <!-- Navegação Inferior (Mobile) -->
