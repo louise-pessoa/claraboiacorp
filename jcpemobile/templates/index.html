@@ -1114,7 +1114,8 @@ rows="4"
 /* Seção Painel Diário (logo abaixo do segundo banner) */
 .painel-diario-section {
   margin: 32px auto;
-  max-width: 500px;
+  /* Aumentada significativamente a largura máxima para cards bem mais largos */
+  max-width: 650px;
   padding: 0 20px;
 }
 
@@ -1147,9 +1148,11 @@ rows="4"
 .painel-card {
   background: white;
   border-radius: 12px;
-  padding: 16px;
+  /* Reduzido padding vertical para diminuir altura dos cards */
+  padding: 12px 14px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
+  /* Removido min-width para permitir cards mais flexíveis */
 }
 
 .painel-card:hover {
@@ -1296,11 +1299,13 @@ rows="4"
   }
 
   .painel-diario-grid {
-    gap: 12px;
+    /* Em mobile mantém 2 colunas para cards não ficarem muito pequenos */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .painel-card {
-    padding: 14px;
+    padding: 10px 12px;
   }
 
   .painel-card-title {
@@ -1324,9 +1329,499 @@ rows="4"
 
 @media (min-width: 768px) {
   .painel-diario-section {
-    max-width: 550px;
+    /* Aumentada muito mais a largura em telas maiores para diferença visível */
+    max-width: 850px;
+  }
+  
+  .painel-card {
+    /* Padding reduzido para diminuir altura em desktop também */
+    padding: 14px 16px;
   }
 }
+
+/* Seção Pernambuco (notícias do estado) */
+.pernambuco-section {
+  margin: 32px auto;
+  max-width: 420px;
+  padding: 0 20px;
+}
+
+.pernambuco-header h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.pernambuco-underline {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.pernambuco-header {
+  /* Empilha o título e a barra */
+  display: block;
+  /* Move o título e a barra um pouco para a esquerda */
+  margin-left: -20px;
+}
+
+.pernambuco-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 480px) {
+  .pernambuco-section {
+    padding: 0 16px;
+  }
+
+  .pernambuco-header {
+    margin-left: -12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .pernambuco-section {
+    /* igualar ao container principal em desktop para manter mesmo tamanho dos cards */
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Em telas maiores o container principal sobe para 740px — refletir isso na seção Pernambuco */
+  .pernambuco-section {
+    max-width: 740px;
+  }
+}
+
+/* Seção Charge */
+.charge-section {
+  margin: 32px auto;
+  max-width: 420px;
+  padding: 0 20px;
+}
+
+.charge-header h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.charge-underline {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.charge-header {
+  display: block;
+  margin-left: -20px;
+}
+
+.charge-card {
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 100%;
+}
+
+.charge-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 480px) {
+  .charge-section {
+    padding: 0 16px;
+  }
+
+  .charge-header {
+    margin-left: -12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .charge-section {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .charge-section {
+    max-width: 740px;
+  }
+}
+
+/* Seção Colunistas */
+.colunistas-section {
+  /* tornar a seção full-bleed para poder escapar do container principal
+     e permitir que os cartões fiquem realmente mais largos quando desejado */
+  margin: 32px 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: transparent;
+}
+
+.colunistas-section .colunistas-inner {
+  /* controla a largura máxima visível dos cartões e centraliza o conteúdo */
+  max-width: 1400px; /* valor grande para permitir cartões largos */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.colunistas-header h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.colunistas-underline {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #DE1B24, #B0141E);
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.colunistas-header {
+  display: block;
+  margin-left: -20px;
+}
+
+.colunistas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.colunista-card {
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.colunista-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.colunista-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.colunista-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #DE1B24;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.colunista-autor {
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+.colunista-titulo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.colunista-foto {
+  flex-shrink: 0;
+  width: 200px;
+  height: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.colunista-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Garantir que todos os cartões tenham a mesma altura visual
+   evitando que o primeiro cartão fique maior que os demais */
+.colunista-card {
+  /* altura mínima baseada na altura da imagem + padding */
+  min-height: 142px;
+}
+
+@media (max-width: 480px) {
+  .colunista-card {
+    min-height: 112px;
+  }
+}
+
+@media (min-width: 768px) {
+  .colunista-card {
+    min-height: 150px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .colunista-card {
+    min-height: 160px;
+  }
+}
+/* Mantém a imagem dentro do limite do cartão e preserva a altura do cartão.
+   Em vez de aumentar o container (.colunista-foto) (o que fazia o cartão crescer),
+   deixamos o container nas dimensões originais e ampliamos apenas a imagem
+   internamente via scale/overflow hidden, assim a foto aparenta maior sem
+   alterar a altura ou ultrapassar os limites do cartão. */
+/* Nota: regras específicas do primeiro cartão removidas para
+   reverter o primeiro item ao mesmo comportamento dos demais. */
+
+@media (max-width: 480px) {
+  .colunistas-section {
+    padding: 0 16px;
+  }
+
+  .colunistas-header {
+    margin-left: -12px;
+  }
+
+  .colunista-card {
+    padding: 12px;
+  }
+
+  .colunista-foto {
+    width: 90px;
+    height: 90px;
+  }
+
+  .colunista-titulo {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 768px) {
+  .colunistas-section {
+    /* maior em tablet para comportar a foto aumentada */
+    max-width: 1200px;
+  }
+
+  .colunista-titulo {
+    font-size: 15px;
+  }
+
+  /* manter altura do cartão, aumentar largura da foto para ficar mais visível */
+  .colunista-foto {
+    width: 340px;
+    height: 120px; /* altura preservada */
+  }
+}
+
+@media (min-width: 1024px) {
+  .colunistas-section {
+    /* alinhado ao container principal em desktop, mas expandido para cartões mais largos */
+    max-width: 1400px;
+  }
+
+  .colunista-titulo {
+    font-size: 16px;
+  }
+
+  /* foto maior horizontalmente, altura do cartão preservada */
+  .colunista-foto {
+    width: 420px;
+    height: 130px; /* mantém altura para evitar aumentar a altura do cartão */
+  }
+}
+
+/* Seção JC 360 */
+.jc360-section {
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 0 16px;
+  display: grid;
+  gap: 16px;
+}
+
+.jc360-header {
+  margin-bottom: 20px;
+}
+
+.jc360-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 8px 0;
+}
+
+.jc360-underline {
+  width: 50px;
+  height: 4px;
+  background: #6B46C1;
+  border-radius: 2px;
+}
+
+.jc360-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jc360-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.jc360-card-top {
+  flex-direction: column;
+}
+
+.jc360-card-top img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.jc360-card-side {
+  flex-direction: row;
+}
+
+.jc360-card-side img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.jc360-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.jc360-card-side .jc360-card-content {
+  flex: 1;
+}
+
+.jc360-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B46C1;
+  text-transform: capitalize;
+  margin-bottom: 8px;
+}
+
+/* Make tags inside JC360 purple to match design */
+.jc360-section .tag {
+  color: #6B46C1 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.jc360-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.3;
+  margin: 0 0 8px 0;
+}
+
+.jc360-desc {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jc360-card-side .jc360-title {
+  font-size: 14px;
+}
+
+.jc360-card-side .jc360-desc {
+  font-size: 12px;
+  -webkit-line-clamp: 1;
+}
+
+@media (min-width: 768px) {
+  .jc360-header h2 {
+    font-size: 28px;
+  }
+  
+  .jc360-underline {
+    width: 60px;
+  }
+  
+  .jc360-card-top img {
+    height: 240px;
+  }
+  
+  .jc360-card-side img {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .jc360-title {
+    font-size: 18px;
+  }
+  
+  .jc360-card-side .jc360-title {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .jc360-section {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  
+  .jc360-header {
+    grid-column: 1 / -1;
+  }
+  
+  .jc360-card-top {
+    grid-column: 1 / -1;
+  }
+}
+
 </style>
 
 <!-- Notícias dinâmicas -->
@@ -1528,6 +2023,158 @@ rows="4"
   </div>
 </section>
 
+<!-- Banner da Revista JC (terceiro banner - abaixo do Painel Diário) -->
+<section class="banner-revista-section" aria-label="Banner Revista JC Recall de Marcas 2025">
+  <div class="banner-revista">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Confira aqui a Revista JC Recall de Marcas 2025">
+  </div>
+</section>
+
+<!-- Seção Pernambuco (notícias do estado) -->
+<section class="pernambuco-section">
+  <div class="pernambuco-header">
+    <h2>Pernambuco</h2>
+    <div class="pernambuco-underline"></div>
+  </div>
+  
+  <div class="pernambuco-cards">
+    <!-- Card principal (grande) -->
+    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
+      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Pernambuco" style="border-radius: 12px;">
+      <div class="content">
+        <span class="tag">Esporte</span>
+        <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
+        <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
+      </div>
+    </a>
+
+    <!-- Card lateral 1 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Educação</span>
+        <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
+        <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
+      </div>
+  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+    </a>
+
+    <!-- Card lateral 2 -->
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Saúde</span>
+        <h2 class="title">Política: novo projeto de lei em votação</h2>
+        <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
+      </div>
+  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+    </a>
+  </div>
+</section>
+
+<!-- Seção Charge do Dia -->
+<section class="charge-section">
+  <div class="charge-header">
+    <h2>Charge</h2>
+    <div class="charge-underline"></div>
+  </div>
+  
+  <div class="charge-card">
+    <a href="#" style="text-decoration: none; color: inherit;">
+      <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/jpg/2025/10/31/jc_opi1103_chargethiago_autoridades_prancheta_1-35963598.jpg" alt="Charge do dia" class="charge-image">
+    </a>
+  </div>
+</section>
+
+<!-- Banner da Revista JC (após Charge) -->
+<section class="banner-revista-section" aria-label="Banner Revista JC - após Charge">
+  <div class="banner-revista">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Revista JC Recall">
+  </div>
+</section>
+
+<!-- Seção Colunistas -->
+<section class="colunistas-section">
+  <div class="colunistas-inner">
+    <div class="colunistas-header">
+    <h2>Colunistas</h2>
+    <div class="colunistas-underline"></div>
+  </div>
+  
+  <div class="colunistas-list">
+    <!-- Colunista 1 -->
+    <a href="#" class="colunista-card">
+      <div class="colunista-content">
+        <span class="colunista-tag">Enem e Educação</span>
+        <p class="colunista-autor">Por Mirella Araújo e equipe</p>
+        <h3 class="colunista-titulo">Redação do Enem 2025: "Perspectivas acerca do envelhecimento na sociedade brasileira."</h3>
+      </div>
+      <div class="colunista-foto">
+        <img src="https://imagens.ne10.uol.com.br/veiculos/_midias/png/2025/03/26/105x105/1_enem_2__2_-34210893.png" alt="Mirella Araújo">
+      </div>
+    </a>
+
+    <!-- Colunista 2 -->
+    <a href="#" class="colunista-card">
+      <div class="colunista-content">
+        <span class="colunista-tag">Mobilidade</span>
+        <p class="colunista-autor">Por Roberta Soares e equipe</p>
+        <h3 class="colunista-titulo">Ponte Giratória: Obras se arrastam, irritam a população e comprometem a mobilidade no Centro do Recife.</h3>
+      </div>
+      <div class="colunista-foto">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop" alt="Roberta Soares">
+      </div>
+    </a>
+
+    <!-- Colunista 3 -->
+    <a href="#" class="colunista-card">
+      <div class="colunista-content">
+        <span class="colunista-tag">Saúde e Bem-estar</span>
+        <p class="colunista-autor">Por Cinthya Leite e equipe</p>
+        <h3 class="colunista-titulo">Tornado no Paraná: coordenador do Samu Recife integra missão da Força Nacional do SUS para apoiar vítimas da tragédia</h3>
+      </div>
+      <div class="colunista-foto">
+        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=150&h=150&fit=crop" alt="Cinthya Leite">
+      </div>
+    </a>
+    
+    <!-- Colunista 4 (adicionado) -->
+    <a href="#" class="colunista-card">
+      <div class="colunista-content">
+        <span class="colunista-tag">Cultura</span>
+        <p class="colunista-autor">Por João Silva</p>
+        <h3 class="colunista-titulo">Cinema local ganha visibilidade com festival de curta-metragens</h3>
+      </div>
+      <div class="colunista-foto">
+        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop" alt="João Silva">
+      </div>
+    </a>
+
+    <!-- Colunista 5 (adicionado) -->
+    <a href="#" class="colunista-card">
+      <div class="colunista-content">
+        <span class="colunista-tag">Economia</span>
+        <p class="colunista-autor">Por Ana Pereira</p>
+        <h3 class="colunista-titulo">Mercado regional mostra recuperação e pequenas empresas se destacam</h3>
+      </div>
+      <div class="colunista-foto">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop" alt="Ana Pereira">
+      </div>
+    </a>
+
+    <!-- Colunista 6 (adicionado) -->
+    <a href="#" class="colunista-card">
+      <div class="colunista-content">
+        <span class="colunista-tag">Tecnologia</span>
+        <p class="colunista-autor">Por Lucas Fernandes</p>
+        <h3 class="colunista-titulo">Inovações em energia renovável movimentam startups locais</h3>
+      </div>
+      <div class="colunista-foto">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=150&h=150&fit=crop" alt="Lucas Fernandes">
+      </div>
+    </a>
+  </div>
+    </div>
+</section>
+
 <!-- Carrossel de Vídeos -->
 <section class="video-carousel-section">
   <h2 class="video-carousel-title">Vídeos da TV Jornal</h2>
@@ -1579,6 +2226,50 @@ rows="4"
 </div>
 
 </main>
+
+<!-- Banner da Revista JC (após Carrossel de Vídeos) -->
+<section class="banner-revista-section" aria-label="Banner Revista JC - após Carrossel de Vídeos">
+  <div class="banner-revista">
+    <img src="https://jc.uol.com.br/img/selo_revista_recall.png" alt="Banner Revista JC Recall">
+  </div>
+</section>
+
+<!-- Seção JC 360 -->
+<section class="jc360-section">
+  <div class="jc360-header">
+    <h2>JC 360</h2>
+    <div class="jc360-underline"></div>
+  </div>
+
+  <!-- Card principal (usando mesmo modelo dos primeiros cartões) -->
+  <a href="#" class="card top" style="text-decoration: none; color: inherit;">
+    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800" alt="9 pontos sobre os casos de intoxicação por metanol" style="border-radius: 12px;">
+    <div class="content">
+      <span class="tag">Esporte</span>
+      <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
+      <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
+    </div>
+  </a>
+
+  <!-- Cards laterais (mesmo modelo dos cards laterais iniciais) -->
+  <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+    <div class="content">
+      <span class="tag">Educação</span>
+      <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
+      <p class="desc">Stray Kids vem ao Brasil e leva fãs à loucura</p>
+    </div>
+    <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=300" alt="Jovens viajam para assistir show da banda Sul-coreana" style="border-radius: 12px;">
+  </a>
+
+  <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+    <div class="content">
+      <span class="tag">Saúde</span>
+      <h2 class="title">Política: novo projeto de lei em votação</h2>
+      <p class="desc">Proposta visa modernizar as casas infraestrutura urbana</p>
+    </div>
+    <img src="https://images.unsplash.com/photo-1551958219-acbc608c6377?w=300" alt="Política: novo projeto de lei em votação" style="border-radius: 12px;">
+  </a>
+</section>
 
 <!-- Navegação Inferior (Mobile) -->
 <nav class="navegacao-inferior" id="navegacaoInferior" aria-label="Navegação rápida">
