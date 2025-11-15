@@ -669,12 +669,12 @@ rows="4"
 }
 
 .side img {
-  width: 45%; /* aumentar largura para preencher mais espaço */
+  width: 45% !important; /* aumentar largura para preencher mais espaço */
   min-width: 140px;
-  height: 100%; /* preencher toda a altura do cartão */
-  border-radius: 0 12px 12px 0; /* apenas cantos direitos arredondados */
-  object-fit: cover;
-  object-position: center;
+  height: 100% !important; /* preencher toda a altura do cartão */
+  border-radius: 0 12px 12px 0 !important; /* apenas cantos direitos arredondados */
+  object-fit: cover !important;
+  object-position: center center !important;
   margin: 0;
   flex-shrink: 0;
   position: relative;
@@ -1835,7 +1835,7 @@ rows="4"
       <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
     </div>
     {% if noticia.imagem %}
-    <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" style="border-radius: 12px;">
+  <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
     {% endif %}
   </a>
   {% endfor %}
@@ -2040,7 +2040,7 @@ rows="4"
         <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
         <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
       </div>
-  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
     </a>
 
     <!-- Card lateral 2 -->
@@ -2050,7 +2050,7 @@ rows="4"
         <h2 class="title">Política: novo projeto de lei em votação</h2>
         <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
       </div>
-  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
     </a>
   </div>
 </section>
@@ -2245,7 +2245,7 @@ rows="4"
         <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
         <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
     </a>
 
     <!-- Card lateral 2 -->
@@ -2294,7 +2294,7 @@ rows="4"
         <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
         <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
     </a>
 
     <!-- Card lateral 2 -->
@@ -2304,7 +2304,7 @@ rows="4"
         <h2 class="title">Política: novo projeto de lei em votação</h2>
         <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
     </a>
   </div>
   </div>
@@ -2340,7 +2340,7 @@ rows="4"
         <h2 class="title">Coluna Social1: eventos locais</h2>
         <p class="desc">Cobertura de eventos e cultura</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
     </a>
 
     <!-- Card lateral 2 -->
@@ -2350,7 +2350,7 @@ rows="4"
         <h2 class="title">Tendências e bem-estar</h2>
         <p class="desc">Conteúdo sobre saúde e estilo de vida</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
     </a>
   </div>
   </div>
@@ -2388,7 +2388,7 @@ rows="4"
         <h2 class="title">Segredos de cozinha: economize sem perder sabor</h2>
         <p class="desc">Pequenas trocas que fazem grande diferença</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Dicas" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Dicas">
     </a>
 
     <!-- Card lateral 2 -->
@@ -2398,7 +2398,7 @@ rows="4"
         <h2 class="title">Alimentação saudável sem perder o prazer</h2>
         <p class="desc">Opções nutritivas para o dia a dia</p>
       </div>
-      <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
+  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
     </a>
   </div>
   </div>
