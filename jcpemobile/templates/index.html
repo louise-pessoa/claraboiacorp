@@ -1842,6 +1842,52 @@ rows="4"
 {% else %}
   <p>Nenhuma notícia disponível no momento.</p>
 {% endif %}
+<!-- Override CSS: aumentar proporção da imagem nos cards laterais da PRIMEIRA SESSÃO (após o primeiro .card.top) -->
+<style>
+/* Aumenta a largura da imagem apenas nos .card.side imediatamente após o primeiro .card.top
+   Mantemos a altura do cartão e removemos min-width para evitar que o cartão cresça. */
+.container > a.card.top + a.card.side img,
+.container > a.card.top + a.card.side + a.card.side img {
+  width: 70% !important;
+  flex: 0 0 70% !important;
+  max-width: 70% !important;
+  min-width: 0 !important; /* remove limite mínimo para permitir aumento */
+  height: 160px !important; /* força altura fixa para garantir que aumente */
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 0 12px 12px 0 !important;
+}
+
+/* Ajuste do conteúdo do lado esquerdo para compensar a imagem maior */
+.container > a.card.top + a.card.side .content,
+.container > a.card.top + a.card.side + a.card.side .content {
+  padding: 12px 10px; /* reduz padding horizontal para caber mais texto */
+  flex: 1 1 30%;
+  min-width: 0; /* permite encolher corretamente */
+}
+
+/* Aumenta a altura mínima dos cartões laterais para que a imagem ocupe mais espaço vertical */
+.container > a.card.top + a.card.side,
+.container > a.card.top + a.card.side + a.card.side {
+  min-height: 160px !important; /* aumenta altura do cartão para destacar a imagem */
+}
+
+/* Responsivo: em telas pequenas volta ao comportamento anterior para evitar sobreposição */
+@media (max-width: 480px) {
+  .container > a.card.top + a.card.side img,
+  .container > a.card.top + a.card.side + a.card.side img {
+    width: 55% !important;
+    flex: 0 0 55% !important;
+    min-width: 0 !important;
+    height: 140px !important; /* altura fixa no mobile */
+  }
+  
+  .container > a.card.top + a.card.side,
+  .container > a.card.top + a.card.side + a.card.side {
+    min-height: 140px !important; /* altura menor no mobile */
+  }
+}
+</style>
 
 <!-- Seção de Vídeo em Destaque -->
 <section class="video-destaque-section">
