@@ -611,20 +611,23 @@ rows="4"
 /* NOTÍCIAS MENORES COM BARRA VERMELHA */
 .card.side {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
-  padding: 8px 10px;
+  padding: 0; /* remover todo o padding */
   position: relative;
   border-radius: 18px;
+  overflow: hidden; /* garantir que nada ultrapasse os cantos arredondados */
 }
 
 .side .content {
   flex: 1;
-  margin-left: 8px;
+  margin: 0;
+  padding: 12px; /* padding interno apenas no conteúdo de texto */
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
 }
 
 .side .tag {
@@ -666,13 +669,16 @@ rows="4"
 }
 
 .side img {
-  max-width: 180px; /* further increased as requested */
-  max-height: 180px;
-  border-radius: 12px;
-  object-fit: cover; /* fill the area and crop if needed */
-  margin-left: 8px;
+  width: 45%; /* aumentar largura para preencher mais espaço */
+  min-width: 140px;
+  height: 100%; /* preencher toda a altura do cartão */
+  border-radius: 0 12px 12px 0; /* apenas cantos direitos arredondados */
+  object-fit: cover;
+  object-position: center;
+  margin: 0;
   flex-shrink: 0;
   position: relative;
+  display: block;
 }
 
 /* Responsivo para diferentes tamanhos */
@@ -691,8 +697,8 @@ rows="4"
   }
 
   .side img {
-    max-width: 150px;
-    max-height: 140px;
+    width: 45%;
+    height: 100%;
   }
 }
 
@@ -732,8 +738,8 @@ rows="4"
   }
   
   .side img {
-    width: 160px;
-    height: 160px;
+    width: 45%;
+    height: 100%;
   }
 }
 
