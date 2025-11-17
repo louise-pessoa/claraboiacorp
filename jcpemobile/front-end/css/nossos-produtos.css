@@ -65,8 +65,8 @@
 }
 
 .produto-icone {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +82,7 @@
 }
 
 .produto-icone i {
-    font-size: 36px;
+    font-size: 48px;
     color: #ffffff;
 }
 
@@ -120,16 +120,16 @@
     }
     
     .produto-item {
-        padding: 28px 20px;
+        padding: 32px 20px;
     }
     
     .produto-icone {
-        width: 96px;
-        height: 96px;
+        width: 130px;
+        height: 130px;
     }
     
     .produto-icone i {
-        font-size: 44px;
+        font-size: 64px;
     }
     
     .produto-nome {
