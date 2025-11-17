@@ -2091,8 +2091,8 @@ rows="4"
   {% endif %}
   {% endwith %}
 
-  <!-- Próximas notícias (2ª e 3ª) -->
-  {% for noticia in todas_noticias|slice:"1:3" %}
+  <!-- Próximas notícias (2ª, 3ª e 4ª) -->
+  {% for noticia in todas_noticias|slice:"1:4" %}
   <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
     <div class="content">
       <span class="tag">{{ noticia.categoria.nome }}</span>
@@ -2109,10 +2109,11 @@ rows="4"
 {% endif %}
 <!-- Override CSS: aumentar proporção da imagem nos cards laterais da PRIMEIRA SESSÃO (após o primeiro .card.top) -->
 <style>
-/* Aumenta a largura da imagem apenas nos .card.side imediatamente após o primeiro .card.top
+/* Aumenta a largura da imagem nos 3 cards .card.side imediatamente após o primeiro .card.top
    Mantemos a altura do cartão e removemos min-width para evitar que o cartão cresça. */
 .container > a.card.top + a.card.side img,
-.container > a.card.top + a.card.side + a.card.side img {
+.container > a.card.top + a.card.side + a.card.side img,
+.container > a.card.top + a.card.side + a.card.side + a.card.side img {
   width: 65% !important;
   flex: 0 0 65% !important;
   max-width: 65% !important;
@@ -2123,9 +2124,10 @@ rows="4"
   border-radius: 0 12px 12px 0 !important;
 }
 
-/* Ajuste do conteúdo do lado esquerdo para compensar a imagem maior */
+/* Ajuste do conteúdo do lado esquerdo para compensar a imagem maior (todos os 3 cards side) */
 .container > a.card.top + a.card.side .content,
-.container > a.card.top + a.card.side + a.card.side .content {
+.container > a.card.top + a.card.side + a.card.side .content,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content {
   padding: 6px 10px; /* reduz padding vertical para a imagem ocupar mais espaço */
   flex: 1 1 35%;
   min-width: 0; /* permite encolher corretamente */
@@ -2133,14 +2135,16 @@ rows="4"
 
 /* Aumenta a altura mínima dos cartões laterais para que a imagem ocupe mais espaço vertical */
 .container > a.card.top + a.card.side,
-.container > a.card.top + a.card.side + a.card.side {
+.container > a.card.top + a.card.side + a.card.side,
+.container > a.card.top + a.card.side + a.card.side + a.card.side {
   height: 120px !important; /* diminui um pouco a altura do cartão */
 }
 
 /* Responsivo: em telas pequenas volta ao comportamento anterior para evitar sobreposição */
 @media (max-width: 480px) {
   .container > a.card.top + a.card.side img,
-  .container > a.card.top + a.card.side + a.card.side img {
+  .container > a.card.top + a.card.side + a.card.side img,
+  .container > a.card.top + a.card.side + a.card.side + a.card.side img {
     width: 50% !important;
     flex: 0 0 50% !important;
     min-width: 0 !important;
@@ -2148,7 +2152,8 @@ rows="4"
   }
   
   .container > a.card.top + a.card.side,
-  .container > a.card.top + a.card.side + a.card.side {
+  .container > a.card.top + a.card.side + a.card.side,
+  .container > a.card.top + a.card.side + a.card.side + a.card.side {
     height: 110px !important; /* diminui um pouco a altura do cartão no mobile */
   }
 }
@@ -2231,45 +2236,22 @@ rows="4"
   </div>
   
   <div class="news-list">
-    <!-- Notícia 1 - Pernambuco -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+    {% comment %} Render the next 4 latest news items (skip the first 4 shown elsewhere) {% endcomment %}
+    {% for noticia in todas_noticias|slice:"4:8" %}
+    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
       <div class="content">
-        <span class="tag">Pernambuco</span>
-        <h2 class="title">Polícia investiga série de crimes no centro da cidade</h2>
-        <p class="desc">Autoridades buscam pistas sobre os incidentes ocorridos nas últimas semanas na região central</p>
+        <span class="tag">{{ noticia.categoria.nome }}</span>
+        <h2 class="title">{{ noticia.titulo }}</h2>
+        <p class="desc">{{ noticia.resumo|truncatewords:18 }}</p>
       </div>
-      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Pernambuco">
+      {% if noticia.imagem %}
+      <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+      {% endif %}
     </a>
-
-    <!-- Notícia 2 - Nacional -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Nacional</span>
-        <h2 class="title">Governo anuncia novas medidas econômicas para 2025</h2>
-        <p class="desc">Pacote inclui incentivos fiscais e programas de geração de emprego em todo o país</p>
-      </div>
-      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Nacional">
-    </a>
-
-    <!-- Notícia 3 - Esportes -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Esportes</span>
-        <h2 class="title">Time local conquista título do campeonato regional</h2>
-        <p class="desc">Vitória emocionante garante a taça após disputa acirrada contra o rival histórico</p>
-      </div>
-      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Esportes">
-    </a>
-
-    <!-- Notícia 4 - Cultura -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Cultura</span>
-        <h2 class="title">Festival de música reúne artistas locais e nacionais</h2>
-        <p class="desc">Evento acontece neste fim de semana com entrada gratuita e diversas atrações culturais</p>
-      </div>
-      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Cultura">
-    </a>
+    {% empty %}
+    <!-- Fallback: no news available -->
+    <p>Não há últimas notícias no momento.</p>
+    {% endfor %}
   </div>
 </section>
 
