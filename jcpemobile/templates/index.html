@@ -1168,6 +1168,17 @@ rows="4"
   min-height: 100px;
 }
 
+/* Ajuste de altura específico para a seção Últimas Notícias (menor, igual aos cartões side) */
+.ultimas-noticias-section .news-item {
+  min-height: 96px; /* menor altura por padrão */
+}
+
+@media (min-width: 768px) {
+  .ultimas-noticias-section .news-item {
+    min-height: 110px; /* ligeiro aumento em telas maiores sem alcançar 120px */
+  }
+}
+
 .news-content {
   flex: 1;
   padding: 8px;
@@ -2157,79 +2168,43 @@ rows="4"
   
   <div class="news-list">
     <!-- Notícia 1 - Pernambuco -->
-    <a href="#" class="news-item">
-      <div class="news-content">
-        <div class="news-header">
-          <span class="tag">Pernambuco</span>
-          <h3 class="news-title">Polícia investiga série de crimes no centro da cidade</h3>
-        </div>
-        <p class="news-desc">Autoridades buscam pistas sobre os incidentes ocorridos nas últimas semanas na região central</p>
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Pernambuco</span>
+        <h2 class="title">Polícia investiga série de crimes no centro da cidade</h2>
+        <p class="desc">Autoridades buscam pistas sobre os incidentes ocorridos nas últimas semanas na região central</p>
       </div>
-      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Pernambuco" class="news-image">
-      <div class="more-options">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <circle cx="12" cy="5" r="2"/>
-          <circle cx="12" cy="12" r="2"/>
-          <circle cx="12" cy="19" r="2"/>
-        </svg>
-      </div>
+      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Pernambuco">
     </a>
 
     <!-- Notícia 2 - Nacional -->
-    <a href="#" class="news-item">
-      <div class="news-content">
-        <div class="news-header">
-          <span class="tag">Nacional</span>
-          <h3 class="news-title">Governo anuncia novas medidas econômicas para 2025</h3>
-        </div>
-        <p class="news-desc">Pacote inclui incentivos fiscais e programas de geração de emprego em todo o país</p>
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Nacional</span>
+        <h2 class="title">Governo anuncia novas medidas econômicas para 2025</h2>
+        <p class="desc">Pacote inclui incentivos fiscais e programas de geração de emprego em todo o país</p>
       </div>
-      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Nacional" class="news-image">
-      <div class="more-options">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <circle cx="12" cy="5" r="2"/>
-          <circle cx="12" cy="12" r="2"/>
-          <circle cx="12" cy="19" r="2"/>
-        </svg>
-      </div>
+      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Nacional">
     </a>
 
     <!-- Notícia 3 - Esportes -->
-    <a href="#" class="news-item">
-      <div class="news-content">
-        <div class="news-header">
-          <span class="tag">Esportes</span>
-          <h3 class="news-title">Time local conquista título do campeonato regional</h3>
-        </div>
-        <p class="news-desc">Vitória emocionante garante a taça após disputa acirrada contra o rival histórico</p>
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Esportes</span>
+        <h2 class="title">Time local conquista título do campeonato regional</h2>
+        <p class="desc">Vitória emocionante garante a taça após disputa acirrada contra o rival histórico</p>
       </div>
-      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Esportes" class="news-image">
-      <div class="more-options">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <circle cx="12" cy="5" r="2"/>
-          <circle cx="12" cy="12" r="2"/>
-          <circle cx="12" cy="19" r="2"/>
-        </svg>
-      </div>
+      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Esportes">
     </a>
 
     <!-- Notícia 4 - Cultura -->
-    <a href="#" class="news-item">
-      <div class="news-content">
-        <div class="news-header">
-          <span class="tag">Cultura</span>
-          <h3 class="news-title">Festival de música reúne artistas locais e nacionais</h3>
-        </div>
-        <p class="news-desc">Evento acontece neste fim de semana com entrada gratuita e diversas atrações culturais</p>
+    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
+      <div class="content">
+        <span class="tag">Cultura</span>
+        <h2 class="title">Festival de música reúne artistas locais e nacionais</h2>
+        <p class="desc">Evento acontece neste fim de semana com entrada gratuita e diversas atrações culturais</p>
       </div>
-      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Cultura" class="news-image">
-      <div class="more-options">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <circle cx="12" cy="5" r="2"/>
-          <circle cx="12" cy="12" r="2"/>
-          <circle cx="12" cy="19" r="2"/>
-        </svg>
-      </div>
+      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Cultura">
     </a>
   </div>
 </section>
