@@ -43,6 +43,16 @@ class Tag(models.Model):
         return self.nome
 
 class Noticia(models.Model):
+    SECAO_CHOICES = [
+        ('noticia_do_dia', 'Notícia do Dia'),
+        ('social1', 'Social1'),
+        ('jc360', 'JC360'),
+        ('pernambuco', 'Pernambuco'),
+        ('blog_do_torcedor', 'Blog do Torcedor'),
+        ('ultimas_noticias', 'Últimas Notícias'),
+        ('receita_da_boa', 'Receita da Boa'),
+    ]
+    
     titulo = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     resumo = models.TextField(max_length=300, blank=True, null=True)
@@ -51,6 +61,7 @@ class Noticia(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, related_name="noticias")
     autor = models.ForeignKey(Autor, on_delete=models.SET_NULL, null=True, related_name="noticias")
     tags = models.ManyToManyField(Tag, blank=True, related_name="noticias")
+    secao = models.CharField(max_length=50, choices=SECAO_CHOICES, default='noticia_do_dia', verbose_name='Seção')
     data_publicacao = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

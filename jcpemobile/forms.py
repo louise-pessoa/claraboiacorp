@@ -96,7 +96,7 @@ class NoticiaForm(forms.ModelForm):
 
     class Meta:
         model = Noticia
-        fields = ['titulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags']
+        fields = ['titulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags', 'secao']
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -125,6 +125,9 @@ class NoticiaForm(forms.ModelForm):
             'tags': forms.SelectMultiple(attrs={
                 'class': 'form-control'
             }),
+            'secao': forms.Select(attrs={
+                'class': 'form-control'
+            }),
         }
         labels = {
             'titulo': 'Título',
@@ -134,10 +137,12 @@ class NoticiaForm(forms.ModelForm):
             'categoria': 'Categoria',
             'autor': 'Autor',
             'tags': 'Tags',
+            'secao': 'Seção',
         }
         help_texts = {
             'resumo': 'Máximo de 300 caracteres',
             'tags': 'Mantenha pressionado "Control" ou "Command" para selecionar mais de uma',
+            'secao': 'Escolha em qual seção da página inicial esta notícia será exibida',
         }
 
     def clean_titulo(self):

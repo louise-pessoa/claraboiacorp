@@ -91,9 +91,25 @@ def index(request):
         todas_noticias = Noticia.objects.select_related('categoria', 'autor').order_by('-data_publicacao')
         print(f"[DEBUG] Sem filtro - Total de notícias: {todas_noticias.count()}")
 
+    # Filtrar notícias por seção
+    noticias_do_dia = todas_noticias.filter(secao='noticia_do_dia')[:4]
+    noticias_social1 = todas_noticias.filter(secao='social1')[:6]
+    noticias_jc360 = todas_noticias.filter(secao='jc360')[:6]
+    noticias_pernambuco = todas_noticias.filter(secao='pernambuco')[:6]
+    noticias_blog_torcedor = todas_noticias.filter(secao='blog_do_torcedor')[:6]
+    noticias_ultimas = todas_noticias.filter(secao='ultimas_noticias')[:4]
+    noticias_receita = todas_noticias.filter(secao='receita_da_boa')[:6]
+
     context = {
         'noticias_mais_vistas': noticias_mais_vistas,
         'todas_noticias': todas_noticias,
+        'noticias_do_dia': noticias_do_dia,
+        'noticias_social1': noticias_social1,
+        'noticias_jc360': noticias_jc360,
+        'noticias_pernambuco': noticias_pernambuco,
+        'noticias_blog_torcedor': noticias_blog_torcedor,
+        'noticias_ultimas': noticias_ultimas,
+        'noticias_receita': noticias_receita,
     }
     return render(request, 'index.html', context)
 

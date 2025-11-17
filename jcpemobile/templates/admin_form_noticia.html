@@ -521,6 +521,15 @@
                     {% endif %}
                 </div>
 
+                <div class="form-group">
+                    <label for="id_secao">Seção da Página*</label>
+                    {{ form.secao }}
+                    <div class="help-text">Escolha em qual seção da página inicial esta notícia será exibida</div>
+                    {% if form.secao.errors %}
+                        <div class="error">{{ form.secao.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
                 <!-- Seção de Enquete -->
                 <div class="form-group" style="border-top: 1px solid #e9ecef; padding-top: 2rem; margin-top: 2rem;">
                     <label class="enquete-label">

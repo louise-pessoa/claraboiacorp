@@ -2026,9 +2026,9 @@ rows="4"
 </style>
 
 <!-- Notícias dinâmicas -->
-{% if todas_noticias %}
+{% if noticias_do_dia %}
   <!-- Notícia principal (primeira notícia) -->
-  {% with todas_noticias|first as noticia_principal %}
+  {% with noticias_do_dia|first as noticia_principal %}
 
 <style>
 /* CSS Singular para a Seção Social1 - Cor #e50069 */
@@ -2092,7 +2092,7 @@ rows="4"
   {% endwith %}
 
   <!-- Próximas notícias (2ª, 3ª e 4ª) -->
-  {% for noticia in todas_noticias|slice:"1:4" %}
+  {% for noticia in noticias_do_dia|slice:"1:4" %}
   <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
     <div class="content">
       <span class="tag">{{ noticia.categoria.nome }}</span>
@@ -2155,6 +2155,189 @@ rows="4"
   .container > a.card.top + a.card.side + a.card.side,
   .container > a.card.top + a.card.side + a.card.side + a.card.side {
     height: 110px !important; /* diminui um pouco a altura do cartão no mobile */
+  }
+}
+</style>
+
+<!-- Override CSS: aplicar MESMO estilo aos cards das seções Pernambuco, JC360, Social1, Blog do Torcedor e Receita da Boa -->
+<style>
+/* Garantir que as seções tenham a mesma largura máxima da primeira seção */
+.pernambuco-section,
+.jc360-variant,
+.social1-section,
+.blog-do-torcedor,
+.receita-section {
+  max-width: 420px !important;
+  margin: 32px auto !important;
+  padding: 0 20px !important;
+}
+
+@media (min-width: 768px) {
+  .pernambuco-section,
+  .jc360-variant,
+  .social1-section,
+  .blog-do-torcedor,
+  .receita-section {
+    max-width: 600px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pernambuco-section,
+  .jc360-variant,
+  .social1-section,
+  .blog-do-torcedor,
+  .receita-section {
+    max-width: 740px !important;
+  }
+}
+
+/* Aplicar estilo COMPLETO da primeira seção aos cards laterais das outras seções */
+
+/* ESTRUTURA DO CARD - MESMO TAMANHO DA PRIMEIRA SEÇÃO */
+.pernambuco-section .card.side,
+.jc360-variant .card.side,
+.social1-section .card.side,
+.blog-do-torcedor .card.side,
+.receita-section .card.side {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 0 !important;
+  position: relative !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  height: auto !important; /* Deixar altura automática como na primeira seção */
+  min-height: 120px !important; /* Mínimo igual à primeira seção */
+}
+
+/* CONTEÚDO (texto) - MESMO DA PRIMEIRA SEÇÃO */
+.pernambuco-section .card.side .content,
+.jc360-variant .card.side .content,
+.social1-section .card.side .content,
+.blog-do-torcedor .card.side .content,
+.receita-section .card.side .content {
+  flex: 1 !important;
+  margin: 0 !important;
+  padding: 12px !important; /* MESMO da primeira seção */
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+}
+
+/* TAG (categoria) - MESMO DA PRIMEIRA SEÇÃO */
+.pernambuco-section .card.side .tag,
+.jc360-variant .card.side .tag,
+.social1-section .card.side .tag,
+.blog-do-torcedor .card.side .tag,
+.receita-section .card.side .tag {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 1px 6px !important;
+  margin-bottom: 1px !important;
+  margin-left: -7px !important;
+  display: inline-block !important;
+}
+
+/* TÍTULO - MESMO DA PRIMEIRA SEÇÃO */
+.pernambuco-section .card.side .title,
+.jc360-variant .card.side .title,
+.social1-section .card.side .title,
+.blog-do-torcedor .card.side .title,
+.receita-section .card.side .title {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: #111 !important;
+  margin: 0 0 2px 0 !important;
+  line-height: 1.3 !important;
+}
+
+/* DESCRIÇÃO - MESMO DA PRIMEIRA SEÇÃO */
+.pernambuco-section .card.side .desc,
+.jc360-variant .card.side .desc,
+.social1-section .card.side .desc,
+.blog-do-torcedor .card.side .desc,
+.receita-section .card.side .desc {
+  font-size: 10px !important;
+  color: #444 !important;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+}
+
+/* IMAGEM - EXATAMENTE COMO NA PRIMEIRA SEÇÃO */
+.pernambuco-section .card.side img,
+.jc360-variant .card.side img,
+.social1-section .card.side img,
+.blog-do-torcedor .card.side img,
+.receita-section .card.side img {
+  width: 65% !important; /* MESMO da primeira seção após override */
+  flex: 0 0 65% !important;
+  max-width: 65% !important;
+  min-width: 0 !important;
+  height: 140px !important; /* MESMO da primeira seção após override */
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 0 12px 12px 0 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Aplicar override específico da primeira seção aos cards laterais das outras seções */
+.pernambuco-section .pernambuco-cards > a.card.side,
+.jc360-variant .pernambuco-cards > a.card.side,
+.social1-section .pernambuco-cards > a.card.side,
+.blog-do-torcedor .pernambuco-cards > a.card.side,
+.receita-section .pernambuco-cards > a.card.side {
+  height: 120px !important; /* MESMO altura da primeira seção */
+}
+
+.pernambuco-section .pernambuco-cards > a.card.side .content,
+.jc360-variant .pernambuco-cards > a.card.side .content,
+.social1-section .pernambuco-cards > a.card.side .content,
+.blog-do-torcedor .pernambuco-cards > a.card.side .content,
+.receita-section .pernambuco-cards > a.card.side .content {
+  padding: 6px 10px !important; /* MESMO da primeira seção */
+}
+
+/* Responsivo - MESMO DA PRIMEIRA SEÇÃO */
+@media (max-width: 480px) {
+  .pernambuco-section .card.side,
+  .jc360-variant .card.side,
+  .social1-section .card.side,
+  .blog-do-torcedor .card.side,
+  .receita-section .card.side {
+    height: auto !important;
+    min-height: 110px !important;
+  }
+  
+  .pernambuco-section .pernambuco-cards > a.card.side,
+  .jc360-variant .pernambuco-cards > a.card.side,
+  .social1-section .pernambuco-cards > a.card.side,
+  .blog-do-torcedor .pernambuco-cards > a.card.side,
+  .receita-section .pernambuco-cards > a.card.side {
+    height: 110px !important; /* MESMO altura mobile da primeira seção */
+  }
+  
+  .pernambuco-section .card.side img,
+  .jc360-variant .card.side img,
+  .social1-section .card.side img,
+  .blog-do-torcedor .card.side img,
+  .receita-section .card.side img {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    min-width: 0 !important;
+    height: 120px !important;
   }
 }
 </style>
@@ -2236,22 +2419,22 @@ rows="4"
   </div>
   
   <div class="news-list">
-    {% comment %} Render the next 4 latest news items (skip the first 4 shown elsewhere) {% endcomment %}
-    {% for noticia in todas_noticias|slice:"4:8" %}
-    <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">{{ noticia.categoria.nome }}</span>
-        <h2 class="title">{{ noticia.titulo }}</h2>
-        <p class="desc">{{ noticia.resumo|truncatewords:18 }}</p>
-      </div>
-      {% if noticia.imagem %}
-      <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
-      {% endif %}
-    </a>
-    {% empty %}
-    <!-- Fallback: no news available -->
-    <p>Não há últimas notícias no momento.</p>
-    {% endfor %}
+    {% if noticias_ultimas %}
+      {% for noticia in noticias_ultimas %}
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+        <div class="content">
+          <span class="tag">{{ noticia.categoria.nome }}</span>
+          <h2 class="title">{{ noticia.titulo }}</h2>
+          <p class="desc">{{ noticia.resumo|truncatewords:18 }}</p>
+        </div>
+        {% if noticia.imagem %}
+        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+        {% endif %}
+      </a>
+      {% endfor %}
+    {% else %}
+      <p>Não há últimas notícias no momento.</p>
+    {% endif %}
   </div>
 </section>
 
@@ -2373,35 +2556,37 @@ rows="4"
   </div>
   
   <div class="pernambuco-cards">
-    <!-- Card principal (grande) -->
-    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
-      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Pernambuco" style="border-radius: 12px;">
-      <div class="content">
-        <span class="tag">Esporte</span>
-        <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
-        <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
-      </div>
-    </a>
+    {% if noticias_pernambuco %}
+      <!-- Card principal (grande) - primeira notícia -->
+      {% with noticias_pernambuco|first as noticia_principal %}
+      <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+        {% if noticia_principal.imagem %}
+        <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+        {% endif %}
+        <div class="content">
+          <span class="tag">{{ noticia_principal.categoria.nome }}</span>
+          <h2 class="title">{{ noticia_principal.titulo }}</h2>
+          <p class="desc">{{ noticia_principal.resumo|truncatewords:15 }}</p>
+        </div>
+      </a>
+      {% endwith %}
 
-    <!-- Card lateral 1 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Educação</span>
-        <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
-        <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
-    </a>
-
-    <!-- Card lateral 2 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Saúde</span>
-        <h2 class="title">Política: novo projeto de lei em votação</h2>
-        <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
-    </a>
+      <!-- Cards laterais (2ª e 3ª notícias) -->
+      {% for noticia in noticias_pernambuco|slice:"1:3" %}
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+        <div class="content">
+          <span class="tag">{{ noticia.categoria.nome }}</span>
+          <h2 class="title">{{ noticia.titulo }}</h2>
+          <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+        </div>
+        {% if noticia.imagem %}
+        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+        {% endif %}
+      </a>
+      {% endfor %}
+    {% else %}
+      <p>Nenhuma notícia disponível no momento.</p>
+    {% endif %}
   </div>
 </section>
 
@@ -2578,35 +2763,37 @@ rows="4"
   </div>
   
   <div class="pernambuco-cards">
-    <!-- Card principal (grande) -->
-    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
-      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque JC360" style="border-radius: 12px;">
-      <div class="content">
-        <span class="tag">Esporte</span>
-        <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
-        <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
-      </div>
-    </a>
+    {% if noticias_jc360 %}
+      <!-- Card principal (grande) - primeira notícia -->
+      {% with noticias_jc360|first as noticia_principal %}
+      <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+        {% if noticia_principal.imagem %}
+        <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+        {% endif %}
+        <div class="content">
+          <span class="tag">{{ noticia_principal.categoria.nome }}</span>
+          <h2 class="title">{{ noticia_principal.titulo }}</h2>
+          <p class="desc">{{ noticia_principal.resumo|truncatewords:15 }}</p>
+        </div>
+      </a>
+      {% endwith %}
 
-    <!-- Card lateral 1 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Educação</span>
-        <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
-        <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
-    </a>
-
-    <!-- Card lateral 2 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Saúde</span>
-        <h2 class="title">Política: novo projeto de lei em votação</h2>
-        <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde" style="border-radius: 12px;">
-    </a>
+      <!-- Cards laterais (2ª e 3ª notícias) -->
+      {% for noticia in noticias_jc360|slice:"1:3" %}
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+        <div class="content">
+          <span class="tag">{{ noticia.categoria.nome }}</span>
+          <h2 class="title">{{ noticia.titulo }}</h2>
+          <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+        </div>
+        {% if noticia.imagem %}
+        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+        {% endif %}
+      </a>
+      {% endfor %}
+    {% else %}
+      <p>Nenhuma notícia disponível no momento.</p>
+    {% endif %}
   </div>
   </div>
 </section>
@@ -2627,35 +2814,37 @@ rows="4"
   </div>
   
   <div class="pernambuco-cards">
-    <!-- Card principal (grande) -->
-    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
-      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Blog Do Torcedor" style="border-radius: 12px;">
-      <div class="content">
-        <span class="tag">Esporte</span>
-        <h2 class="title">9 pontos sobre os casos de intoxicação por metanol</h2>
-        <p class="desc">Iniciativa busca incentivar o hábito da leitura e fortalecer o ensino fundamental em escolas</p>
-      </div>
-    </a>
+    {% if noticias_blog_torcedor %}
+      <!-- Card principal (grande) - primeira notícia -->
+      {% with noticias_blog_torcedor|first as noticia_principal %}
+      <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+        {% if noticia_principal.imagem %}
+        <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+        {% endif %}
+        <div class="content">
+          <span class="tag">{{ noticia_principal.categoria.nome }}</span>
+          <h2 class="title">{{ noticia_principal.titulo }}</h2>
+          <p class="desc">{{ noticia_principal.resumo|truncatewords:15 }}</p>
+        </div>
+      </a>
+      {% endwith %}
 
-    <!-- Card lateral 1 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Educação</span>
-        <h2 class="title">Jovens viajam para assistir show da banda Sul-coreana</h2>
-        <p class="desc">Stray Kids vem ao Brasil e leva fãs a conhecer a cultura pop</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
-    </a>
-
-    <!-- Card lateral 2 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Saúde</span>
-        <h2 class="title">Política: novo projeto de lei em votação</h2>
-        <p class="desc">Proposta visa modernizar as casas de infraestrutura urbana</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
-    </a>
+      <!-- Cards laterais (2ª e 3ª notícias) -->
+      {% for noticia in noticias_blog_torcedor|slice:"1:3" %}
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+        <div class="content">
+          <span class="tag">{{ noticia.categoria.nome }}</span>
+          <h2 class="title">{{ noticia.titulo }}</h2>
+          <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+        </div>
+        {% if noticia.imagem %}
+        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+        {% endif %}
+      </a>
+      {% endfor %}
+    {% else %}
+      <p>Nenhuma notícia disponível no momento.</p>
+    {% endif %}
   </div>
   </div>
 </section>
@@ -2673,35 +2862,37 @@ rows="4"
   </div>
   
   <div class="pernambuco-cards">
-    <!-- Card principal (grande) -->
-    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
-      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Social1" style="border-radius: 12px;">
-      <div class="content">
-        <span class="tag">Esporte</span>
-        <h2 class="title">Destaque Social1: principais novidades</h2>
-        <p class="desc">Resumo da matéria de destaque do Social1</p>
-      </div>
-    </a>
+    {% if noticias_social1 %}
+      <!-- Card principal (grande) - primeira notícia -->
+      {% with noticias_social1|first as noticia_principal %}
+      <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+        {% if noticia_principal.imagem %}
+        <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+        {% endif %}
+        <div class="content">
+          <span class="tag">{{ noticia_principal.categoria.nome }}</span>
+          <h2 class="title">{{ noticia_principal.titulo }}</h2>
+          <p class="desc">{{ noticia_principal.resumo|truncatewords:15 }}</p>
+        </div>
+      </a>
+      {% endwith %}
 
-    <!-- Card lateral 1 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Educação</span>
-        <h2 class="title">Coluna Social1: eventos locais</h2>
-        <p class="desc">Cobertura de eventos e cultura</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Educação">
-    </a>
-
-    <!-- Card lateral 2 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Saúde</span>
-        <h2 class="title">Tendências e bem-estar</h2>
-        <p class="desc">Conteúdo sobre saúde e estilo de vida</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
-    </a>
+      <!-- Cards laterais (2ª e 3ª notícias) -->
+      {% for noticia in noticias_social1|slice:"1:3" %}
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+        <div class="content">
+          <span class="tag">{{ noticia.categoria.nome }}</span>
+          <h2 class="title">{{ noticia.titulo }}</h2>
+          <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+        </div>
+        {% if noticia.imagem %}
+        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+        {% endif %}
+      </a>
+      {% endfor %}
+    {% else %}
+      <p>Nenhuma notícia disponível no momento.</p>
+    {% endif %}
   </div>
   </div>
 </section>
@@ -2721,35 +2912,37 @@ rows="4"
   </div>
   
   <div class="pernambuco-cards">
-    <!-- Card principal (grande) -->
-    <a href="#" class="card top" style="text-decoration: none; color: inherit;">
-      <img src="https://images.unsplash.com/photo-1541872705-1f73c6400ec9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1230" alt="Notícia destaque Receita da boa" style="border-radius: 12px;">
-      <div class="content">
-        <span class="tag">Culinária</span>
-        <h2 class="title">Receita destaque: bolo de fubá tradicional</h2>
-        <p class="desc">Passo a passo fácil e dicas para deixar a receita perfeita</p>
-      </div>
-    </a>
+    {% if noticias_receita %}
+      <!-- Card principal (grande) - primeira notícia -->
+      {% with noticias_receita|first as noticia_principal %}
+      <a href="{% url 'noticia_detalhe' noticia_principal.slug %}" class="card top" style="text-decoration: none; color: inherit;">
+        {% if noticia_principal.imagem %}
+        <img src="{{ noticia_principal.imagem.url }}" alt="{{ noticia_principal.titulo }}" style="border-radius: 12px;">
+        {% endif %}
+        <div class="content">
+          <span class="tag">{{ noticia_principal.categoria.nome }}</span>
+          <h2 class="title">{{ noticia_principal.titulo }}</h2>
+          <p class="desc">{{ noticia_principal.resumo|truncatewords:15 }}</p>
+        </div>
+      </a>
+      {% endwith %}
 
-    <!-- Card lateral 1 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Dicas</span>
-        <h2 class="title">Segredos de cozinha: economize sem perder sabor</h2>
-        <p class="desc">Pequenas trocas que fazem grande diferença</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200" alt="Dicas">
-    </a>
-
-    <!-- Card lateral 2 -->
-    <a href="#" class="card side" style="text-decoration: none; color: inherit;">
-      <div class="content">
-        <span class="tag">Saúde</span>
-        <h2 class="title">Alimentação saudável sem perder o prazer</h2>
-        <p class="desc">Opções nutritivas para o dia a dia</p>
-      </div>
-  <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=200" alt="Saúde">
-    </a>
+      <!-- Cards laterais (2ª e 3ª notícias) -->
+      {% for noticia in noticias_receita|slice:"1:3" %}
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+        <div class="content">
+          <span class="tag">{{ noticia.categoria.nome }}</span>
+          <h2 class="title">{{ noticia.titulo }}</h2>
+          <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+        </div>
+        {% if noticia.imagem %}
+        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
+        {% endif %}
+      </a>
+      {% endfor %}
+    {% else %}
+      <p>Nenhuma notícia disponível no momento.</p>
+    {% endif %}
   </div>
   </div>
 </section>
@@ -3002,4 +3195,72 @@ document.head.appendChild(animacaoStyle);
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/feedback.js' %}"></script>
 <script src="{% static 'js/preferencias.js' %}"></script>
+</script>
+<style id="override-cards-high-specificity">
+/* High-specificity final override to force cards to match the first section
+   Placed at the end of the document to beat other stylesheet rules. */
+body .conteudo-principal .container a.card.side,
+body .conteudo-principal .pernambuco-section .pernambuco-cards > a.card.side,
+body .conteudo-principal .jc360-variant .pernambuco-cards > a.card.side,
+body .conteudo-principal .social1-section .pernambuco-cards > a.card.side,
+body .conteudo-principal .blog-do-torcedor .pernambuco-cards > a.card.side,
+body .conteudo-principal .receita-section .pernambuco-cards > a.card.side {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  padding: 0 !important;
+  position: relative !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  height: 120px !important;
+  min-height: 120px !important;
+  width: 100% !important;
+}
+
+body .conteudo-principal .pernambuco-section .pernambuco-cards > a.card.side .content,
+body .conteudo-principal .jc360-variant .pernambuco-cards > a.card.side .content,
+body .conteudo-principal .social1-section .pernambuco-cards > a.card.side .content,
+body .conteudo-principal .blog-do-torcedor .pernambuco-cards > a.card.side .content,
+body .conteudo-principal .receita-section .pernambuco-cards > a.card.side .content {
+  flex: 1 1 35% !important;
+  padding: 6px 10px !important;
+  min-width: 0 !important;
+}
+
+body .conteudo-principal .pernambuco-section .pernambuco-cards > a.card.side img,
+body .conteudo-principal .jc360-variant .pernambuco-cards > a.card.side img,
+body .conteudo-principal .social1-section .pernambuco-cards > a.card.side img,
+body .conteudo-principal .blog-do-torcedor .pernambuco-cards > a.card.side img,
+body .conteudo-principal .receita-section .pernambuco-cards > a.card.side img {
+  width: 65% !important;
+  flex: 0 0 65% !important;
+  max-width: 65% !important;
+  min-width: 0 !important;
+  height: 140px !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 0 12px 12px 0 !important;
+}
+
+@media (max-width: 480px) {
+  body .conteudo-principal .pernambuco-section .pernambuco-cards > a.card.side,
+  body .conteudo-principal .jc360-variant .pernambuco-cards > a.card.side,
+  body .conteudo-principal .social1-section .pernambuco-cards > a.card.side,
+  body .conteudo-principal .blog-do-torcedor .pernambuco-cards > a.card.side,
+  body .conteudo-principal .receita-section .pernambuco-cards > a.card.side {
+    height: 110px !important;
+    min-height: 110px !important;
+  }
+
+  body .conteudo-principal .pernambuco-section .pernambuco-cards > a.card.side img,
+  body .conteudo-principal .jc360-variant .pernambuco-cards > a.card.side img,
+  body .conteudo-principal .social1-section .pernambuco-cards > a.card.side img,
+  body .conteudo-principal .blog-do-torcedor .pernambuco-cards > a.card.side img,
+  body .conteudo-principal .receita-section .pernambuco-cards > a.card.side img {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    height: 120px !important;
+  }
+}
+</style>
 </body>
