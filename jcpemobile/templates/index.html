@@ -1117,6 +1117,203 @@ rows="4"
   }
 }
 
+/* Seção Últimas Notícias */
+.ultimas-noticias-section {
+  margin: 32px auto;
+  /* Aumentei a largura máxima para ampliar os cartões sem alterar a altura */
+  max-width: 920px;
+  padding: 0 20px;
+}
+
+.ultimas-noticias-section .section-header {
+  margin-bottom: 24px;
+  /* alinhar o título mais à esquerda, igual às outras seções */
+  margin-left: -20px;
+}
+
+.ultimas-noticias-section .section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px 0;
+}
+
+.ultimas-noticias-section .title-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #E31B23;
+  border-radius: 2px;
+}
+
+.ultimas-noticias-section .news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Cards de notícias */
+.news-item {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0;
+  position: relative;
+  border-radius: 18px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  min-height: 100px;
+}
+
+.news-content {
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  padding-right: calc(40% + 16px);
+}
+
+.news-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.news-content .tag {
+  display: inline-block;
+  font-size: 12.5px;
+  padding: 2px 10px;
+  margin: 0;
+  margin-left: -8px;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #E31B23;
+  font-weight: 700;
+  text-align: left;
+  width: fit-content;
+  align-self: flex-start;
+  border: none;
+}
+
+.news-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.news-desc {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.news-image {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 0 18px 18px 0;
+  z-index: 1;
+}
+
+.more-options {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.more-options svg {
+  width: 100%;
+  height: 100%;
+  fill: #666;
+}
+
+/* Responsivo para Últimas Notícias */
+@media (max-width: 480px) {
+  .ultimas-noticias-section {
+    padding: 0 16px;
+  }
+
+  .news-item {
+    min-height: 96px;
+  }
+
+  .news-content {
+    padding: 6px;
+    padding-right: calc(36% + 12px);
+  }
+
+  .news-content .tag {
+    font-size: 11px;
+    margin-left: -6px;
+  }
+
+  .news-title {
+    font-size: 13px;
+  }
+
+  .news-desc {
+    font-size: 11px;
+  }
+
+  .news-image {
+    width: 36%;
+  }
+
+  .more-options {
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .news-item {
+    min-height: 120px;
+  }
+
+  .news-content {
+    padding: 12px;
+    padding-right: calc(42% + 16px);
+  }
+
+  .news-content .tag {
+    font-size: 13px;
+    margin-left: -8px;
+  }
+
+  .news-title {
+    font-size: 16px;
+  }
+
+  .news-desc {
+    font-size: 13px;
+  }
+
+  .news-image {
+    width: 42%;
+  }
+}
+
 /* Seção Painel Diário (logo abaixo do segundo banner) */
 .painel-diario-section {
   margin: 32px auto;
@@ -1946,6 +2143,92 @@ rows="4"
       <div class="ranking-badge">3</div>
       <div class="ranking-content">
         <h3 class="ranking-title">9 pontos sobre os casos de intoxicação por metanol</h3>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Seção Últimas Notícias -->
+<section class="ultimas-noticias-section">
+  <div class="section-header">
+    <h2 class="section-title">Últimas Notícias</h2>
+    <div class="title-underline"></div>
+  </div>
+  
+  <div class="news-list">
+    <!-- Notícia 1 - Pernambuco -->
+    <a href="#" class="news-item">
+      <div class="news-content">
+        <div class="news-header">
+          <span class="tag">Pernambuco</span>
+          <h3 class="news-title">Polícia investiga série de crimes no centro da cidade</h3>
+        </div>
+        <p class="news-desc">Autoridades buscam pistas sobre os incidentes ocorridos nas últimas semanas na região central</p>
+      </div>
+      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Pernambuco" class="news-image">
+      <div class="more-options">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <circle cx="12" cy="5" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="12" cy="19" r="2"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Notícia 2 - Nacional -->
+    <a href="#" class="news-item">
+      <div class="news-content">
+        <div class="news-header">
+          <span class="tag">Nacional</span>
+          <h3 class="news-title">Governo anuncia novas medidas econômicas para 2025</h3>
+        </div>
+        <p class="news-desc">Pacote inclui incentivos fiscais e programas de geração de emprego em todo o país</p>
+      </div>
+      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Nacional" class="news-image">
+      <div class="more-options">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <circle cx="12" cy="5" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="12" cy="19" r="2"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Notícia 3 - Esportes -->
+    <a href="#" class="news-item">
+      <div class="news-content">
+        <div class="news-header">
+          <span class="tag">Esportes</span>
+          <h3 class="news-title">Time local conquista título do campeonato regional</h3>
+        </div>
+        <p class="news-desc">Vitória emocionante garante a taça após disputa acirrada contra o rival histórico</p>
+      </div>
+      <img src="https://s2-oglobo.glbimg.com/YIfXTNlGq2B-yF3cZwAK85b2QvM=/0x0:4816x3211/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_da025474c0c44edd99332dddb09cabe8/internal_photos/bs/2024/a/l/hELZB2Tvaa4gECCGhFxQ/107026302-pa-brasilia-df-22-05-2024-entrevista-exclusiva-senador-sergio-moro-em-seu-gabinete-fot.jpg" alt="Notícia Esportes" class="news-image">
+      <div class="more-options">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <circle cx="12" cy="5" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="12" cy="19" r="2"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Notícia 4 - Cultura -->
+    <a href="#" class="news-item">
+      <div class="news-content">
+        <div class="news-header">
+          <span class="tag">Cultura</span>
+          <h3 class="news-title">Festival de música reúne artistas locais e nacionais</h3>
+        </div>
+        <p class="news-desc">Evento acontece neste fim de semana com entrada gratuita e diversas atrações culturais</p>
+      </div>
+      <img src="https://kyoto.com.br/wp-content/uploads/2021/10/BTS.jpg" alt="Notícia Cultura" class="news-image">
+      <div class="more-options">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <circle cx="12" cy="5" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="12" cy="19" r="2"/>
+        </svg>
       </div>
     </a>
   </div>
