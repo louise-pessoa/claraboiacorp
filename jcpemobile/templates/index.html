@@ -639,21 +639,9 @@ Salvar Preferências
   margin: 0 0 1px 0;
   line-height: 1.3;
 }
-
- .side .desc {
-  font-size: 10px; /* ainda menor para caber em uma linha */
-  color: #444;
-  line-height: 1.1;
-  margin: 0;
-  display: -webkit-box;      /* truncar texto */
-  -webkit-line-clamp: 1;    /* mostrar apenas 1 linha agora */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal; /* permitir quebra para o clamp funcionar */
+.side .desc {
+  font-size: 12px;
 }
-
-/* reduzir espaço entre título e descrição para compactar ainda mais */
 .side .title {
   margin: 0 0 2px 0;
 }
@@ -1165,12 +1153,18 @@ Salvar Preferências
   border-radius: 18px;
   overflow: hidden;
   width: 100%;
-  min-height: 96px; /* preserva a altura reduzida */
+  min-height: 56px; /* reduzida: menor altura (apenas altura do cartão) */
 }
 
 .ultimas-noticias-section .card.side .content {
   flex: 1 1 40%;
   padding: 12px;
+  display: flex; /* ensure content is a column flex so children can be constrained */
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 0; /* allow flex children to shrink properly */
+  overflow: hidden; /* clip any overflowing content inside the content area */
 }
 
 .ultimas-noticias-section .card.side img {
@@ -1183,9 +1177,21 @@ Salvar Preferências
   flex-shrink: 0;
 }
 
+/* Ensure the description does not escape the card: clamp and hide overflow */
+.ultimas-noticias-section .card.side .content .desc {
+  margin: 0;
+  flex: 0 1 auto;
+  min-height: 0; /* allow it to shrink inside flex container */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* show up to 2 lines */
+}
+
 @media (min-width: 768px) {
   .ultimas-noticias-section .card.side {
-    min-height: 110px;
+    min-height: 70px;
   }
 
   .ultimas-noticias-section .card.side .content {
@@ -1216,13 +1222,33 @@ Salvar Preferências
 }
 
 /* Ajuste de altura específico para a seção Últimas Notícias (menor, igual aos cartões side) */
-.ultimas-noticias-section .news-item {
-  min-height: 96px; /* menor altura por padrão */
-}
+  .ultimas-noticias-section .news-item {
+    min-height: 56px; /* menor altura por padrão (reduzido) */
+  }
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .news-item {
-    min-height: 110px; /* ligeiro aumento em telas maiores sem alcançar 120px */
+    min-height: 70px; /* ligeiro aumento em telas maiores, mantido compacto */
+  }
+}
+
+/* Forçar altura fixa reduzida na sessão Últimas Notícias caso outras regras
+   de maior especificidade estejam sobrescrevendo; mantém overflow escondido. */
+.ultimas-noticias-section .card.side,
+.ultimas-noticias-section .news-item {
+  height: 66px !important;
+  min-height: 66px !important;
+  max-height: 66px !important;
+  overflow: hidden !important;
+}
+
+@media (min-width: 768px) {
+  .ultimas-noticias-section .card.side,
+  .ultimas-noticias-section .news-item {
+    height: 80px !important;
+    min-height: 80px !important;
+    max-height: 80px !important;
+    overflow: hidden !important;
   }
 }
 
@@ -2088,7 +2114,7 @@ Salvar Preferências
     <div class="content">
       <span class="tag">{{ noticia.categoria.nome }}</span>
       <h2 class="title">{{ noticia.titulo }}</h2>
-      <p class="desc">{{ noticia.resumo|truncatewords:15 }}</p>
+      <p class="desc">{{ noticia.resumo|truncatewords:12 }}</p>
     </div>
     {% if noticia.imagem %}
   <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
@@ -2105,9 +2131,9 @@ Salvar Preferências
 .container > a.card.top + a.card.side img,
 .container > a.card.top + a.card.side + a.card.side img,
 .container > a.card.top + a.card.side + a.card.side + a.card.side img {
-  width: 65% !important;
-  flex: 0 0 65% !important;
-  max-width: 65% !important;
+  width: 40% !important;
+  flex: 0 0 40% !important;
+  max-width: 40% !important;
   min-width: 0 !important; /* remove limite mínimo para permitir aumento */
   height: 100% !important; /* use 100% of the card's height so image adapts */
   object-fit: cover !important;
@@ -2120,15 +2146,30 @@ Salvar Preferências
 .container > a.card.top + a.card.side + a.card.side .content,
 .container > a.card.top + a.card.side + a.card.side + a.card.side .content {
   padding: 6px 10px; /* reduz padding vertical para a imagem ocupar mais espaço */
-  flex: 1 1 35%;
+  flex: 1 1 60%;
   min-width: 0; /* permite encolher corretamente */
+}
+
+/* Fazer o conteúdo usar coluna flex para que a caixa de texto (.desc) ocupe
+   o espaço vertical disponível sem alterar a altura do cartão */
+.container > a.card.top + a.card.side .content,
+.container > a.card.top + a.card.side + a.card.side .content,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+  -ms-flex-direction: column !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
 }
 
 /* Texto (tamanhos) específico para os cards laterais da primeira sessão */
 .container > a.card.top + a.card.side .content .title,
 .container > a.card.top + a.card.side + a.card.side .content .title,
 .container > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
-  font-size: 15px !important;
+  font-size: 16px !important;
   font-weight: 700 !important;
   line-height: 1.25 !important;
 }
@@ -2138,11 +2179,22 @@ Salvar Preferências
   font-size: 13px !important;
   color: #444 !important;
   line-height: 1.25 !important;
+  margin: 6px 0 0 !important;
+  /* make it the flexible piece but limit vertical growth */
+  flex: 1 1 auto !important;
+  min-height: 0 !important; /* para que o flex possa encolher corretamente */
+  overflow: hidden !important;
+  /* clamp to 2 lines vertically to avoid overflow; adjust number if needed */
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  text-overflow: ellipsis !important;
 }
 .container > a.card.top + a.card.side .content .tag,
 .container > a.card.top + a.card.side + a.card.side .content .tag,
 .container > a.card.top + a.card.side + a.card.side + a.card.side .content .tag {
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 
 /* Aumenta a altura mínima dos cartões laterais para que a imagem ocupe mais espaço vertical */
@@ -2151,6 +2203,21 @@ Salvar Preferências
 .container > a.card.top + a.card.side + a.card.side + a.card.side {
   height: 120px !important; /* ajuste fino: reduzido mais para deixar o cartão mais compacto */
   min-height: 120px !important;
+}
+
+/* Evitar que qualquer conteúdo ultrapasse visualmente o cartão */
+.container > a.card.top + a.card.side,
+.container > a.card.top + a.card.side + a.card.side,
+.container > a.card.top + a.card.side + a.card.side + a.card.side {
+  overflow: hidden !important;
+}
+
+/* Garantir que .content respeite o flex shrink e não permita filhos escaparem */
+.container > a.card.top + a.card.side .content,
+.container > a.card.top + a.card.side + a.card.side .content,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content {
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
 /* Responsivo: em telas pequenas volta ao comportamento anterior para evitar sobreposição */
@@ -3278,6 +3345,7 @@ body .conteudo-principal .receita-section .pernambuco-cards > a.card.side img {
     height: 160px !important;
   }
 }
+</style>
 </style>
 </body>
 </html>
