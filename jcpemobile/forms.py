@@ -96,21 +96,25 @@ class NoticiaForm(forms.ModelForm):
 
     class Meta:
         model = Noticia
-        fields = ['titulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags', 'secao']
+        fields = ['titulo', 'subtitulo', 'resumo', 'conteudo', 'imagem', 'categoria', 'autor', 'tags', 'secao']
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Digite o título da notícia'
             }),
+            'subtitulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Digite o subtítulo da notícia'
+            }),
             'resumo': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': 'Breve resumo da notícia (máx. 300 caracteres)'
+                'placeholder': 'Versão resumida da notícia (máx. 300 caracteres)'
             }),
             'conteudo': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 10,
-                'placeholder': 'Conteúdo completo da notícia'
+                'placeholder': 'Versão completa da notícia com todos os detalhes'
             }),
             'imagem': forms.FileInput(attrs={
                 'class': 'form-control',
@@ -131,8 +135,9 @@ class NoticiaForm(forms.ModelForm):
         }
         labels = {
             'titulo': 'Título',
-            'resumo': 'Resumo',
-            'conteudo': 'Conteúdo',
+            'subtitulo': 'Subtítulo',
+            'resumo': 'Versão Curta',
+            'conteudo': 'Versão Longa',
             'imagem': 'Imagem',
             'categoria': 'Categoria',
             'autor': 'Autor',
@@ -140,7 +145,9 @@ class NoticiaForm(forms.ModelForm):
             'secao': 'Seção',
         }
         help_texts = {
-            'resumo': 'Máximo de 300 caracteres',
+            'subtitulo': 'Subtítulo complementar ao título principal',
+            'resumo': 'Versão resumida para exibição em listagens (máximo de 300 caracteres)',
+            'conteudo': 'Versão completa da notícia com todos os detalhes e informações',
             'tags': 'Mantenha pressionado "Control" ou "Command" para selecionar mais de uma',
             'secao': 'Escolha em qual seção da página inicial esta notícia será exibida',
         }

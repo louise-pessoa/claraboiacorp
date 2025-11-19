@@ -592,11 +592,15 @@
 
 {% for noticia in noticias %}
 <a href="{% url 'noticia_detalhe' noticia.slug %}" class="neels-card">
-<img src="{{ noticia.imagem_destaque.url }}" alt="{{ noticia.titulo }}" class="neels-card-image">
+{% if noticia.imagem %}
+<img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" class="neels-card-image">
+{% else %}
+<div class="neels-card-image" style="background: linear-gradient(135deg, #DE1B24 0%, #FF6B6B 100%);"></div>
+{% endif %}
 <div class="neels-card-content">
 <span class="tag">{{ noticia.categoria.nome }}</span>
 <h2 class="neels-card-title">{{ noticia.titulo }}</h2>
-<p class="neels-card-description">{{ noticia.resumo|truncatewords:20 }}</p>
+<p class="neels-card-description">{{ noticia.resumo }}</p>
 <time class="neels-card-date">{{ noticia.data_publicacao|date:"j 'de' F 'de' Y" }}</time>
 </div>
 <div class="neels-card-actions" aria-hidden="true">

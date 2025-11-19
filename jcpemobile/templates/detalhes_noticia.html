@@ -653,22 +653,6 @@ rows="4"
   margin-bottom: 16px;
 }
 
-.noticia-conteudo.versao-curta {
-  max-height: 400px;
-  overflow: hidden;
-  position: relative;
-}
-
-.noticia-conteudo.versao-curta::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, #fff);
-}
-
 @media (max-width: 480px) {
   .conteudo-principal {
     padding: 12px;
@@ -963,10 +947,15 @@ rows="4"
       Curta
     </button>
   </div>
-  
-  <!-- Conteúdo da notícia -->
-  <div class="noticia-conteudo" id="conteudoNoticia">
+
+  <!-- Versão Longa (padrão) -->
+  <div class="noticia-conteudo" id="conteudoLongo" style="display: block;">
     {{ noticia.conteudo|safe }}
+  </div>
+
+  <!-- Versão Curta (oculta inicialmente) -->
+  <div class="noticia-conteudo" id="conteudoCurto" style="display: none;">
+    {{ noticia.resumo|safe }}
   </div>
 
   <!-- Linha do Tempo - Notícias Relacionadas -->
@@ -1029,16 +1018,21 @@ function compartilharGeral() {
 
 // Toggle entre versão longa e curta
 function toggleVersao(versao) {
-  const conteudo = document.getElementById('conteudoNoticia');
+  const conteudoLongo = document.getElementById('conteudoLongo');
+  const conteudoCurto = document.getElementById('conteudoCurto');
   const btnLonga = document.getElementById('btnLonga');
   const btnCurta = document.getElementById('btnCurta');
-  
+
   if (versao === 'curta') {
-    conteudo.classList.add('versao-curta');
+    // Mostra versão curta, esconde versão longa
+    conteudoCurto.style.display = 'block';
+    conteudoLongo.style.display = 'none';
     btnCurta.classList.add('ativo');
     btnLonga.classList.remove('ativo');
   } else {
-    conteudo.classList.remove('versao-curta');
+    // Mostra versão longa, esconde versão curta
+    conteudoLongo.style.display = 'block';
+    conteudoCurto.style.display = 'none';
     btnLonga.classList.add('ativo');
     btnCurta.classList.remove('ativo');
   }

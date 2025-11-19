@@ -54,6 +54,7 @@ class Noticia(models.Model):
     ]
     
     titulo = models.CharField(max_length=200)
+    subtitulo = models.CharField(max_length=300, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
     resumo = models.TextField(max_length=300, blank=True, null=True)
     conteudo = models.TextField()
