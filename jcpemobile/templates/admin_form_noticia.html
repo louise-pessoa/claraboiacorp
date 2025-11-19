@@ -484,17 +484,27 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id_resumo">Resumo*</label>
-                    <textarea name="resumo" id="id_resumo" placeholder="Breve resumo da notícia (máx. 300 caracteres)">{{ noticia.resumo|default:'' }}</textarea>
-                    <div class="help-text">Máximo de 300 caracteres</div>
+                    <label for="id_subtitulo">Subtítulo</label>
+                    <input type="text" name="subtitulo" id="id_subtitulo" placeholder="Digite o subtítulo da notícia" value="{{ noticia.subtitulo|default:'' }}">
+                    <div class="help-text">Subtítulo complementar ao título principal</div>
+                    {% if form.subtitulo.errors %}
+                        <div class="error">{{ form.subtitulo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_resumo">Versão Curta*</label>
+                    <textarea name="resumo" id="id_resumo" placeholder="Versão resumida da notícia (máx. 300 caracteres)">{{ noticia.resumo|default:'' }}</textarea>
+                    <div class="help-text">Versão resumida para exibição em listagens (máximo de 300 caracteres)</div>
                     {% if form.resumo.errors %}
                         <div class="error">{{ form.resumo.errors.0 }}</div>
                     {% endif %}
                 </div>
 
                 <div class="form-group">
-                    <label for="id_conteudo">Conteúdo*</label>
-                    <textarea name="conteudo" id="id_conteudo" class="conteudo" placeholder="Conteúdo completo da notícia">{{ noticia.conteudo|default:'' }}</textarea>
+                    <label for="id_conteudo">Versão Longa*</label>
+                    <textarea name="conteudo" id="id_conteudo" class="conteudo" placeholder="Versão completa da notícia com todos os detalhes">{{ noticia.conteudo|default:'' }}</textarea>
+                    <div class="help-text">Versão completa da notícia com todos os detalhes e informações</div>
                     {% if form.conteudo.errors %}
                         <div class="error">{{ form.conteudo.errors.0 }}</div>
                     {% endif %}
