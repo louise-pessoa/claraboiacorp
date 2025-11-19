@@ -2109,7 +2109,7 @@ Salvar Preferências
   flex: 0 0 65% !important;
   max-width: 65% !important;
   min-width: 0 !important; /* remove limite mínimo para permitir aumento */
-  height: 140px !important; /* aumenta mais a altura da imagem para preencher espaço */
+  height: 100% !important; /* use 100% of the card's height so image adapts */
   object-fit: cover !important;
   object-position: center center !important;
   border-radius: 0 12px 12px 0 !important;
@@ -2124,11 +2124,33 @@ Salvar Preferências
   min-width: 0; /* permite encolher corretamente */
 }
 
+/* Texto (tamanhos) específico para os cards laterais da primeira sessão */
+.container > a.card.top + a.card.side .content .title,
+.container > a.card.top + a.card.side + a.card.side .content .title,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
+.container > a.card.top + a.card.side .content .desc,
+.container > a.card.top + a.card.side + a.card.side .content .desc,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .desc {
+  font-size: 13px !important;
+  color: #444 !important;
+  line-height: 1.25 !important;
+}
+.container > a.card.top + a.card.side .content .tag,
+.container > a.card.top + a.card.side + a.card.side .content .tag,
+.container > a.card.top + a.card.side + a.card.side + a.card.side .content .tag {
+  font-size: 12px !important;
+}
+
 /* Aumenta a altura mínima dos cartões laterais para que a imagem ocupe mais espaço vertical */
 .container > a.card.top + a.card.side,
 .container > a.card.top + a.card.side + a.card.side,
 .container > a.card.top + a.card.side + a.card.side + a.card.side {
-  height: 120px !important; /* diminui um pouco a altura do cartão */
+  height: 120px !important; /* ajuste fino: reduzido mais para deixar o cartão mais compacto */
+  min-height: 120px !important;
 }
 
 /* Responsivo: em telas pequenas volta ao comportamento anterior para evitar sobreposição */
@@ -2139,14 +2161,18 @@ Salvar Preferências
     width: 50% !important;
     flex: 0 0 50% !important;
     min-width: 0 !important;
-    height: 120px !important; /* aumenta mais a altura da imagem no mobile */
+    height: 100% !important; /* mobile: use full card height */
   }
   
   .container > a.card.top + a.card.side,
   .container > a.card.top + a.card.side + a.card.side,
   .container > a.card.top + a.card.side + a.card.side + a.card.side {
-    height: 110px !important; /* diminui um pouco a altura do cartão no mobile */
+    height: 110px !important; /* mobile: ajuste fino para cartão menor */
   }
+  /* Mobile: reduzir levemente os tamanhos das fontes para caber */
+  .container > a.card.top + a.card.side .content .title { font-size: 14px !important; }
+  .container > a.card.top + a.card.side .content .desc { font-size: 12px !important; }
+  .container > a.card.top + a.card.side .content .tag { font-size: 11px !important; }
 }
 </style>
 
