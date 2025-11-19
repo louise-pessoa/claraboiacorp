@@ -1153,16 +1153,16 @@ Salvar Preferências
   border-radius: 18px;
   overflow: hidden;
   width: 100%;
-  min-height: 56px; /* reduzida: menor altura (apenas altura do cartão) */
+  min-height: 24px; /* reduzida: menor altura (apenas altura do cartão) */
 }
 
 .ultimas-noticias-section .card.side .content {
   flex: 1 1 40%;
-  padding: 12px;
+  padding: 6px 8px;
   display: flex; /* ensure content is a column flex so children can be constrained */
   flex-direction: column;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   min-height: 0; /* allow flex children to shrink properly */
   overflow: hidden; /* clip any overflowing content inside the content area */
 }
@@ -1170,7 +1170,7 @@ Salvar Preferências
 .ultimas-noticias-section .card.side img {
   width: 48% !important; /* reduz a largura da imagem dentro do card */
   min-width: 140px !important;
-  height: 100% !important; /* preserva altura do card */
+  height: auto !important; /* deixar a imagem com altura automática, não forçada */
   object-fit: cover !important;
   object-position: center center !important;
   border-radius: 0 12px 12px 0 !important;
@@ -1191,7 +1191,7 @@ Salvar Preferências
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .card.side {
-    min-height: 70px;
+    min-height: 40px;
   }
 
   .ultimas-noticias-section .card.side .content {
@@ -1223,31 +1223,27 @@ Salvar Preferências
 
 /* Ajuste de altura específico para a seção Últimas Notícias (menor, igual aos cartões side) */
   .ultimas-noticias-section .news-item {
-    min-height: 56px; /* menor altura por padrão (reduzido) */
+    min-height: 24px; /* menor altura por padrão (reduzido) */
   }
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .news-item {
-    min-height: 70px; /* ligeiro aumento em telas maiores, mantido compacto */
+    min-height: 40px; /* ligeiro aumento em telas maiores, mantido compacto */
   }
 }
 
-/* Forçar altura fixa reduzida na sessão Últimas Notícias caso outras regras
-   de maior especificidade estejam sobrescrevendo; mantém overflow escondido. */
-.ultimas-noticias-section .card.side,
-.ultimas-noticias-section .news-item {
-  height: 66px !important;
-  min-height: 66px !important;
-  max-height: 66px !important;
+/* Ajuste final seguro: garantir apenas um mínimo menor na sessão Últimas Notícias
+   sem forçar height/max-height rígidos que cortam o layout. Mantemos overflow hidden. */
+  .ultimas-noticias-section .card.side,
+  .ultimas-noticias-section .news-item {
+  min-height: 24px !important;
   overflow: hidden !important;
 }
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .card.side,
   .ultimas-noticias-section .news-item {
-    height: 80px !important;
-    min-height: 80px !important;
-    max-height: 80px !important;
+    min-height: 40px !important;
     overflow: hidden !important;
   }
 }
@@ -2505,7 +2501,7 @@ Salvar Preferências
   <div class="news-list">
     {% if noticias_ultimas %}
       {% for noticia in noticias_ultimas %}
-      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit; height: auto !important; min-height:36px !important; overflow:hidden !important;">
         <div class="content">
           <span class="tag">{{ noticia.categoria.nome }}</span>
           <h2 class="title">{{ noticia.titulo }}</h2>
