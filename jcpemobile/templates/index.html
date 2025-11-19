@@ -1153,7 +1153,7 @@ Salvar Preferências
   border-radius: 18px;
   overflow: hidden;
   width: 100%;
-  min-height: 24px; /* reduzida: menor altura (apenas altura do cartão) */
+  min-height: 4px; /* reduzida: menor altura (ajuste extra) */
 }
 
 .ultimas-noticias-section .card.side .content {
@@ -1191,7 +1191,7 @@ Salvar Preferências
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .card.side {
-    min-height: 40px;
+    min-height: 10px;
   }
 
   .ultimas-noticias-section .card.side .content {
@@ -1200,7 +1200,7 @@ Salvar Preferências
 
   .ultimas-noticias-section .card.side img {
     width: 52% !important;
-    min-width: 160px !important;
+    min-width: 120px !important;
   }
 }
 
@@ -1223,7 +1223,7 @@ Salvar Preferências
 
 /* Ajuste de altura específico para a seção Últimas Notícias (menor, igual aos cartões side) */
   .ultimas-noticias-section .news-item {
-    min-height: 24px; /* menor altura por padrão (reduzido) */
+    min-height: 4px; /* menor altura por padrão (ajuste extra) */
   }
 
 @media (min-width: 768px) {
@@ -1236,14 +1236,14 @@ Salvar Preferências
    sem forçar height/max-height rígidos que cortam o layout. Mantemos overflow hidden. */
   .ultimas-noticias-section .card.side,
   .ultimas-noticias-section .news-item {
-  min-height: 24px !important;
+  min-height: 4px !important;
   overflow: hidden !important;
 }
 
 @media (min-width: 768px) {
   .ultimas-noticias-section .card.side,
   .ultimas-noticias-section .news-item {
-    min-height: 40px !important;
+    min-height: 20px !important;
     overflow: hidden !important;
   }
 }
@@ -2501,7 +2501,7 @@ Salvar Preferências
   <div class="news-list">
     {% if noticias_ultimas %}
       {% for noticia in noticias_ultimas %}
-      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit; height: auto !important; min-height:36px !important; overflow:hidden !important;">
+      <a href="{% url 'noticia_detalhe' noticia.slug %}" class="card side" style="text-decoration: none; color: inherit;">
         <div class="content">
           <span class="tag">{{ noticia.categoria.nome }}</span>
           <h2 class="title">{{ noticia.titulo }}</h2>
@@ -3278,7 +3278,6 @@ document.head.appendChild(animacaoStyle);
 <style id="override-cards-high-specificity">
 /* High-specificity final override to force cards to match the first section
    Placed at the end of the document to beat other stylesheet rules. */
-body .conteudo-principal .container a.card.side,
 body .conteudo-principal .pernambuco-section .pernambuco-cards > a.card.side,
 body .conteudo-principal .jc360-variant .pernambuco-cards > a.card.side,
 body .conteudo-principal .social1-section .pernambuco-cards > a.card.side,
@@ -3340,6 +3339,32 @@ body .conteudo-principal .receita-section .pernambuco-cards > a.card.side img {
     flex: 0 0 50% !important;
     height: 160px !important;
   }
+}
+/* Specific override to allow Últimas Notícias cards to be much smaller
+   This is intentionally placed at the end to beat other generic overrides. */
+/* Strong final override for Últimas Notícias: allow cards to shrink to content
+   and ensure images/content do not force large heights. Kept at document end. */
+body .conteudo-principal .ultimas-noticias-section .card.side,
+body .conteudo-principal .ultimas-noticias-section .news-item,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side {
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .card.side .content {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: 0 !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .card.side img {
+  height: auto !important;
+  max-height: none !important;
+  object-fit: cover !important;
 }
 </style>
 </style>
