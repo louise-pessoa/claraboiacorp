@@ -36,7 +36,7 @@ O objetivo é assegurar **clareza na comunicação sobre progresso, prioridades 
 
 ### Funcionalidades
 🔹**Reorganização do layout**
-  - Inclusão de seções como *Mais lidas*, *Clima* e *Tábua de maré* no topo da página.
+  - Inclusão de seções como *Mais lidas*, *Painel diário: Página exclusiva para tempo, tábua de maré, cotação e Mega Sena* no topo da página.
 
   - Ajustes em abas, menus, textos, imagens e botões.
 
