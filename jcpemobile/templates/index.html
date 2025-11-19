@@ -187,7 +187,6 @@ aria-label="Buscar notícias">
 <li class="menu-item menu-item-expansivel">
 <button class="menu-link" aria-expanded="false">
 <span>Categorias</span>
-<i class="fas fa-chevron-down menu-seta"></i>
 </button>
 <ul class="submenu">
 <li><a href="#pernambuco">Pernambuco</a></li>
@@ -195,7 +194,6 @@ aria-label="Buscar notícias">
 <li><a href="#economia">Economia</a></li>
 <li><a href="#mundo">Mundo</a></li>
 <li><a href="#esportes">Esportes</a></li>
-<li><a href="#cultura">Cultura</a></li>
 <li><a href="#educacao">Educação</a></li>
 <li><a href="#mobilidade">Mobilidade</a></li>
 </ul>
@@ -1167,16 +1165,6 @@ Salvar Preferências
   overflow: hidden; /* clip any overflowing content inside the content area */
 }
 
-.ultimas-noticias-section .card.side img {
-  width: 48% !important; /* reduz a largura da imagem dentro do card */
-  min-width: 140px !important;
-  height: auto !important; /* deixar a imagem com altura automática, não forçada */
-  object-fit: cover !important;
-  object-position: center center !important;
-  border-radius: 0 12px 12px 0 !important;
-  flex-shrink: 0;
-}
-
 /* Ensure the description does not escape the card: clamp and hide overflow */
 .ultimas-noticias-section .card.side .content .desc {
   margin: 0;
@@ -1196,11 +1184,6 @@ Salvar Preferências
 
   .ultimas-noticias-section .card.side .content {
     flex: 1 1 38%;
-  }
-
-  .ultimas-noticias-section .card.side img {
-    width: 52% !important;
-    min-width: 120px !important;
   }
 }
 
@@ -2505,11 +2488,18 @@ Salvar Preferências
         <div class="content">
           <span class="tag">{{ noticia.categoria.nome }}</span>
           <h2 class="title">{{ noticia.titulo }}</h2>
+          {% if noticia.resumo %}
           <p class="desc">{{ noticia.resumo|truncatewords:18 }}</p>
+          {% elif noticia.subtitulo %}
+          <p class="desc">{{ noticia.subtitulo|truncatewords:18 }}</p>
+          {% else %}
+          <p class="desc">{{ noticia.conteudo|striptags|truncatewords:18 }}</p>
+          {% endif %}
         </div>
-        {% if noticia.imagem %}
-        <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}">
-        {% endif %}
+             {% if noticia.imagem %}
+             <img src="{{ noticia.imagem.url }}" alt="{{ noticia.titulo }}" loading="lazy"
+               style="display:block; width:45%; height:100%; object-fit:cover; object-position:center center; border-radius:0 18px 18px 0;" />
+             {% endif %}
       </a>
       {% endfor %}
     {% else %}
@@ -3366,7 +3356,152 @@ body .conteudo-principal .ultimas-noticias-section .card.side img {
   max-height: none !important;
   object-fit: cover !important;
 }
-</style>
+
+/* Make Últimas Notícias cards match the 'card.side' style used in the first session */
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side .content,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side .content {
+  padding: 12px !important;
+  flex: 1 1 60% !important;
+  min-width: 0 !important;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+  -ms-flex-direction: column !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .title,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side .content .title,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side .content .title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .desc,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side .content .desc,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side .content .desc {
+  display: block !important;
+  font-size: 13px !important;
+  color: #444 !important;
+  line-height: 1.4 !important;
+  margin: 6px 0 0 !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  /* Truncate to 2 lines */
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side,
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side + a.card.side + a.card.side {
+  height: 120px !important;
+  min-height: 120px !important;
+  overflow: hidden !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content {
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Ensure title appears above the summary and the summary is visible below it */
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content,
+body .conteudo-principal .container > a.card.top + a.card.side .content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .title,
+body .conteudo-principal .container > a.card.top + a.card.side .content .title {
+  order: 0 !important;
+  display: block !important;
+}
+
+/* Final safety: enforce title above summary for any side-card variant */
+.conteudo-principal .card.side .content,
+.conteudo-principal .news-item .news-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.conteudo-principal .card.side .content .title,
+.conteudo-principal .news-item .news-content .title {
+  order: 0 !important;
+  display: block !important;
+  flex: 0 0 auto !important;
+}
+
+.conteudo-principal .card.side .content .desc,
+.conteudo-principal .news-item .news-content .desc {
+  order: 1 !important;
+  display: block !important;
+  flex: 1 1 auto !important;
+  margin-top: 4px !important;
+  overflow: hidden !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+/* Mobile-specific overrides for Últimas Notícias description visibility */
+@media (max-width: 768px) {
+  body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .desc {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    color: #444 !important;
+    margin: 4px 0 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content {
+    padding: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+  }
+
+  body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .title {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 2px !important;
+  }
+
+  body .conteudo-principal .ultimas-noticias-section .news-list a.card.side {
+    min-height: 100px !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .desc {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+
+  body .conteudo-principal .ultimas-noticias-section .news-list a.card.side .content .title {
+    font-size: 13px !important;
+  }
+}
 </style>
 </body>
 </html>
