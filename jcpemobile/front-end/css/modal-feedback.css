@@ -23,10 +23,10 @@
 .modal-feedback-content {
     background: white;
     border-radius: 16px;
-    padding: var(--espaco-8);
-    max-width: 600px;
+    padding: var(--espaco-6);
+    max-width: 480px;
     width: 100%;
-    max-height: 90vh;
+    max-height: 85vh;
     overflow-y: auto;
     position: relative;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -212,18 +212,19 @@
 /* Responsividade Mobile */
 @media (max-width: 768px) {
     .modal-feedback {
-        padding: var(--espaco-3);
+        padding: var(--espaco-2);
     }
 
     .modal-feedback-content {
-        padding: var(--espaco-6) var(--espaco-4);
-        max-height: 95vh;
+        padding: var(--espaco-4) var(--espaco-3);
+        max-width: 95vw;
+        max-height: 90vh;
     }
 
     .modal-feedback-content h2 {
-        font-size: var(--fonte-tamanho-xl);
-        margin-bottom: var(--espaco-5);
-        padding-right: var(--espaco-8);
+        font-size: var(--fonte-tamanho-lg);
+        margin-bottom: var(--espaco-4);
+        padding-right: var(--espaco-6);
     }
 
     .feedback-escala {
