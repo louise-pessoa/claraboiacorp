@@ -228,14 +228,14 @@
     height: 40px;
     object-fit: contain;
     display: inline-block;
-    transform: translateY(-2px);
+    transform: none;
 }
 
 @media (max-width: 360px) {
     .icone-fire {
         width: 18px;
         height: 18px;
-        transform: translateY(1px);
+        transform: none;
     }
 }
 
@@ -841,6 +841,7 @@
     position: relative;
     padding: var(--espaco-2);
     border-radius: var(--borda-raio-lg);
+    gap: 4px;
 }
 
 .nav-item:hover {
@@ -884,18 +885,9 @@
     transform: scale(1.1);
 }
 
-/* Indicador visual moderno */
+/* Indicador visual moderno - removed per user request */
 .nav-item-ativo::after {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: var(--cor-primaria);
-    border-radius: var(--borda-raio-circular);
-    box-shadow: 0 0 8px var(--cor-primaria);
+    display: none;
 }
 
 /* ===================================================
@@ -1128,6 +1120,8 @@
     height: 40px;
     display: block;
     object-fit: contain;
+    margin: 0 auto;
+    flex-shrink: 0;
 }
 
 @media (max-width: 360px) {
@@ -1138,19 +1132,34 @@
     }
 }
 
-/* Diminuir levemente o ícone de 'Mais Lidas' sem afetar os demais ícones */
-.navegacao-inferior .nav-item .icone-fire,
-.icone-fire {
-    width: 36px;
-    height: 36px;
-    transform: translateY(-1px);
+/* ===== Active state icon coloring ===== */
+/* For nav items, the active state changes the color which is inherited by SVGs using currentColor */
+.navegacao-inferior .nav-item {
+    color: #33363F;
 }
 
-@media (max-width: 360px) {
-    .navegacao-inferior .nav-item .icone-fire,
-    .icone-fire {
-        width: 16px;
-        height: 16px;
-        transform: translateY(1px);
-    }
+.navegacao-inferior .nav-item-ativo {
+    color: var(--cor-primaria) !important;
+}
+
+/* Tint raster images (PNG) to the primary color when active. Uses a filter that
+   converts the icon to the target red. This keeps the existing image assets. */
+.navegacao-inferior .nav-item-ativo img {
+    /* Make icon red using filter approximation for #DE1B24 */
+    -webkit-filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
+    filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
+}
+
+/* Also cover icon-specific classes to ensure specificity */
+.navegacao-inferior .nav-item-ativo .icone-home,
+.navegacao-inferior .nav-item-ativo .icone-nfc,
+.navegacao-inferior .nav-item-ativo .icone-radio {
+    -webkit-filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
+    filter: invert(18%) sepia(98%) saturate(7474%) hue-rotate(356deg) brightness(91%) contrast(109%) !important;
+}
+
+/* Slight visual emphasis for active images to match the existing color change on text */
+.navegacao-inferior .nav-item-ativo img,
+.navegacao-inferior .nav-item-ativo svg {
+    transform: scale(1.05);
 }

@@ -503,27 +503,29 @@ function configurarSubmenusNivel2() {
 
 function configurarNavegacaoInferior() {
     const navItens = document.querySelectorAll('.navegacao-inferior .nav-item');
+    
+    console.log('🔴 Navegação inferior configurada. Total de itens:', navItens.length);
 
     navItens.forEach(item => {
         item.addEventListener('click', (e) => {
             const itemHref = item.getAttribute('href');
             
-            // Se o link tem uma URL real (não é âncora #), permitir navegação
+            console.log('🔴 Click detectado no item:', itemHref);
+
+            // Always add the visual "ativo" state immediately for feedback
+            navItens.forEach(i => i.classList.remove('nav-item-ativo'));
+            item.classList.add('nav-item-ativo');
+            
+            console.log('🔴 Classe nav-item-ativo adicionada ao item');
+
+            // If this is a real link (navigates away), allow the browser to follow it
             if (itemHref && !itemHref.startsWith('#')) {
-                // Permitir que o navegador siga o link normalmente
+                // visual state applied; navigation proceeds naturally
                 return;
             }
-            
-            // Para âncoras (#), prevenir comportamento padrão
+
+            // For intra-page anchors or action items, prevent default and handle
             e.preventDefault();
-
-            // Remover ativo de todos
-            navItens.forEach(i => i.classList.remove('nav-item-ativo'));
-
-            // Adicionar ativo ao clicado
-            item.classList.add('nav-item-ativo');
-
-            // Ação baseada no item
             executarAcaoNavegacao(itemHref);
 
             // Feedback tátil
